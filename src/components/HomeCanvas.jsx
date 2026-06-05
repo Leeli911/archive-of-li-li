@@ -38,7 +38,7 @@ function randomBetween(min, max) {
 }
 
 function makeFragments(sectionId) {
-  const count = Math.floor(randomBetween(4, 9));
+  const count = Math.floor(randomBetween(3, 6));
   const preferred = fragmentBias[sectionId] || [0, 1, 2, 3, 4];
 
   return Array.from({ length: count }, (_, index) => {
@@ -73,7 +73,7 @@ function HomeCanvas({ sections, onOpenSection, language }) {
     setFragments(makeFragments(hoveredSection.id));
     const interval = window.setInterval(() => {
       setFragments(makeFragments(hoveredSection.id));
-    }, 360);
+    }, 3200);
 
     return () => window.clearInterval(interval);
   }, [hoveredSection]);
@@ -291,7 +291,10 @@ function HomeCanvas({ sections, onOpenSection, language }) {
   };
 
   return (
-    <section id="home" className="home-canvas-section">
+    <section
+      id="home"
+      className={`home-canvas-section ${language === "zh" ? "is-zh" : ""}`}
+    >
       <canvas
         ref={canvasRef}
         className="home-canvas"
@@ -324,7 +327,6 @@ function HomeCanvas({ sections, onOpenSection, language }) {
         {language === "zh" ? (
           <>
             <h1>李莉的数字档案馆</h1>
-            <p className="home-title-zh">The Archive of Li Li</p>
           </>
         ) : (
           <>
@@ -333,7 +335,6 @@ function HomeCanvas({ sections, onOpenSection, language }) {
               <br />
               <em>of Li Li</em>
             </h1>
-            <p className="home-title-zh">李莉的数字档案馆</p>
           </>
         )}
       </div>

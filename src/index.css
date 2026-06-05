@@ -388,6 +388,10 @@ button {
   margin-top: clamp(0rem, 3vw, 3.5rem);
 }
 
+.home-canvas-section.is-zh .home-copy {
+  max-width: min(43vw, 760px);
+}
+
 .home-copy h1 {
   max-width: 880px;
   margin: 0;
@@ -402,22 +406,14 @@ button {
 .home-copy.is-zh h1 {
   max-width: 980px;
   font-family: "Songti SC", "STSong", "Cormorant Garamond", serif;
-  font-size: clamp(4.4rem, 7vw, 6.9rem);
-  letter-spacing: 0.02em;
-  line-height: 1.08;
+  font-size: clamp(3.2rem, 5.2vw, 5.35rem);
+  letter-spacing: 0.04em;
+  line-height: 1.16;
 }
 
 .home-copy h1 em {
   color: rgba(83, 74, 66, 0.78);
   font-weight: 400;
-}
-
-.home-title-zh {
-  margin: 1.1rem 0 0;
-  color: rgba(53, 49, 45, 0.72);
-  font-family: "Songti SC", "STSong", serif;
-  font-size: clamp(1.24rem, 2vw, 1.62rem);
-  letter-spacing: 0.24em;
 }
 
 .fragment-field {
@@ -484,12 +480,12 @@ button {
 
 .home-menu {
   position: absolute;
+  top: calc(var(--header-height) + 3rem);
   right: clamp(1.5rem, 4.5vw, 5.4rem);
-  bottom: clamp(2rem, 5vw, 5.5rem);
   z-index: 6;
   display: grid;
   width: min(49vw, 820px);
-  gap: clamp(0.45rem, 1vw, 0.85rem);
+  gap: clamp(0.28rem, 0.7vw, 0.65rem);
 }
 
 .home-menu-item {
@@ -537,10 +533,17 @@ button {
 .home-menu-item strong {
   grid-column: 2;
   font-family: "Cormorant Garamond", "Songti SC", serif;
-  font-size: clamp(3rem, 5.1vw, 4.5rem);
+  font-size: clamp(2.55rem, 4.25vw, 4.05rem);
   font-weight: 600;
   letter-spacing: -0.055em;
   line-height: 0.92;
+}
+
+.home-canvas-section.is-zh .home-menu-item strong {
+  font-family: "Songti SC", "STSong", "Cormorant Garamond", serif;
+  font-size: clamp(2.15rem, 3.75vw, 4rem);
+  letter-spacing: 0.03em;
+  line-height: 1.12;
 }
 
 .home-menu-item small {
@@ -553,6 +556,11 @@ button {
   transition:
     opacity 260ms ease,
     transform 260ms ease;
+}
+
+.home-canvas-section.is-zh .home-menu-item small {
+  font-size: clamp(0.95rem, 1.25vw, 1.18rem);
+  letter-spacing: 0.04em;
 }
 
 .home-menu-item:hover,
@@ -1971,18 +1979,6 @@ button {
   color: rgba(53, 49, 45, 0.5);
 }
 
-.site-footer div {
-  display: grid;
-  gap: 0.18rem;
-}
-
-.site-footer strong {
-  color: rgba(53, 49, 45, 0.72);
-  font-family: "Cormorant Garamond", "Songti SC", serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
 .site-footer span,
 .site-footer p,
 .site-footer a {
@@ -2185,6 +2181,7 @@ button {
   }
 
   .home-menu {
+    top: auto;
     right: clamp(1.2rem, 4vw, 2rem);
     bottom: 2rem;
     left: clamp(1.2rem, 4vw, 2rem);
@@ -2263,10 +2260,6 @@ button {
 
   .home-copy h1 {
     font-size: clamp(4.2rem, 17vw, 5.8rem);
-  }
-
-  .home-title-zh {
-    letter-spacing: 0.12em;
   }
 
   .home-canvas-section {
