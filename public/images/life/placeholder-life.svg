@@ -1,0 +1,10 @@
+<svg width="1000" height="1200" viewBox="0 0 1000 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1000" height="1200" fill="#EDE6D8"/>
+  <ellipse cx="338" cy="428" rx="298" ry="236" fill="#9DB28D" opacity=".22"/>
+  <ellipse cx="702" cy="690" rx="248" ry="311" fill="#D6A084" opacity=".2"/>
+  <ellipse cx="612" cy="312" rx="188" ry="146" fill="#E6C86E" opacity=".23"/>
+  <path d="M101 823C223 656 329 741 445 613C561 484 644 570 756 439C842 340 903 350 940 308" stroke="#A86158" stroke-width="3" stroke-linecap="round" opacity=".58"/>
+  <path d="M85 852C213 699 345 785 463 650C582 514 676 605 785 472C857 384 917 390 951 359" stroke="#738D9D" stroke-width="2" stroke-linecap="round" opacity=".44"/>
+  <rect x="72" y="70" width="856" height="1014" stroke="#443E38" stroke-opacity=".13"/>
+  <text x="72" y="1138" fill="#443E38" fill-opacity=".38" font-family="Georgia, serif" font-size="22" font-style="italic">photo placeholder · replace path in src/data/lifeArchive.js</text>
+</svg>

@@ -1,0 +1,70 @@
+export const aiProducts = [
+  {
+    id: "AI-01",
+    title: "InsightFlow",
+    titleZh: "InsightFlow 洞察工作流",
+    purpose:
+      "An AI-assisted workflow concept for making exploratory analysis easier to trace, review, and reuse.",
+    purposeZh: "探索如何让分析过程更容易被追踪、复核与复用的 AI 工作流概念。",
+    role: "Product thinking, workflow design, data analysis",
+    roleZh: "产品思考、工作流设计、数据分析",
+    methods: ["AI workflow design", "Prompt iteration", "Analysis structuring"],
+    methodsZh: ["AI 工作流设计", "提示词迭代", "分析结构化"],
+    status:
+      "Case study in progress. Detailed evidence, screenshots, and demo links will be added.",
+    statusZh: "案例整理中。后续会补充详细证据、截图和演示链接。",
+    image: "/images/projects/placeholder-ai.svg",
+    imageAlt: "Placeholder for the InsightFlow product image",
+    accent: "terracotta",
+    links: [
+      { label: "GitHub", labelZh: "GitHub", href: "#" },
+      { label: "Demo", labelZh: "演示", href: "#" },
+      { label: "Case Study", labelZh: "案例", href: "#" },
+    ],
+  },
+  {
+    id: "AI-02",
+    title: "Research Radar",
+    titleZh: "Research Radar 研究雷达",
+    purpose:
+      "A research workflow for keeping questions, reading traces, and emerging evidence visible over time.",
+    purposeZh: "用于持续整理研究问题、阅读痕迹与新证据的研究工作流。",
+    role: "Product exploration, information architecture, research workflow design",
+    roleZh: "产品探索、信息架构、研究工作流设计",
+    methods: ["Research synthesis", "Knowledge organization", "AI-assisted review"],
+    methodsZh: ["研究综合", "知识组织", "AI 辅助阅读与复核"],
+    status:
+      "Working concept. The product narrative and implementation details are being documented.",
+    statusZh: "工作概念阶段。产品叙事与实现细节正在整理中。",
+    image: "/images/projects/placeholder-ai.svg",
+    imageAlt: "Placeholder for the Research Radar product image",
+    accent: "moss",
+    links: [
+      { label: "GitHub", labelZh: "GitHub", href: "#" },
+      { label: "Demo", labelZh: "演示", href: "#" },
+      { label: "Case Study", labelZh: "案例", href: "#" },
+    ],
+  },
+  {
+    id: "AI-03",
+    title: "Future AI product experiments",
+    titleZh: "未来 AI 产品实验",
+    purpose:
+      "A reserved drawer for small product experiments that are not ready to be presented as finished work.",
+    purposeZh: "为尚未完成、也尚不适合包装成完整案例的小型产品实验预留的抽屉。",
+    role: "To be documented",
+    roleZh: "待整理",
+    methods: ["Placeholder for future methods and tools"],
+    methodsZh: ["未来方法与工具占位"],
+    status: "Reserved for future work.",
+    statusZh: "为未来工作预留。",
+    image: "/images/projects/placeholder-ai.svg",
+    imageAlt: "Placeholder for future AI product experiments",
+    accent: "powder",
+    links: [
+      { label: "GitHub", labelZh: "GitHub", href: "#" },
+      { label: "Demo", labelZh: "演示", href: "#" },
+      { label: "Case Study", labelZh: "案例", href: "#" },
+    ],
+  },
+];

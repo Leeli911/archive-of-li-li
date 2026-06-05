@@ -1,0 +1,11 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#EFE8DB"/>
+  <path d="M95 583H1105" stroke="#443E38" stroke-opacity=".13"/>
+  <path d="M171 583V436M319 583V357M467 583V472M615 583V287M763 583V385M911 583V222" stroke="#7D9CAB" stroke-width="74" stroke-linecap="round" opacity=".22"/>
+  <path d="M171 414C296 291 395 432 516 315C639 195 753 299 911 176" stroke="#B87365" stroke-width="3" stroke-linecap="round" opacity=".58"/>
+  <path d="M171 432C302 324 401 465 529 348C648 239 774 326 911 213" stroke="#718B78" stroke-width="2" stroke-linecap="round" opacity=".42"/>
+  <circle cx="171" cy="414" r="9" fill="#B87365"/>
+  <circle cx="516" cy="315" r="9" fill="#B87365"/>
+  <circle cx="911" cy="176" r="9" fill="#B87365"/>
+  <text x="95" y="698" fill="#443E38" fill-opacity=".38" font-family="Georgia, serif" font-size="24" font-style="italic">case placeholder · replace path in src/data/professionalCases.js</text>
+</svg>

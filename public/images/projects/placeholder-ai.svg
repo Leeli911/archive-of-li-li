@@ -1,0 +1,14 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#EEE7D9"/>
+  <path d="M78 528C211 381 322 627 455 443C588 260 731 339 859 222C963 127 1065 193 1134 96" stroke="#B56F62" stroke-width="3" stroke-linecap="round" opacity=".66"/>
+  <path d="M89 555C230 427 341 665 479 476C617 287 755 377 882 252C981 155 1083 222 1141 126" stroke="#748E7D" stroke-width="2" stroke-linecap="round" opacity=".42"/>
+  <ellipse cx="257" cy="363" rx="155" ry="111" fill="#D6B96C" opacity=".25"/>
+  <ellipse cx="691" cy="361" rx="210" ry="138" fill="#89A99F" opacity=".19"/>
+  <ellipse cx="1005" cy="264" rx="92" ry="75" fill="#C47E70" opacity=".2"/>
+  <path d="M178 192H462M565 192H849M952 192H1057" stroke="#443E38" stroke-width="1" stroke-dasharray="5 9" opacity=".27"/>
+  <circle cx="149" cy="192" r="10" fill="#B56F62" opacity=".65"/>
+  <circle cx="536" cy="192" r="10" fill="#748E7D" opacity=".65"/>
+  <circle cx="923" cy="192" r="10" fill="#7D9CAB" opacity=".65"/>
+  <circle cx="1086" cy="192" r="10" fill="#D6B96C" opacity=".72"/>
+  <text x="78" y="690" fill="#443E38" fill-opacity=".38" font-family="Georgia, serif" font-size="24" font-style="italic">image placeholder · replace path in src/data/aiProducts.js</text>
+</svg>

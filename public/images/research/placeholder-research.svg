@@ -1,0 +1,11 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" fill="#F0EADC"/>
+  <rect x="98" y="88" width="1004" height="548" rx="4" stroke="#4A453F" stroke-opacity=".18"/>
+  <path d="M174 551C266 448 333 497 407 393C485 284 551 359 625 268C705 170 788 230 862 153C925 88 997 119 1038 102" stroke="#A56D61" stroke-width="2.5" stroke-linecap="round" opacity=".58"/>
+  <path d="M174 566C270 500 356 546 432 452C506 361 578 432 658 347C742 258 818 306 896 235C958 178 1015 196 1042 181" stroke="#708B7A" stroke-width="2" stroke-linecap="round" opacity=".45"/>
+  <path d="M210 201H515M210 245H441M210 289H485" stroke="#4A453F" stroke-width="2" stroke-linecap="round" opacity=".14"/>
+  <circle cx="815" cy="417" r="104" fill="#D8BD79" opacity=".16"/>
+  <circle cx="815" cy="417" r="70" stroke="#829CAA" stroke-opacity=".38"/>
+  <circle cx="815" cy="417" r="34" stroke="#A56D61" stroke-opacity=".5"/>
+  <text x="98" y="698" fill="#443E38" fill-opacity=".38" font-family="Georgia, serif" font-size="24" font-style="italic">figure placeholder · replace path in src/data/researchProjects.js</text>
+</svg>
