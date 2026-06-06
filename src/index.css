@@ -405,10 +405,20 @@ button {
 
 .home-copy.is-zh h1 {
   max-width: 980px;
-  font-family: "Songti SC", "STSong", "Cormorant Garamond", serif;
-  font-size: clamp(3.2rem, 5.2vw, 5.35rem);
-  letter-spacing: 0.04em;
-  line-height: 1.16;
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
+  font-size: clamp(3.35rem, 5.45vw, 5.8rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  text-shadow: 0 0.04em 0 rgba(236, 198, 124, 0.16);
+}
+
+.zh-home-title span {
+  display: block;
+}
+
+.zh-home-title span + span {
+  margin-top: 0.1em;
 }
 
 .home-copy h1 em {
@@ -488,6 +498,52 @@ button {
   gap: clamp(0.28rem, 0.7vw, 0.65rem);
 }
 
+.archive-bloom-menu {
+  top: calc(var(--header-height) + 1.7rem);
+  width: min(56vw, 940px);
+  height: min(72vh, 45rem);
+  min-height: 35rem;
+  pointer-events: none;
+}
+
+.archive-flowerpot {
+  position: absolute;
+  right: 11%;
+  bottom: 0;
+  z-index: 0;
+  width: clamp(9rem, 13vw, 14rem);
+  height: clamp(4.2rem, 6vw, 6.6rem);
+  border: 1px solid rgba(92, 74, 55, 0.13);
+  border-radius: 18% 18% 42% 42% / 20% 20% 72% 72%;
+  background:
+    radial-gradient(circle at 42% 22%, rgba(255, 255, 255, 0.48), transparent 36%),
+    linear-gradient(180deg, rgba(236, 198, 124, 0.38), rgba(198, 129, 109, 0.2)),
+    rgba(246, 242, 233, 0.72);
+  box-shadow:
+    inset 0 0 28px rgba(126, 101, 72, 0.08),
+    0 22px 48px rgba(74, 61, 48, 0.08);
+  pointer-events: none;
+}
+
+.archive-flowerpot::before {
+  content: "";
+  position: absolute;
+  top: -0.65rem;
+  left: 8%;
+  width: 84%;
+  height: 1.2rem;
+  border: 1px solid rgba(92, 74, 55, 0.13);
+  border-radius: 999px;
+  background: rgba(251, 248, 240, 0.82);
+}
+
+.archive-flowerpot span {
+  position: absolute;
+  inset: 1.35rem 1.4rem auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(53, 49, 45, 0.17), transparent);
+}
+
 .home-menu-item {
   position: relative;
   display: grid;
@@ -504,6 +560,104 @@ button {
     color 260ms ease,
     transform 260ms ease,
     letter-spacing 260ms ease;
+}
+
+.archive-bloom-menu .home-menu-item {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  width: clamp(11.5rem, 17vw, 17.5rem);
+  min-height: clamp(5.7rem, 7vw, 7.8rem);
+  grid-template-columns: 2.3rem minmax(0, 1fr);
+  align-items: center;
+  padding: 0.85rem 1.05rem 0.9rem 0.78rem;
+  border: 1px solid rgba(53, 49, 45, 0.1);
+  border-radius: 58% 42% 56% 44% / 45% 58% 42% 55%;
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(135deg, rgba(251, 248, 240, 0.72), rgba(236, 198, 124, 0.14));
+  box-shadow:
+    inset 0 0 28px rgba(255, 255, 255, 0.22),
+    0 18px 46px rgba(74, 61, 48, 0.08);
+  pointer-events: auto;
+}
+
+.archive-bloom-menu .home-menu-item::before {
+  content: "";
+  position: absolute;
+  top: 92%;
+  left: var(--stem-left, 54%);
+  z-index: -1;
+  width: 0.12rem;
+  height: var(--stem-height, 16rem);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(144, 172, 142, 0.52), rgba(143, 170, 184, 0.2)),
+    rgba(144, 172, 142, 0.34);
+  transform: rotate(var(--stem-rotate, 0deg));
+  transform-origin: top center;
+}
+
+.archive-bloom-menu .home-menu-item:nth-of-type(1) {
+  top: 5%;
+  left: 5%;
+  --stem-height: 26rem;
+  --stem-rotate: 19deg;
+  --stem-left: 62%;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.68), transparent 34%),
+    linear-gradient(135deg, rgba(214, 140, 120, 0.18), rgba(251, 248, 240, 0.72));
+}
+
+.archive-bloom-menu .home-menu-item:nth-of-type(2) {
+  top: 0;
+  left: 42%;
+  --stem-height: 27rem;
+  --stem-rotate: -8deg;
+  --stem-left: 52%;
+}
+
+.archive-bloom-menu .home-menu-item:nth-of-type(3) {
+  top: 27%;
+  left: 30%;
+  --stem-height: 18rem;
+  --stem-rotate: 9deg;
+  --stem-left: 56%;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(135deg, rgba(236, 198, 124, 0.24), rgba(251, 248, 240, 0.7));
+}
+
+.archive-bloom-menu .home-menu-item:nth-of-type(4) {
+  top: 35%;
+  left: 59%;
+  --stem-height: 15rem;
+  --stem-rotate: -12deg;
+  --stem-left: 42%;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(135deg, rgba(144, 172, 142, 0.18), rgba(251, 248, 240, 0.72));
+}
+
+.archive-bloom-menu .home-menu-item:nth-of-type(5) {
+  top: 58%;
+  left: 39%;
+  --stem-height: 8.8rem;
+  --stem-rotate: 5deg;
+  --stem-left: 54%;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.6), transparent 34%),
+    linear-gradient(135deg, rgba(143, 170, 184, 0.2), rgba(251, 248, 240, 0.72));
+}
+
+.archive-bloom-menu .home-menu-item:nth-of-type(6) {
+  top: 72%;
+  left: 63%;
+  --stem-height: 5rem;
+  --stem-rotate: -8deg;
+  --stem-left: 36%;
+  width: clamp(8.8rem, 12vw, 12rem);
+  min-height: 5.2rem;
 }
 
 .home-menu-item::after {
@@ -523,6 +677,13 @@ button {
     transform 260ms ease;
 }
 
+.archive-bloom-menu .home-menu-item::after {
+  right: 1.1rem;
+  bottom: 0.72rem;
+  left: 3.8rem;
+  height: 0.12rem;
+}
+
 .home-menu-item span {
   color: rgba(53, 49, 45, 0.38);
   font-family: "SFMono-Regular", Menlo, Consolas, monospace;
@@ -539,11 +700,24 @@ button {
   line-height: 0.92;
 }
 
+.archive-bloom-menu .home-menu-item strong {
+  font-size: clamp(1.9rem, 2.5vw, 2.75rem);
+  letter-spacing: -0.03em;
+}
+
 .home-canvas-section.is-zh .home-menu-item strong {
   font-family: "Songti SC", "STSong", "Cormorant Garamond", serif;
   font-size: clamp(2.15rem, 3.75vw, 4rem);
   letter-spacing: 0.03em;
   line-height: 1.12;
+}
+
+.home-canvas-section.is-zh .archive-bloom-menu .home-menu-item strong {
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", serif;
+  font-size: clamp(1.72rem, 2.35vw, 2.55rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 1.08;
 }
 
 .home-menu-item small {
@@ -568,6 +742,11 @@ button {
   color: rgba(53, 49, 45, 0.94);
   letter-spacing: 0.015em;
   transform: translateX(-1rem);
+}
+
+.archive-bloom-menu .home-menu-item:hover,
+.archive-bloom-menu .home-menu-item:focus-visible {
+  transform: translateY(-0.35rem) rotate(-1.2deg);
 }
 
 .home-menu-item:hover::after,
@@ -2186,6 +2365,36 @@ button {
     bottom: 2rem;
     left: clamp(1.2rem, 4vw, 2rem);
     width: auto;
+  }
+
+  .archive-bloom-menu {
+    height: auto;
+    min-height: 0;
+    pointer-events: auto;
+  }
+
+  .archive-flowerpot {
+    display: none;
+  }
+
+  .archive-bloom-menu .home-menu-item,
+  .archive-bloom-menu .home-menu-item:nth-of-type(n) {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: grid;
+    width: auto;
+    min-height: 0;
+    grid-template-columns: 3.4rem minmax(0, 1fr);
+    padding: 0.2rem 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .archive-bloom-menu .home-menu-item::before {
+    display: none;
   }
 
   .home-menu-item strong {

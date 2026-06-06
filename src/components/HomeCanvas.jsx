@@ -38,7 +38,7 @@ function randomBetween(min, max) {
 }
 
 function makeFragments(sectionId) {
-  const count = Math.floor(randomBetween(3, 6));
+  const count = Math.floor(randomBetween(2, 5));
   const preferred = fragmentBias[sectionId] || [0, 1, 2, 3, 4];
 
   return Array.from({ length: count }, (_, index) => {
@@ -56,7 +56,7 @@ function makeFragments(sectionId) {
       width: randomBetween(120, 320),
       height: randomBetween(90, 260),
       rotate: randomBetween(-16, 16),
-      opacity: randomBetween(0.55, 0.85),
+      opacity: randomBetween(0.42, 0.68),
       delay: randomBetween(0, 120),
     };
   });
@@ -73,7 +73,7 @@ function HomeCanvas({ sections, onOpenSection, language }) {
     setFragments(makeFragments(hoveredSection.id));
     const interval = window.setInterval(() => {
       setFragments(makeFragments(hoveredSection.id));
-    }, 3200);
+    }, 6500);
 
     return () => window.clearInterval(interval);
   }, [hoveredSection]);
@@ -326,7 +326,10 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       <div className={`home-copy ${language === "zh" ? "is-zh" : ""}`}>
         {language === "zh" ? (
           <>
-            <h1>李莉的数字档案馆</h1>
+            <h1 className="zh-home-title">
+              <span>李莉的</span>
+              <span>数字档案馆</span>
+            </h1>
           </>
         ) : (
           <>
@@ -339,7 +342,7 @@ function HomeCanvas({ sections, onOpenSection, language }) {
         )}
       </div>
 
-      <nav className="home-menu" aria-label="Archive rooms">
+      <nav className="home-menu archive-bloom-menu" aria-label="Archive rooms">
         {sections.map((section, index) => (
           <button
             key={section.id}
@@ -354,6 +357,9 @@ function HomeCanvas({ sections, onOpenSection, language }) {
             <small>{language === "zh" ? section.label : section.labelZh}</small>
           </button>
         ))}
+        <div className="archive-flowerpot" aria-hidden="true">
+          <span />
+        </div>
       </nav>
     </section>
   );
