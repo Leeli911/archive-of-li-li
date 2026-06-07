@@ -1,16 +1,1487 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="The Archive of Li Li — a bilingual digital archive of AI products, research, professional practice, and selected life fragments."
+      content="The Archive of Li Li, a fading pastel digital archive of applied AI work, research, professional analytics, and life fragments."
     />
-    <title>The Archive of Li Li — 李莉的数字档案馆</title>
+    <title>The Archive of Li Li - 李莉的数字档案馆</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Cormorant Garamond"', '"Noto Serif SC"', "serif"],
+              sans: ['"Inter"', '"Noto Serif SC"', "sans-serif"],
+              mono: ['"JetBrains Mono"', "monospace"],
+              zh: ['"Noto Serif SC"', "serif"],
+            },
+            colors: {
+              paper: "#f3efe6",
+              ink: "#34302d",
+              graphite: "#6a625a",
+              terracotta: "#b87363",
+              lichen: "#7f9b78",
+              ochre: "#d9b765",
+              powder: "#87a9b6",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      :root {
+        --paper: #f3efe6;
+        --paper-soft: #faf7ef;
+        --ink: #34302d;
+        --graphite: #6a625a;
+        --terracotta: #b87363;
+        --lichen: #7f9b78;
+        --ochre: #d9b765;
+        --powder: #87a9b6;
+        --line: rgba(52, 48, 45, 0.13);
+        --soft-line: rgba(52, 48, 45, 0.075);
+        --shadow: 0 28px 90px rgba(73, 61, 48, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background: var(--paper);
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 14% 8%, rgba(217, 183, 101, 0.22), transparent 28rem),
+          radial-gradient(circle at 78% 12%, rgba(184, 115, 99, 0.16), transparent 30rem),
+          linear-gradient(115deg, #f1eadc 0%, #faf7ef 48%, #e9e0d2 100%);
+        color: var(--ink);
+        font-family: "Inter", "Noto Serif SC", sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        pointer-events: none;
+        opacity: 0.45;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 .05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23paper)'/%3E%3C/svg%3E");
+      }
+
+      ::selection {
+        background: rgba(184, 115, 99, 0.22);
+      }
+
+      .archive-shell {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        display: grid;
+        grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.5fr) auto;
+        gap: clamp(1rem, 2.6vw, 3rem);
+        align-items: center;
+        min-height: 5.7rem;
+        padding: 0.72rem clamp(1rem, 3vw, 3rem);
+        border-bottom: 1px solid var(--line);
+        background: rgba(247, 243, 234, 0.82);
+        backdrop-filter: blur(22px);
+      }
+
+      .brand-title {
+        display: block;
+        color: rgba(52, 48, 45, 0.92);
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(1.85rem, 2.4vw, 2.9rem);
+        font-style: italic;
+        font-weight: 300;
+        line-height: 0.95;
+      }
+
+      .brand-subtitle {
+        display: block;
+        margin-top: 0.58rem;
+        color: rgba(52, 48, 45, 0.48);
+        font-family: "Noto Serif SC", serif;
+        font-size: 0.96rem;
+        font-weight: 300;
+        letter-spacing: 0.08em;
+      }
+
+      .nav-track {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: clamp(0.2rem, 1vw, 0.7rem);
+      }
+
+      .nav-button {
+        position: relative;
+        padding: 0.58rem 0.78rem;
+        border: 0;
+        background: transparent;
+        color: rgba(52, 48, 45, 0.56);
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        font-size: clamp(0.94rem, 1.4vw, 1.24rem);
+        font-weight: 600;
+        transition:
+          color 280ms ease,
+          transform 280ms ease;
+      }
+
+      .nav-button::after {
+        content: "";
+        position: absolute;
+        right: 0.72rem;
+        bottom: 0.22rem;
+        left: 0.72rem;
+        height: 2px;
+        border-radius: 99px;
+        background: linear-gradient(90deg, rgba(184, 115, 99, 0.65), rgba(217, 183, 101, 0.65));
+        opacity: 0;
+        transform: scaleX(0.25);
+        transform-origin: left;
+        transition:
+          opacity 240ms ease,
+          transform 240ms ease;
+      }
+
+      .nav-button:hover,
+      .nav-button.is-active {
+        color: var(--ink);
+        transform: translateY(-1px);
+      }
+
+      .nav-button.is-active::after,
+      .nav-button:hover::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+
+      .language-switch {
+        display: inline-flex;
+        gap: 0.18rem;
+        padding: 0.24rem;
+        border: 1px solid rgba(52, 48, 45, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 252, 244, 0.5);
+      }
+
+      .language-switch button {
+        min-width: 3rem;
+        padding: 0.56rem 0.7rem;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: rgba(52, 48, 45, 0.54);
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .language-switch button.is-active {
+        background: rgba(217, 183, 101, 0.24);
+        color: rgba(52, 48, 45, 0.88);
+      }
+
+      .hero {
+        position: relative;
+        min-height: calc(100vh - 5.7rem);
+        padding: clamp(1.2rem, 2vw, 2rem);
+        overflow: hidden;
+      }
+
+      .paper-stage {
+        position: relative;
+        display: grid;
+        min-height: min(48rem, calc(100vh - 8rem));
+        grid-template-columns: minmax(18rem, 0.9fr) minmax(24rem, 1.35fr);
+        gap: clamp(1rem, 2.4vw, 3rem);
+        align-items: center;
+        overflow: hidden;
+        padding: clamp(1.8rem, 4vw, 4rem);
+        border: 1px solid rgba(52, 48, 45, 0.12);
+        border-radius: clamp(1.2rem, 2.4vw, 2.2rem);
+        background: rgba(246, 242, 233, 0.52);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+      }
+
+      .paper-stage::after {
+        content: "";
+        position: absolute;
+        inset: 1.4rem;
+        border: 1px dashed rgba(52, 48, 45, 0.08);
+        border-radius: inherit;
+        pointer-events: none;
+      }
+
+      .paper-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+
+      .hero-copy {
+        position: relative;
+        z-index: 4;
+        max-width: 35rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 1.4rem;
+        color: rgba(52, 48, 45, 0.56);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .positioning {
+        margin: 0;
+        color: rgba(52, 48, 45, 0.9);
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(2.45rem, 5vw, 5.4rem);
+        font-style: italic;
+        font-weight: 300;
+        letter-spacing: 0;
+        line-height: 0.92;
+      }
+
+      .statement-en {
+        max-width: 34rem;
+        margin: 1.8rem 0 0;
+        color: rgba(52, 48, 45, 0.7);
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+        font-weight: 300;
+        line-height: 1.15;
+      }
+
+      .statement-zh {
+        max-width: 33rem;
+        margin: 0.95rem 0 0;
+        color: rgba(52, 48, 45, 0.58);
+        font-family: "Noto Serif SC", serif;
+        font-size: clamp(0.98rem, 1.35vw, 1.22rem);
+        font-weight: 300;
+        letter-spacing: 0.05em;
+        line-height: 1.8;
+      }
+
+      .baseline {
+        display: grid;
+        gap: 0.42rem;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(52, 48, 45, 0.14);
+        color: rgba(52, 48, 45, 0.54);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
+      .node-field {
+        position: relative;
+        z-index: 4;
+        display: grid;
+        min-height: 34rem;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-rows: repeat(12, minmax(0, 1fr));
+        pointer-events: none;
+      }
+
+      .node-line-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: visible;
+        pointer-events: none;
+      }
+
+      .node-line-layer path {
+        fill: none;
+        stroke: rgba(82, 129, 145, 0.42);
+        stroke-width: 1.35;
+        stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .archive-node {
+        position: relative;
+        z-index: 2;
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        width: min(16vw, 12.5rem);
+        min-width: 9rem;
+        grid-template-columns: 2.6rem minmax(0, 1fr);
+        gap: 0.72rem;
+        align-items: center;
+        padding: 0.66rem;
+        border: 0;
+        background: transparent;
+        color: rgba(52, 48, 45, 0.72);
+        cursor: pointer;
+        pointer-events: auto;
+        text-align: left;
+        transform: scale(1);
+        transition:
+          color 300ms ease,
+          transform 300ms cubic-bezier(0.24, 0.9, 0.28, 1),
+          filter 300ms ease;
+      }
+
+      .archive-node:hover,
+      .archive-node.is-active {
+        color: var(--terracotta);
+        transform: scale(1.06);
+        filter: drop-shadow(0 16px 22px rgba(92, 73, 58, 0.1));
+      }
+
+      .archive-node:nth-of-type(3n):hover,
+      .archive-node:nth-of-type(3n).is-active {
+        color: var(--lichen);
+      }
+
+      .node-index {
+        display: grid;
+        place-items: center;
+        width: 2.4rem;
+        height: 1.8rem;
+        border: 1px solid rgba(52, 48, 45, 0.1);
+        border-radius: 999px;
+        background: rgba(255, 250, 242, 0.68);
+        color: currentColor;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      .node-text {
+        display: grid;
+        gap: 0.1rem;
+        min-width: 0;
+      }
+
+      .node-text strong {
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(1.55rem, 2.7vw, 2.5rem);
+        font-style: normal;
+        font-weight: 300;
+        letter-spacing: 0;
+        line-height: 0.9;
+        transition:
+          font-style 300ms ease,
+          font-weight 300ms ease;
+      }
+
+      .archive-node:hover .node-text strong,
+      .archive-node.is-active .node-text strong {
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      .node-text small {
+        color: rgba(52, 48, 45, 0.34);
+        font-family: "Noto Serif SC", serif;
+        font-size: 0.78rem;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+      }
+
+      .node-ai {
+        grid-column: 2 / span 4;
+        grid-row: 3 / span 2;
+      }
+
+      .node-research {
+        grid-column: 6 / span 4;
+        grid-row: 2 / span 2;
+      }
+
+      .node-work {
+        grid-column: 4 / span 4;
+        grid-row: 6 / span 2;
+      }
+
+      .node-life {
+        grid-column: 8 / span 4;
+        grid-row: 5 / span 2;
+      }
+
+      .node-about {
+        grid-column: 6 / span 4;
+        grid-row: 8 / span 2;
+      }
+
+      .node-cv {
+        grid-column: 9 / span 4;
+        grid-row: 9 / span 2;
+      }
+
+      .pot {
+        position: absolute;
+        right: 17%;
+        bottom: 5%;
+        z-index: 1;
+        width: min(22vw, 15rem);
+        height: 7rem;
+        opacity: 0.48;
+        pointer-events: none;
+      }
+
+      .pot path {
+        fill: none;
+        stroke: rgba(67, 121, 143, 0.82);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+      }
+
+      .section-panel {
+        position: relative;
+        z-index: 10;
+        display: none;
+        padding: clamp(3rem, 6vw, 6rem) clamp(1.1rem, 4vw, 4rem);
+      }
+
+      .section-panel.is-visible {
+        display: block;
+        animation: panelRise 420ms ease both;
+      }
+
+      @keyframes panelRise {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: 4.8rem minmax(0, 1fr);
+        gap: clamp(1rem, 2vw, 2rem);
+        align-items: start;
+        margin-bottom: clamp(2rem, 4vw, 4rem);
+      }
+
+      .section-heading .section-number {
+        color: rgba(52, 48, 45, 0.42);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        color: rgba(52, 48, 45, 0.86);
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(3.4rem, 7vw, 7.8rem);
+        font-weight: 300;
+        letter-spacing: 0;
+        line-height: 0.82;
+      }
+
+      .section-heading p {
+        max-width: 49rem;
+        margin: 1.1rem 0 0;
+        color: rgba(52, 48, 45, 0.6);
+        font-family: "Noto Serif SC", serif;
+        font-size: clamp(0.98rem, 1.35vw, 1.15rem);
+        font-weight: 300;
+        letter-spacing: 0.05em;
+        line-height: 1.85;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(0.9rem, 1.8vw, 1.4rem);
+      }
+
+      .archive-card {
+        position: relative;
+        min-height: 25rem;
+        overflow: hidden;
+        padding: clamp(1.1rem, 2vw, 1.6rem);
+        border: 1px solid rgba(52, 48, 45, 0.11);
+        border-radius: 0.5rem;
+        background:
+          linear-gradient(180deg, rgba(255, 252, 244, 0.55), rgba(246, 240, 228, 0.35)),
+          rgba(246, 242, 233, 0.42);
+        box-shadow: 0 18px 55px rgba(74, 61, 48, 0.08);
+        transition:
+          transform 300ms ease,
+          border-color 300ms ease,
+          background 300ms ease;
+      }
+
+      .archive-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(184, 115, 99, 0.24);
+        background: rgba(255, 252, 244, 0.68);
+      }
+
+      .card-index {
+        color: rgba(52, 48, 45, 0.42);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+      }
+
+      .archive-card h3 {
+        margin: 1.2rem 0 0;
+        color: rgba(52, 48, 45, 0.86);
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(2rem, 3.2vw, 3.3rem);
+        font-weight: 300;
+        line-height: 0.95;
+      }
+
+      .archive-card p {
+        margin: 1.05rem 0 0;
+        color: rgba(52, 48, 45, 0.6);
+        line-height: 1.75;
+      }
+
+      .pipeline-overlay {
+        position: absolute;
+        inset: auto 1rem 1rem;
+        display: grid;
+        place-items: center;
+        min-height: 7rem;
+        border: 1px dashed rgba(52, 48, 45, 0.14);
+        border-radius: 0.45rem;
+        background: rgba(250, 247, 239, 0.88);
+        opacity: 0;
+        transform: translateY(12px);
+        transition:
+          opacity 260ms ease,
+          transform 260ms ease;
+      }
+
+      .archive-card:hover .pipeline-overlay {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .pipeline-overlay svg {
+        width: min(100%, 31rem);
+        height: 5.8rem;
+      }
+
+      .flat-file-card {
+        cursor: pointer;
+      }
+
+      .drawer {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 340ms ease;
+      }
+
+      .flat-file-card.is-open .drawer {
+        grid-template-rows: 1fr;
+      }
+
+      .drawer-inner {
+        overflow: hidden;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.62rem;
+        margin-top: 1.2rem;
+      }
+
+      .metrics div,
+      .triad div {
+        min-height: 5rem;
+        padding: 0.82rem;
+        border: 1px solid rgba(52, 48, 45, 0.1);
+        border-radius: 0.4rem;
+        background: rgba(255, 252, 244, 0.42);
+      }
+
+      .metrics strong,
+      .triad strong {
+        display: block;
+        margin-bottom: 0.34rem;
+        color: rgba(52, 48, 45, 0.55);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .triad {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-top: 1.2rem;
+      }
+
+      .work-card .triad div {
+        opacity: 0.45;
+        transform: translateY(6px);
+        transition:
+          opacity 260ms ease,
+          transform 260ms ease,
+          border-color 260ms ease;
+      }
+
+      .work-card:hover .triad div {
+        opacity: 1;
+        transform: translateY(0);
+        border-color: rgba(127, 155, 120, 0.26);
+      }
+
+      .life-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.85rem;
+      }
+
+      .photo-frame {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border: 0.55rem solid rgba(255, 252, 244, 0.62);
+        border-radius: 0.35rem;
+        background:
+          linear-gradient(var(--photo-angle), rgba(135, 169, 182, 0.28), rgba(217, 183, 101, 0.16), rgba(184, 115, 99, 0.18)),
+          radial-gradient(circle at var(--x) var(--y), rgba(255, 255, 255, 0.52), transparent 36%),
+          rgba(236, 229, 214, 0.8);
+        box-shadow: 0 18px 45px rgba(74, 61, 48, 0.1);
+        transform: rotate(var(--tilt));
+        transition:
+          transform 300ms ease,
+          filter 300ms ease;
+      }
+
+      .photo-frame:hover {
+        transform: rotate(0deg) translateY(-5px);
+        filter: saturate(1.08);
+      }
+
+      .photo-caption {
+        position: absolute;
+        inset: auto 0 0;
+        padding: 0.8rem;
+        background: rgba(250, 247, 239, 0.88);
+        color: rgba(52, 48, 45, 0.68);
+        opacity: 0;
+        transform: translateY(100%);
+        transition:
+          opacity 260ms ease,
+          transform 260ms ease;
+      }
+
+      .photo-frame:hover .photo-caption {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .photo-caption span {
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.04em;
+      }
+
+      .profile-band {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        gap: clamp(1rem, 3vw, 3rem);
+      }
+
+      .profile-note,
+      .cv-list {
+        padding: clamp(1.2rem, 2vw, 1.7rem);
+        border: 1px solid rgba(52, 48, 45, 0.11);
+        border-radius: 0.5rem;
+        background: rgba(255, 252, 244, 0.36);
+      }
+
+      .profile-note h3,
+      .cv-list h3 {
+        margin: 0 0 1rem;
+        font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+        font-size: clamp(2rem, 3vw, 3.4rem);
+        font-weight: 300;
+        line-height: 0.95;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .timeline article {
+        display: grid;
+        grid-template-columns: 8rem minmax(0, 1fr);
+        gap: 1rem;
+        padding-top: 0.85rem;
+        border-top: 1px solid rgba(52, 48, 45, 0.1);
+      }
+
+      .timeline time {
+        color: rgba(52, 48, 45, 0.42);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.82rem;
+      }
+
+      .timeline strong {
+        display: block;
+        color: rgba(52, 48, 45, 0.84);
+      }
+
+      .site-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 2.6rem clamp(1.2rem, 4vw, 4rem);
+        border-top: 1px solid rgba(52, 48, 45, 0.12);
+        color: rgba(52, 48, 45, 0.48);
+      }
+
+      @media (max-width: 1100px) {
+        .topbar {
+          grid-template-columns: 1fr auto;
+        }
+
+        .nav-track {
+          grid-column: 1 / -1;
+          justify-content: flex-start;
+          order: 3;
+        }
+
+        .paper-stage {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+
+        .node-field {
+          min-height: 28rem;
+        }
+
+        .card-grid,
+        .profile-band {
+          grid-template-columns: 1fr;
+        }
+
+        .life-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .topbar {
+          min-height: auto;
+          padding: 0.9rem 1rem;
+        }
+
+        .brand-title {
+          font-size: 1.8rem;
+        }
+
+        .brand-subtitle {
+          font-size: 0.82rem;
+        }
+
+        .language-switch button {
+          min-width: 2.55rem;
+          padding: 0.45rem 0.5rem;
+        }
+
+        .hero {
+          padding: 0.8rem;
+        }
+
+        .paper-stage {
+          padding: 1.3rem;
+          border-radius: 1.1rem;
+        }
+
+        .positioning {
+          font-size: clamp(2.65rem, 13vw, 4.2rem);
+        }
+
+        .statement-en {
+          font-size: 1.42rem;
+        }
+
+        .statement-zh {
+          font-size: 0.92rem;
+        }
+
+        .node-field {
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+          gap: 0.2rem;
+          padding-top: 1.4rem;
+        }
+
+        .node-line-layer,
+        .pot {
+          display: none;
+        }
+
+        .archive-node {
+          width: 100%;
+          min-width: 0;
+          justify-self: stretch;
+          grid-template-columns: 3rem minmax(0, 1fr);
+          border-top: 1px solid rgba(52, 48, 45, 0.09);
+        }
+
+        .archive-node,
+        .node-ai,
+        .node-research,
+        .node-work,
+        .node-life,
+        .node-about,
+        .node-cv {
+          grid-column: auto;
+          grid-row: auto;
+        }
+
+        .section-heading {
+          grid-template-columns: 1fr;
+        }
+
+        .section-heading h2 {
+          font-size: clamp(3rem, 16vw, 4.8rem);
+        }
+
+        .metrics,
+        .triad,
+        .life-grid,
+        .timeline article {
+          grid-template-columns: 1fr;
+        }
+
+        .site-footer {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
+
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
+    <script type="text/babel">
+      const { useEffect, useMemo, useRef, useState } = React;
+
+      const navItems = [
+        { id: "home", label: "Home", zh: "首页" },
+        { id: "ai-products", label: "AI Products", zh: "AI 产品" },
+        { id: "research", label: "Research", zh: "研究" },
+        { id: "data-work", label: "Data Work", zh: "数据工作" },
+        { id: "life-notes", label: "Life Notes", zh: "生活札记" },
+        { id: "about", label: "About", zh: "关于" },
+        { id: "cv", label: "CV", zh: "履历" },
+      ];
+
+      const nodes = [
+        { id: "ai-products", index: "01", label: "AI Products", zh: "AI 产品", className: "node-ai" },
+        { id: "research", index: "02", label: "Research", zh: "研究项目", className: "node-research" },
+        { id: "data-work", index: "03", label: "Data Work", zh: "数据工作", className: "node-work" },
+        { id: "life-notes", index: "04", label: "Life Notes", zh: "生活札记", className: "node-life" },
+        { id: "about", index: "05", label: "About", zh: "关于我", className: "node-about" },
+        { id: "cv", index: "06", label: "CV", zh: "履历", className: "node-cv" },
+      ];
+
+      const aiProducts = [
+        {
+          title: "InsightFlow",
+          text: "An AI-assisted data product concept for converting exploratory research traces into reusable analysis narratives, evaluation checkpoints, and product decisions.",
+        },
+        {
+          title: "Research Radar",
+          text: "A lightweight workflow for collecting, comparing, and scoring research signals across papers, datasets, project notes, and product hypotheses.",
+        },
+        {
+          title: "Future AI Product Experiments",
+          text: "A sandbox for evaluation-first AI experiences: prompt quality checks, retrieval surfaces, workflow agents, and human review loops.",
+        },
+      ];
+
+      const researchCards = [
+        {
+          title: "Master Thesis: From Faces to Ages",
+          text: "Age estimation research on facial representations using GPU cluster experiments at Uppsala University.",
+          metrics: {
+            Question: "How do model choices and data conditions affect age prediction behavior?",
+            Method: "Computer vision experiments, model comparison, error inspection.",
+            Material: "Image datasets and NAISS/Alvis GPU cluster research environment.",
+            Result: "A research workflow for evaluating model behavior beyond headline accuracy.",
+          },
+        },
+        {
+          title: "HTRFlow",
+          text: "A digital humanities workflow direction for handwriting text recognition, corpus preparation, and archival usability.",
+          metrics: {
+            Question: "How can archival text become searchable without flattening its context?",
+            Method: "Pipeline design for transcription, quality checks, and human correction.",
+            Material: "Historical document fragments and humanities-facing metadata.",
+            Result: "A workflow sketch for readable, inspectable HTR outputs.",
+          },
+        },
+        {
+          title: "Coupon Strategy Optimization via Uplift Modeling",
+          text: "A causal marketing analytics project focused on identifying who should receive an incentive and why.",
+          metrics: {
+            Question: "Which users are truly persuaded by a coupon?",
+            Method: "Uplift modeling, segmentation, treatment effect reasoning.",
+            Material: "Campaign response and conversion behavior data.",
+            Result: "A more selective strategy for promotion allocation and evaluation.",
+          },
+        },
+      ];
+
+      const workCards = [
+        {
+          title: "Commercial Analytics",
+          text: "Case work across retail and commerce analytics, focused on diagnosis, prioritization, and decision support.",
+          triad: ["Clarify conversion and revenue bottlenecks.", "Build segmented analysis and repeatable reporting views.", "Turn ambiguous performance questions into action paths."],
+        },
+        {
+          title: "BI Platform Systems",
+          text: "Operational analytics systems designed to reduce repeated manual work and improve shared metric confidence.",
+          triad: ["Fragmented indicators and inconsistent reporting.", "Define dashboards, metric logic, and governance habits.", "Make daily data work more inspectable and reusable."],
+        },
+        {
+          title: "User Growth Analytics",
+          text: "Growth analytics case studies for lifecycle, campaign, and product behavior analysis.",
+          triad: ["Unclear growth levers across user cohorts.", "Combine funnel, cohort, and campaign evaluation.", "Support sharper targeting and post-campaign learning."],
+        },
+      ];
+
+      const lifeFrames = [
+        { city: "Uppsala", meta: "59.8586 N, 17.6389 E", date: "2023-2025", note: "Long winter light, quiet libraries, research traces.", angle: "128deg", tilt: "-2deg", x: "28%", y: "24%" },
+        { city: "Copenhagen", meta: "55.6761 N, 12.5683 E", date: "2024", note: "Water edges and slow systems of looking.", angle: "32deg", tilt: "1.5deg", x: "72%", y: "32%" },
+        { city: "Bergen", meta: "60.3913 N, 5.3221 E", date: "2024", note: "Rain as archive material.", angle: "84deg", tilt: "-1deg", x: "50%", y: "18%" },
+        { city: "Tallinn", meta: "59.4370 N, 24.7536 E", date: "2025", note: "Stone, glass, and a compact digital memory.", angle: "148deg", tilt: "2deg", x: "36%", y: "64%" },
+        { city: "Nice", meta: "43.7102 N, 7.2620 E", date: "2025", note: "Blue margins, orange roofs, incomplete notes.", angle: "14deg", tilt: "-1.5deg", x: "70%", y: "55%" },
+      ];
+
+      function usePaperCanvas(canvasRef) {
+        useEffect(() => {
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext("2d", { alpha: true });
+          let width = 0;
+          let height = 0;
+          let ratio = 1;
+          let pointer = null;
+          let lastDraw = 0;
+          let raf = 0;
+          const traces = [];
+
+          const resize = () => {
+            const rect = canvas.getBoundingClientRect();
+            ratio = window.devicePixelRatio || 1;
+            width = rect.width;
+            height = rect.height;
+            canvas.width = Math.round(width * ratio);
+            canvas.height = Math.round(height * ratio);
+            ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          };
+
+          const drawBackground = () => {
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.globalCompositeOperation = "multiply";
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, "rgba(248, 244, 235, 0.52)");
+            gradient.addColorStop(1, "rgba(225, 216, 201, 0.18)");
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.font = '13px "JetBrains Mono", monospace';
+            ctx.fillStyle = "rgba(120, 111, 101, 0.18)";
+            const seed = "79397319710673132272704329664557319341299723237037271345177509122492271374135179415319751";
+            let k = 0;
+            for (let y = 78; y < height - 28; y += 30) {
+              for (let x = 20; x < width - 20; x += 24) {
+                const char = seed[k % seed.length];
+                const hue = ["rgba(184,115,99,.18)", "rgba(127,155,120,.18)", "rgba(135,169,182,.18)", "rgba(217,183,101,.18)", "rgba(52,48,45,.16)"][k % 5];
+                ctx.fillStyle = hue;
+                ctx.fillText(char, x + ((k % 3) - 1) * 2, y);
+                k += 1;
+              }
+            }
+
+            const curves = [
+              ["rgba(184,115,99,.28)", 0.8, [width * 0.03, height * 0.68, width * 0.28, height * 0.48, width * 0.45, height * 0.86, width * 0.68, height * 0.44]],
+              ["rgba(82,129,145,.28)", 1.1, [width * 0.2, height * 0.02, width * 0.36, height * 0.22, width * 0.52, height * 0.42, width * 0.72, height * 0.38]],
+              ["rgba(127,155,120,.24)", 0.9, [width * 0.32, height * 0.98, width * 0.36, height * 0.54, width * 0.58, height * 0.88, width * 0.86, height * 0.6]],
+              ["rgba(217,183,101,.26)", 0.75, [width * 0.1, height * 0.82, width * 0.36, height * 0.72, width * 0.61, height * 0.76, width * 0.92, height * 0.94]],
+            ];
+
+            curves.forEach(([stroke, lineWidth, points]) => {
+              ctx.beginPath();
+              ctx.moveTo(points[0], points[1]);
+              ctx.bezierCurveTo(points[2], points[3], points[4], points[5], points[6], points[7]);
+              ctx.strokeStyle = stroke;
+              ctx.lineWidth = lineWidth;
+              ctx.stroke();
+            });
+
+            ctx.strokeStyle = "rgba(52,48,45,.12)";
+            ctx.lineWidth = 0.8;
+            for (let i = 0; i < 12; i += 1) {
+              const x = width * (0.05 + i * 0.085);
+              ctx.beginPath();
+              ctx.moveTo(x, height * 0.08);
+              ctx.lineTo(x + Math.sin(i) * 42, height * 0.88);
+              ctx.stroke();
+            }
+
+            ctx.fillStyle = "rgba(217,183,101,.32)";
+            ctx.beginPath();
+            ctx.arc(width * 0.9, height * 0.84, 34, 0.32 * Math.PI, 1.62 * Math.PI);
+            ctx.arc(width * 0.92, height * 0.82, 32, 1.62 * Math.PI, 0.32 * Math.PI, true);
+            ctx.closePath();
+            ctx.fill();
+
+            traces.forEach((trace) => {
+              ctx.strokeStyle = trace.color;
+              ctx.lineWidth = trace.width;
+              ctx.globalAlpha = trace.alpha;
+              ctx.beginPath();
+              ctx.moveTo(trace.from.x, trace.from.y);
+              ctx.quadraticCurveTo(trace.mid.x, trace.mid.y, trace.to.x, trace.to.y);
+              ctx.stroke();
+              trace.alpha *= 0.992;
+            });
+            ctx.globalAlpha = 1;
+            ctx.restore();
+          };
+
+          const loop = (time) => {
+            raf = requestAnimationFrame(loop);
+            if (time - lastDraw < 16) return;
+            lastDraw = time;
+            drawBackground();
+          };
+
+          const getPoint = (event) => {
+            const rect = canvas.getBoundingClientRect();
+            return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+          };
+
+          const addTrace = (point) => {
+            if (!pointer) {
+              pointer = point;
+              return;
+            }
+            const mid = {
+              x: (pointer.x + point.x) / 2 + Math.sin(point.x * 0.02) * 4,
+              y: (pointer.y + point.y) / 2 + Math.cos(point.y * 0.02) * 4,
+            };
+            traces.push({
+              from: pointer,
+              mid,
+              to: point,
+              width: 1.2 + Math.random() * 2.6,
+              alpha: 0.16,
+              color: ["rgba(184,115,99,.18)", "rgba(127,155,120,.17)", "rgba(135,169,182,.16)", "rgba(217,183,101,.16)"][traces.length % 4],
+            });
+            if (traces.length > 120) traces.shift();
+            pointer = point;
+          };
+
+          const handlePointerDown = (event) => {
+            pointer = getPoint(event);
+            canvas.setPointerCapture?.(event.pointerId);
+          };
+          const handlePointerMove = (event) => addTrace(getPoint(event));
+          const handlePointerUp = () => {
+            pointer = null;
+          };
+
+          resize();
+          raf = requestAnimationFrame(loop);
+          window.addEventListener("resize", resize);
+          canvas.addEventListener("pointerdown", handlePointerDown, { passive: true });
+          canvas.addEventListener("pointermove", handlePointerMove, { passive: true });
+          canvas.addEventListener("pointerup", handlePointerUp, { passive: true });
+          canvas.addEventListener("pointercancel", handlePointerUp, { passive: true });
+          canvas.addEventListener("pointerleave", handlePointerUp, { passive: true });
+
+          return () => {
+            cancelAnimationFrame(raf);
+            window.removeEventListener("resize", resize);
+            canvas.removeEventListener("pointerdown", handlePointerDown);
+            canvas.removeEventListener("pointermove", handlePointerMove);
+            canvas.removeEventListener("pointerup", handlePointerUp);
+            canvas.removeEventListener("pointercancel", handlePointerUp);
+            canvas.removeEventListener("pointerleave", handlePointerUp);
+          };
+        }, [canvasRef]);
+      }
+
+      function PipelineDiagram() {
+        return (
+          <svg viewBox="0 0 520 110" role="img" aria-label="Input to Process to Output to Evaluation pipeline">
+            {["Input", "Process", "Output", "Evaluation"].map((label, index) => (
+              <g key={label} transform={`translate(${index * 132 + 10}, 26)`}>
+                <rect width="104" height="44" rx="22" fill="rgba(250,247,239,.72)" stroke="rgba(52,48,45,.18)" />
+                <text x="52" y="28" textAnchor="middle" fill="rgba(52,48,45,.68)" fontFamily="JetBrains Mono" fontSize="12">
+                  {label}
+                </text>
+              </g>
+            ))}
+            {[0, 1, 2].map((index) => (
+              <path
+                key={index}
+                d={`M${118 + index * 132} 48 C${142 + index * 132} 48, ${146 + index * 132} 48, ${168 + index * 132} 48`}
+                fill="none"
+                stroke="rgba(184,115,99,.55)"
+                strokeWidth="1.5"
+                markerEnd="url(#arrow)"
+              />
+            ))}
+            <defs>
+              <marker id="arrow" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0 0 L8 4 L0 8 Z" fill="rgba(184,115,99,.55)" />
+              </marker>
+            </defs>
+          </svg>
+        );
+      }
+
+      function Topbar({ language, setLanguage, active, setActive }) {
+        return (
+          <header className="topbar">
+            <button className="text-left" type="button" onClick={() => setActive("home")} aria-label="Return home">
+              <span className="brand-title">The Archive of Li Li</span>
+              <span className="brand-subtitle">李莉的数字档案馆</span>
+            </button>
+            <nav className="nav-track" aria-label="Primary navigation">
+              {navItems.map((item) => (
+                <button key={item.id} className={`nav-button ${active === item.id ? "is-active" : ""}`} type="button" onClick={() => setActive(item.id)}>
+                  {language === "zh" ? item.zh : item.label}
+                </button>
+              ))}
+            </nav>
+            <div className="language-switch" aria-label="Language switch">
+              <button className={language === "en" ? "is-active" : ""} type="button" onClick={() => setLanguage("en")}>
+                EN
+              </button>
+              <button className={language === "zh" ? "is-active" : ""} type="button" onClick={() => setLanguage("zh")}>
+                中文
+              </button>
+            </div>
+          </header>
+        );
+      }
+
+      function Hero({ language, active, setActive }) {
+        const canvasRef = useRef(null);
+        usePaperCanvas(canvasRef);
+
+        return (
+          <section className="hero" id="home">
+            <div className="paper-stage">
+              <canvas ref={canvasRef} className="paper-canvas" aria-label="Interactive fading pastel paper canvas" />
+
+              <div className="hero-copy">
+                <p className="eyebrow">AI portfolio</p>
+                <h1 className="positioning">Applied AI | AI Product &amp; Evaluation</h1>
+                <p className="statement-en">Research, projects, places, and fragments collected along the way.</p>
+                <p className="statement-zh">这里收集研究、项目、城市、照片，以及一些还没有被整理好的想法。</p>
+                <div className="baseline">
+                  <span>Data science remains the baseline: mathematics, analytics, evaluation, and digital humanities workflows.</span>
+                  <span>Current direction: applied AI, AI product evaluation, and archival interfaces.</span>
+                </div>
+              </div>
+
+              <div className="node-field" aria-label="Archive section map">
+                <svg className="node-line-layer" viewBox="0 0 700 520" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M360 470 C268 320, 184 230, 140 142" />
+                  <path d="M360 470 C366 310, 372 160, 388 94" />
+                  <path d="M360 470 C330 332, 300 286, 272 252" />
+                  <path d="M360 470 C444 338, 520 250, 568 212" />
+                  <path d="M360 470 C438 384, 454 336, 438 326" />
+                  <path d="M360 470 C498 426, 558 390, 588 382" />
+                </svg>
+                <svg className="pot" viewBox="0 0 220 120" aria-hidden="true">
+                  <path d="M26 22 C58 8, 162 8, 194 22" />
+                  <path d="M38 28 L70 105 C94 116, 128 116, 152 105 L184 28" />
+                  <path d="M55 112 C88 120, 132 120, 165 112" />
+                </svg>
+                {nodes.map((node) => (
+                  <button
+                    key={node.id}
+                    type="button"
+                    className={`archive-node ${node.className} ${active === node.id ? "is-active" : ""}`}
+                    onClick={() => setActive(node.id)}
+                  >
+                    <span className="node-index">{node.index}</span>
+                    <span className="node-text">
+                      <strong>{node.label}</strong>
+                      <small>{node.zh}</small>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function SectionHeading({ index, title, description }) {
+        return (
+          <div className="section-heading">
+            <span className="section-number">{index}</span>
+            <div>
+              <h2>{title}</h2>
+              <p>{description}</p>
+            </div>
+          </div>
+        );
+      }
+
+      function AIProducts({ visible }) {
+        return (
+          <section className={`section-panel ${visible ? "is-visible" : ""}`} id="ai-products">
+            <div className="section-inner">
+              <SectionHeading index="01" title="AI Products" description="AI 产品与评估工作流：从输入、处理、输出到评价，强调可检查、可复用、可解释。" />
+              <div className="card-grid">
+                {aiProducts.map((item, index) => (
+                  <article className="archive-card" key={item.title}>
+                    <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <div className="pipeline-overlay">
+                      <PipelineDiagram />
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function Research({ visible }) {
+        const [open, setOpen] = useState("Master Thesis: From Faces to Ages");
+        return (
+          <section className={`section-panel ${visible ? "is-visible" : ""}`} id="research">
+            <div className="section-inner">
+              <SectionHeading index="02" title="Academic Research" description="研究像博物馆平柜一样展开：问题、方法、材料和结果都应该能被慢慢检查。" />
+              <div className="card-grid">
+                {researchCards.map((item, index) => (
+                  <article className={`archive-card flat-file-card ${open === item.title ? "is-open" : ""}`} key={item.title} onClick={() => setOpen(open === item.title ? "" : item.title)}>
+                    <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <div className="drawer">
+                      <div className="drawer-inner">
+                        <div className="metrics">
+                          {Object.entries(item.metrics).map(([key, value]) => (
+                            <div key={key}>
+                              <strong>{key}</strong>
+                              <span>{value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function ProfessionalWork({ visible }) {
+        return (
+          <section className={`section-panel ${visible ? "is-visible" : ""}`} id="data-work">
+            <div className="section-inner">
+              <SectionHeading index="03" title="Professional Work" description="五年上海数据分析经验，页面正文匿名化公司名称，聚焦商业分析、BI 系统与用户增长案例。" />
+              <div className="card-grid">
+                {workCards.map((item, index) => (
+                  <article className="archive-card work-card" key={item.title}>
+                    <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <div className="triad">
+                      {["Problem", "Action", "Result"].map((label, i) => (
+                        <div key={label}>
+                          <strong>{label}</strong>
+                          <span>{item.triad[i]}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function LifeArchive({ visible }) {
+        return (
+          <section className={`section-panel ${visible ? "is-visible" : ""}`} id="life-notes">
+            <div className="section-inner">
+              <SectionHeading index="04" title="Life Archive" description="一个很小、很亲密的区域：城市、照片、坐标、日期，以及没有完全整理好的观察。" />
+              <div className="life-grid">
+                {lifeFrames.map((item) => (
+                  <figure
+                    className="photo-frame"
+                    key={item.city}
+                    style={{ "--photo-angle": item.angle, "--tilt": item.tilt, "--x": item.x, "--y": item.y }}
+                  >
+                    <figcaption className="photo-caption">
+                      <span>{item.meta}</span>
+                      <span>{item.date}</span>
+                      <p className="mt-2 leading-relaxed">{item.city}: {item.note}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function About({ visible }) {
+        return (
+          <section className={`section-panel ${visible ? "is-visible" : ""}`} id="about">
+            <div className="section-inner">
+              <SectionHeading index="05" title="About Li Li" description="关于这个数字档案馆：它不是作品集的硬壳，而是一组关于研究、AI 产品和生活观察的轻质索引。" />
+              <div className="profile-band">
+                <article className="profile-note">
+                  <h3>Nanning to Uppsala</h3>
+                  <p className="leading-8 text-[rgba(52,48,45,.66)]">
+                    Li Li was born and raised in Nanning. Her foundation combines mathematics, accounting, professional analytics, and later data science research in Sweden. The archive keeps those materials together without forcing them into one rigid category.
+                  </p>
+                </article>
+                <article className="profile-note">
+                  <h3>Current Direction</h3>
+                  <p className="leading-8 text-[rgba(52,48,45,.66)]">
+                    Applied AI, AI product evaluation, and digital humanities workflows: systems that can be inspected, evaluated, and made useful for people who need to think with data rather than simply receive an answer.
+                  </p>
+                </article>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function CV({ visible }) {
+        return (
+          <section className={`section-panel ${visible ? "is-visible" : ""}`} id="cv">
+            <div className="section-inner">
+              <SectionHeading index="06" title="CV" description="正式履历中保留公司名称；其他案例页保持匿名化。" />
+              <div className="cv-list">
+                <h3>Profile Dossier</h3>
+                <div className="timeline">
+                  <article>
+                    <time>2014-2018</time>
+                    <p><strong>Shanghai Maritime University</strong>BSc in Mathematics and Applied Mathematics + Dual Degree in Accounting.</p>
+                  </article>
+                  <article>
+                    <time>2018-2023</time>
+                    <p><strong>Shanghai Analytics Practice</strong>Five years of professional data analytics experience at CMB Ecommerce, Ping An OneCard, and Dongfang News.</p>
+                  </article>
+                  <article>
+                    <time>2023-2025</time>
+                    <p><strong>Uppsala University, Sweden</strong>MSc in Data Science, with NAISS/Alvis GPU cluster research.</p>
+                  </article>
+                  <article>
+                    <time>Now</time>
+                    <p><strong>Direction</strong>Applied AI, AI product evaluation, and digital humanities workflows.</p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function App() {
+        const [language, setLanguage] = useState("en");
+        const [active, setActive] = useState("home");
+
+        useEffect(() => {
+          if (active === "home") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
+          const target = document.getElementById(active);
+          if (target) window.setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 40);
+        }, [active]);
+
+        return (
+          <div className="archive-shell">
+            <Topbar language={language} setLanguage={setLanguage} active={active} setActive={setActive} />
+            <main>
+              <Hero language={language} active={active} setActive={setActive} />
+              <AIProducts visible={active === "ai-products"} />
+              <Research visible={active === "research"} />
+              <ProfessionalWork visible={active === "data-work"} />
+              <LifeArchive visible={active === "life-notes"} />
+              <About visible={active === "about"} />
+              <CV visible={active === "cv"} />
+            </main>
+            <footer className="site-footer">
+              <span>The Archive of Li Li</span>
+              <span>Fading Pastel Archive / 数字档案馆</span>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
   </body>
 </html>
