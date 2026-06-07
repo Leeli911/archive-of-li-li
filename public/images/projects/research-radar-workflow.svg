@@ -1,0 +1,62 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="radarBg" x1="0" y1="0" x2="1200" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4EFE4"/>
+      <stop offset="0.52" stop-color="#FAF7F0"/>
+      <stop offset="1" stop-color="#E8EFE7"/>
+    </linearGradient>
+    <filter id="cardShadow" x="52" y="54" width="1096" height="650" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="26" flood-color="#4A3D30" flood-opacity="0.15"/>
+    </filter>
+    <pattern id="scanGrid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0H0V56" stroke="#6D7969" stroke-opacity="0.1" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="760" fill="url(#radarBg)"/>
+  <g filter="url(#cardShadow)">
+    <rect x="84" y="70" width="1032" height="620" rx="34" fill="#FCF9F2"/>
+  </g>
+  <rect x="84" y="70" width="1032" height="620" rx="34" fill="url(#scanGrid)"/>
+
+  <text x="132" y="132" fill="#35312D" font-size="36" font-weight="800">Research Radar</text>
+  <text x="134" y="166" fill="#64745F" font-size="17" letter-spacing="2">PAPERS -> CARDS -> WEEKLY SYNTHESIS -> DIRECTION SEEDS</text>
+
+  <g transform="translate(170 210)">
+    <circle cx="250" cy="230" r="182" fill="#EEF3EA" stroke="#8FA58A" stroke-opacity="0.42" stroke-width="2"/>
+    <circle cx="250" cy="230" r="132" stroke="#8FA58A" stroke-opacity="0.32" stroke-width="2"/>
+    <circle cx="250" cy="230" r="82" stroke="#8FA58A" stroke-opacity="0.26" stroke-width="2"/>
+    <path d="M250 48V412M68 230H432M121 101L379 359M379 101L121 359" stroke="#8FA58A" stroke-opacity="0.2" stroke-width="2"/>
+    <path d="M250 230L395 117" stroke="#C6816D" stroke-width="6" stroke-linecap="round"/>
+    <path d="M250 230L344 368" stroke="#94ABB5" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="395" cy="117" r="13" fill="#C6816D"/>
+    <circle cx="344" cy="368" r="11" fill="#94ABB5"/>
+    <circle cx="168" cy="148" r="11" fill="#E7C878"/>
+    <circle cx="138" cy="294" r="10" fill="#8FA58A"/>
+    <text x="170" y="238" fill="#35312D" font-size="28" font-weight="800">Subgroup</text>
+    <text x="172" y="273" fill="#35312D" font-size="28" font-weight="800">Reliability</text>
+  </g>
+
+  <g>
+    <rect x="606" y="222" width="418" height="72" rx="18" fill="#142027"/>
+    <text x="634" y="252" fill="#F8F0E3" font-size="22" font-weight="800">1. Source Curation</text>
+    <text x="634" y="278" fill="#AFC8C6" font-size="15">papers, labs, PhD positions</text>
+
+    <rect x="606" y="318" width="418" height="72" rx="18" fill="#F8F0E3" stroke="#35312D" stroke-opacity="0.12"/>
+    <text x="634" y="348" fill="#35312D" font-size="22" font-weight="800">2. Daily Screening</text>
+    <text x="634" y="374" fill="#6A6259" font-size="15">exactly 3 papers, no generic hype</text>
+
+    <rect x="606" y="414" width="418" height="72" rx="18" fill="#F8F0E3" stroke="#35312D" stroke-opacity="0.12"/>
+    <text x="634" y="444" fill="#35312D" font-size="22" font-weight="800">3. Research Function Labels</text>
+    <text x="634" y="470" fill="#6A6259" font-size="15">Diagnosis | Explanation | Monitoring</text>
+
+    <rect x="606" y="510" width="418" height="72" rx="18" fill="#F8F0E3" stroke="#35312D" stroke-opacity="0.12"/>
+    <text x="634" y="540" fill="#35312D" font-size="22" font-weight="800">4. Weekly Synthesis</text>
+    <text x="634" y="566" fill="#6A6259" font-size="15">top directions, open questions, deep-reading queue</text>
+  </g>
+
+  <path d="M1058 258C1084 292 1084 512 1058 546" stroke="#8FA58A" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1058 258L1044 278M1058 546L1044 526" stroke="#8FA58A" stroke-width="4" stroke-linecap="round"/>
+
+  <rect x="138" y="612" width="906" height="44" rx="15" fill="#142027"/>
+  <text x="166" y="640" fill="#F8F0E3" font-size="17">research identity: subgroup-aware reliability diagnosis under distribution shift</text>
+</svg>

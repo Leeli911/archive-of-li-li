@@ -1,125 +1,199 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const pollenColors = [
   "rgba(236, 198, 124, 0.34)",
   "rgba(144, 172, 142, 0.28)",
   "rgba(246, 242, 233, 0.42)",
-  "rgba(214, 140, 120, 0.2)",
-  "rgba(143, 170, 184, 0.22)",
+  "rgba(214, 140, 120, 0.22)",
+  "rgba(143, 170, 184, 0.24)",
 ];
+
+const clickableSelector = [
+  "a",
+  "button",
+  "[role='button']",
+  "input",
+  "select",
+  "textarea",
+  "summary",
+  ".nav-item",
+  ".flower-node",
+  ".archive-branch",
+  ".clickable",
+].join(",");
+
+const maxPollen = 16;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function LilyCursor() {
-  const [position, setPosition] = useState({ x: -80, y: -80 });
-  const [isBlooming, setIsBlooming] = useState(false);
-  const [particles, setParticles] = useState([]);
-  const lastPointRef = useRef(null);
-  const lastEmitRef = useRef(0);
+function LilyCursor({ waiting = false }) {
+  const cursorRef = useRef(null);
+  const pollenLayerRef = useRef(null);
+  const timeoutsRef = useRef([]);
 
   useEffect(() => {
-    const addParticles = (event, isClick = false) => {
-      const now = Date.now();
-      const lastPoint = lastPointRef.current;
-      const distance = lastPoint
-        ? Math.hypot(event.clientX - lastPoint.x, event.clientY - lastPoint.y)
-        : 0;
-      const count = isClick
-        ? 18
-        : Math.min(7, Math.max(2, Math.round(distance / 18)));
+    cursorRef.current?.classList.toggle("waiting", waiting);
+  }, [waiting]);
 
-      const newParticles = Array.from({ length: count }, (_, index) => ({
-        id: `${now}-${index}-${Math.random()}`,
-        x: event.clientX + randomBetween(-10, 10),
-        y: event.clientY + randomBetween(-10, 10),
-        size: isClick ? randomBetween(8, 18) : randomBetween(3, 9),
-        color: pollenColors[Math.floor(Math.random() * pollenColors.length)],
-        driftX: randomBetween(-22, 22),
-        driftY: randomBetween(-34, 8),
-        rotate: randomBetween(-28, 28),
-        duration: isClick ? randomBetween(2400, 3600) : randomBetween(8000, 15000),
-        type: isClick && index < 5 ? "petal" : "dust",
-        createdAt: now,
-      }));
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    const pollenLayer = pollenLayerRef.current;
+    if (!cursor || !pollenLayer) return undefined;
 
-      setParticles((current) => [...current.slice(-120), ...newParticles]);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    let frame = null;
+    let targetX = -80;
+    let targetY = -80;
+    let currentX = -80;
+    let currentY = -80;
+    let pollenCount = 0;
+    let lastTrailX = -80;
+    let lastTrailY = -80;
+    let lastTrailAt = 0;
+
+    if (hoverCapable) {
+      document.body.classList.add("custom-cursor");
+    }
+
+    const updateCursor = () => {
+      currentX += (targetX - currentX) * 0.34;
+      currentY += (targetY - currentY) * 0.34;
+      cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-0.55rem, -0.45rem) rotate(-10deg)`;
+
+      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2) {
+        frame = window.requestAnimationFrame(updateCursor);
+      } else {
+        frame = null;
+      }
+    };
+
+    const clearTimer = (timer) => {
+      timeoutsRef.current = timeoutsRef.current.filter((item) => item !== timer);
+    };
+
+    const addPollen = (x, y, burst = false) => {
+      if (reducedMotion || !hoverCapable || pollenCount >= maxPollen) return;
+
+      const count = Math.min(burst ? 6 : 1, maxPollen - pollenCount);
+      for (let index = 0; index < count; index += 1) {
+        const particle = document.createElement("span");
+        const size = burst ? randomBetween(4, 9) : randomBetween(2.5, 5.5);
+
+        particle.className = `pollen-particle ${burst && index < 3 ? "pollen-petal" : "pollen-dust"}`;
+        particle.style.setProperty("--pollen-x", `${x + randomBetween(-7, 7)}px`);
+        particle.style.setProperty("--pollen-y", `${y + randomBetween(-7, 7)}px`);
+        particle.style.setProperty("--pollen-size", `${size}px`);
+        particle.style.setProperty(
+          "--pollen-color",
+          pollenColors[Math.floor(Math.random() * pollenColors.length)],
+        );
+        particle.style.setProperty("--pollen-drift-x", `${randomBetween(-18, 18)}px`);
+        particle.style.setProperty("--pollen-drift-y", `${randomBetween(-26, 10)}px`);
+        particle.style.setProperty("--pollen-rotate", `${randomBetween(-34, 34)}deg`);
+        particle.style.setProperty("--pollen-duration", `${burst ? randomBetween(520, 760) : randomBetween(900, 1500)}ms`);
+
+        pollenCount += 1;
+        pollenLayer.appendChild(particle);
+
+        particle.addEventListener(
+          "animationend",
+          () => {
+            pollenCount = Math.max(0, pollenCount - 1);
+            particle.remove();
+          },
+          { once: true },
+        );
+      }
     };
 
     const handleMove = (event) => {
-      const now = Date.now();
-      setPosition({ x: event.clientX, y: event.clientY });
+      targetX = event.clientX;
+      targetY = event.clientY;
 
-      if (now - lastEmitRef.current > 34) {
-        addParticles(event);
-        lastEmitRef.current = now;
+      if (!frame) {
+        frame = window.requestAnimationFrame(updateCursor);
       }
 
-      lastPointRef.current = { x: event.clientX, y: event.clientY };
+      const now = performance.now();
+      const distance = Math.hypot(event.clientX - lastTrailX, event.clientY - lastTrailY);
+      if (distance > 18 && now - lastTrailAt > 90) {
+        addPollen(event.clientX, event.clientY);
+        lastTrailX = event.clientX;
+        lastTrailY = event.clientY;
+        lastTrailAt = now;
+      }
     };
 
-    const handleDown = (event) => {
-      setIsBlooming(true);
-      addParticles(event, true);
-      window.setTimeout(() => setIsBlooming(false), 520);
+    const handlePointerDown = () => {
+      cursor.classList.add("active");
     };
 
-    const prune = window.setInterval(() => {
-      const now = Date.now();
-      setParticles((current) =>
-        current.filter((particle) => now - particle.createdAt < particle.duration),
-      );
-    }, 1200);
+    const handlePointerUp = () => {
+      cursor.classList.remove("active");
+    };
 
-    window.addEventListener("pointermove", handleMove);
-    window.addEventListener("pointerdown", handleDown);
+    const handleDoubleClick = (event) => {
+      cursor.classList.add("double-click");
+      addPollen(event.clientX, event.clientY, true);
+
+      const timer = window.setTimeout(() => {
+        cursor.classList.remove("double-click");
+        clearTimer(timer);
+      }, 460);
+      timeoutsRef.current.push(timer);
+    };
+
+    const handlePointerOver = (event) => {
+      const target = event.target;
+      const isClickable = target instanceof Element && target.closest(clickableSelector);
+      cursor.classList.toggle("hover-link", Boolean(isClickable));
+    };
+
+    window.addEventListener("pointermove", handleMove, { passive: true });
+    window.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    window.addEventListener("pointerup", handlePointerUp, { passive: true });
+    window.addEventListener("dblclick", handleDoubleClick, { passive: true });
+    window.addEventListener("pointerover", handlePointerOver, { passive: true });
 
     return () => {
-      window.clearInterval(prune);
+      document.body.classList.remove("custom-cursor");
       window.removeEventListener("pointermove", handleMove);
-      window.removeEventListener("pointerdown", handleDown);
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("dblclick", handleDoubleClick);
+      window.removeEventListener("pointerover", handlePointerOver);
+      if (frame) window.cancelAnimationFrame(frame);
+      timeoutsRef.current.forEach((timer) => window.clearTimeout(timer));
+      timeoutsRef.current = [];
+      pollenLayer.replaceChildren();
     };
   }, []);
 
   return (
     <>
       <div
-        className={`lily-cursor ${isBlooming ? "is-blooming" : ""}`}
-        style={{
-          "--cursor-x": `${position.x}px`,
-          "--cursor-y": `${position.y}px`,
-        }}
+        ref={cursorRef}
+        className="flower-cursor lily-cursor"
         aria-hidden="true"
       >
-        <svg viewBox="-20 -22 48 52" role="presentation">
-          <path className="lily-petal petal-left" d="M4 10C-7 0-9-12-3-20C6-10 9-1 4 10Z" />
-          <path className="lily-petal petal-center" d="M4 10C1-5 6-17 16-21C18-8 14 3 4 10Z" />
-          <path className="lily-petal petal-right" d="M4 10C10-3 20-9 28-6C21 4 14 10 4 10Z" />
-          <path className="lily-stem" d="M4 10C1 18-2 25-9 31" />
-          <path className="lily-line" d="M4 10C8 4 9-4 10-13" />
-          <circle className="lily-pollen-dot" cx="4" cy="9" r="1.6" />
+        <svg viewBox="-24 -25 58 58" role="presentation">
+          <g className="cursor-bloom">
+            <ellipse className="cursor-petal petal-left" cx="-3" cy="-6" rx="7" ry="17" transform="rotate(-36 -3 -6)" />
+            <ellipse className="cursor-petal petal-center" cx="4" cy="-9" rx="7.5" ry="18" transform="rotate(4 4 -9)" />
+            <ellipse className="cursor-petal petal-right" cx="12" cy="-5" rx="6.6" ry="16" transform="rotate(38 12 -5)" />
+            <ellipse className="cursor-petal petal-low-left" cx="1" cy="4" rx="6.8" ry="14" transform="rotate(-72 1 4)" />
+            <ellipse className="cursor-petal petal-low-right" cx="9" cy="4" rx="6.8" ry="14" transform="rotate(72 9 4)" />
+            <circle className="cursor-core" cx="5" cy="0" r="3.1" />
+          </g>
+          <path className="lily-stem" d="M5 4C2 13-3 22-12 31" />
+          <path className="lily-line" d="M5 2C8-4 8-10 8-17" />
         </svg>
       </div>
 
-      <div className="pollen-layer" aria-hidden="true">
-        {particles.map((particle) => (
-          <span
-            key={particle.id}
-            className={`pollen-particle pollen-${particle.type}`}
-            style={{
-              "--pollen-x": `${particle.x}px`,
-              "--pollen-y": `${particle.y}px`,
-              "--pollen-size": `${particle.size}px`,
-              "--pollen-color": particle.color,
-              "--pollen-drift-x": `${particle.driftX}px`,
-              "--pollen-drift-y": `${particle.driftY}px`,
-              "--pollen-rotate": `${particle.rotate}deg`,
-              "--pollen-duration": `${particle.duration}ms`,
-            }}
-          />
-        ))}
-      </div>
+      <div ref={pollenLayerRef} className="pollen-layer" aria-hidden="true" />
     </>
   );
 }

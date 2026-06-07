@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">多阶段亲属关系识别框架</title>
+  <desc id="desc">展示输入人脸对、孪生网络相似度学习、亲属关系判断、关系类型分类与评估层的流程图。</desc>
+  <defs>
+    <linearGradient id="inkBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f6f88"/>
+      <stop offset="1" stop-color="#6b9aa8"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#5d5147" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="760" fill="#fbf8f0"/>
+  <path d="M86 634C218 564 318 572 454 622c168 61 305 70 468-18 70-38 130-55 205-47" fill="none" stroke="#8aa4aa" stroke-opacity="0.2" stroke-width="2"/>
+
+  <g transform="translate(72 72)">
+    <text x="0" y="0" fill="#38342f" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" font-weight="700">亲属关系识别</text>
+    <text x="2" y="38" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="18">人脸配对 · 孪生网络 · 关系类型分类</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="82" y="168" width="226" height="336" rx="18" fill="#fffdf6" fill-opacity="0.78" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="112" y="212" fill="#38342f" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="700">输入人脸对</text>
+    <g transform="translate(125 246)">
+      <circle cx="42" cy="42" r="42" fill="#e6d6c3" stroke="#514941" stroke-opacity="0.16"/>
+      <path d="M16 78c9-25 43-25 52 0" fill="none" stroke="#7d6758" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="29" cy="38" r="4" fill="#514941"/>
+      <circle cx="55" cy="38" r="4" fill="#514941"/>
+      <path d="M28 56c10 8 20 8 30 0" fill="none" stroke="#514941" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(125 354)">
+      <circle cx="42" cy="42" r="42" fill="#d8e5e6" stroke="#514941" stroke-opacity="0.16"/>
+      <path d="M15 77c11-24 43-24 54 0" fill="none" stroke="#567f89" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="29" cy="38" r="4" fill="#514941"/>
+      <circle cx="55" cy="38" r="4" fill="#514941"/>
+      <path d="M29 55c8 6 18 6 26 0" fill="none" stroke="#514941" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <text x="112" y="474" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="18">两张对齐人脸</text>
+  </g>
+
+  <g fill="none" stroke="#71675e" stroke-opacity="0.38" stroke-width="2.4">
+    <path d="M326 336H407"/>
+    <path d="M610 336H683"/>
+    <path d="M882 336H948"/>
+  </g>
+  <g fill="#71675e" fill-opacity="0.55">
+    <path d="M407 336l-14-8v16z"/>
+    <path d="M683 336l-14-8v16z"/>
+    <path d="M948 336l-14-8v16z"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="420" y="194" width="178" height="284" rx="20" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="452" y="238" fill="#38342f" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="700">阶段 1</text>
+    <rect x="454" y="274" width="110" height="74" rx="16" fill="url(#inkBlue)" opacity="0.88"/>
+    <text x="476" y="318" fill="#fffdf6" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="18" font-weight="700">孪生网络</text>
+    <path d="M468 385h82" stroke="#2f6f88" stroke-width="8" stroke-linecap="round" opacity="0.35"/>
+    <path d="M468 414h54" stroke="#2f6f88" stroke-width="8" stroke-linecap="round" opacity="0.2"/>
+    <text x="452" y="446" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="15">相似度学习</text>
+    <text x="452" y="468" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="15">特征距离</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="700" y="194" width="168" height="284" rx="20" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="733" y="238" fill="#38342f" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="700">阶段 2</text>
+    <circle cx="784" cy="311" r="54" fill="#f1d8d2" stroke="#b65f67" stroke-opacity="0.38"/>
+    <path d="M754 313l20 20 42-50" fill="none" stroke="#b65f67" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="735" y="397" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="15">是否存在亲属关系</text>
+    <text x="735" y="430" fill="#69615a" font-family="Menlo, Consolas, monospace" font-size="14">BCE + threshold</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="964" y="194" width="168" height="284" rx="20" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="997" y="238" fill="#38342f" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="700">阶段 3</text>
+    <g transform="translate(1000 278)">
+      <rect width="96" height="22" rx="8" fill="#b65f67" opacity="0.8"/>
+      <rect y="38" width="74" height="22" rx="8" fill="#2f6f88" opacity="0.82"/>
+      <rect y="76" width="86" height="22" rx="8" fill="#d0a85d" opacity="0.8"/>
+      <rect y="114" width="48" height="22" rx="8" fill="#8fa0a4" opacity="0.8"/>
+    </g>
+    <text x="997" y="426" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="15">分类具体</text>
+    <text x="997" y="448" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="15">关系类型</text>
+  </g>
+
+  <g transform="translate(118 566)">
+    <rect x="0" y="0" width="966" height="92" rx="18" fill="#fffdf6" fill-opacity="0.58" stroke="#534c44" stroke-opacity="0.1"/>
+    <text x="32" y="38" fill="#38342f" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="16" font-weight="700">评估层</text>
+    <text x="32" y="66" fill="#69615a" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="18">按亲属类别统计 precision / recall / F1 · 混淆矩阵 · 阈值敏感性</text>
+    <circle cx="858" cy="46" r="20" fill="#d8e5e6" stroke="#567f89" stroke-opacity="0.42"/>
+    <circle cx="908" cy="46" r="20" fill="#f1d8d2" stroke="#b65f67" stroke-opacity="0.42"/>
+  </g>
+</svg>

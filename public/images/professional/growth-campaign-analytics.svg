@@ -1,0 +1,22 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" rx="28" fill="#fbf7ee"/>
+  <rect x="82" y="92" width="556" height="526" rx="34" fill="#fffaf1" stroke="#d7cec0" stroke-width="2"/>
+  <text x="122" y="164" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">Growth and campaign analytics</text>
+  <text x="122" y="202" fill="#6d655d" font-family="Inter, Arial, sans-serif" font-size="16">Channel ROI, retention, ad revenue, SMS reactivation, daily monitoring</text>
+  <path d="M132 494C176 440 212 420 258 426C316 434 332 326 394 320C456 314 476 240 592 222" stroke="#8fa58a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M132 520H592" stroke="#d7cec0" stroke-width="2"/>
+  <path d="M132 424H592" stroke="#d7cec0" stroke-width="2"/>
+  <path d="M132 328H592" stroke="#d7cec0" stroke-width="2"/>
+  <g transform="translate(128 250)">
+    <rect width="170" height="90" rx="22" fill="#edf0e4"/>
+    <text x="85" y="42" text-anchor="middle" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">+37%</text>
+    <text x="85" y="66" text-anchor="middle" fill="#6d655d" font-family="Inter, Arial, sans-serif" font-size="13">ad revenue</text>
+  </g>
+  <g transform="translate(330 250)">
+    <rect width="220" height="90" rx="22" fill="#e7eef1"/>
+    <text x="110" y="42" text-anchor="middle" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">10% -> 28%</text>
+    <text x="110" y="66" text-anchor="middle" fill="#6d655d" font-family="Inter, Arial, sans-serif" font-size="13">SMS click-through rate</text>
+  </g>
+  <circle cx="394" cy="320" r="14" fill="#c6816d"/>
+  <circle cx="592" cy="222" r="14" fill="#8fa58a"/>
+</svg>

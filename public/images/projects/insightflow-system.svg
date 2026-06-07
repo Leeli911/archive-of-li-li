@@ -1,0 +1,70 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1200" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6F0E4"/>
+      <stop offset="0.48" stop-color="#FBF8F1"/>
+      <stop offset="1" stop-color="#EDE2D4"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="124" y1="118" x2="1050" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22313A"/>
+      <stop offset="1" stop-color="#11181E"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="158" y1="365" x2="1022" y2="365" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C6816D"/>
+      <stop offset="0.52" stop-color="#8FA58A"/>
+      <stop offset="1" stop-color="#94ABB5"/>
+    </linearGradient>
+    <filter id="softShadow" x="70" y="80" width="1060" height="612" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="26" stdDeviation="28" flood-color="#4A3D30" flood-opacity="0.18"/>
+    </filter>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" stroke="#5F6C71" stroke-opacity="0.12" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="760" rx="0" fill="url(#paper)"/>
+  <rect x="58" y="48" width="1084" height="664" rx="34" fill="#FBF8F1" stroke="#35312D" stroke-opacity="0.1"/>
+  <g filter="url(#softShadow)">
+    <rect x="108" y="96" width="984" height="548" rx="28" fill="url(#panel)"/>
+    <rect x="108" y="96" width="984" height="548" rx="28" fill="url(#grid)"/>
+  </g>
+
+  <text x="152" y="154" fill="#35312D" font-size="34" font-weight="700">InsightFlow Analytics Copilot</text>
+  <text x="154" y="186" fill="#64745F" fill-opacity="0.9" font-size="17" letter-spacing="2">QUESTION -> INTENT -> SQL -> ANALYSIS</text>
+
+  <rect x="150" y="222" width="324" height="152" rx="18" fill="#F8F0E3" fill-opacity="0.96"/>
+  <text x="178" y="258" fill="#3B342E" font-size="18">user question</text>
+  <text x="178" y="302" fill="#2C2926" font-size="30" font-weight="700">Why did Chaoyang</text>
+  <text x="178" y="338" fill="#2C2926" font-size="30" font-weight="700">GMV drop this week?</text>
+
+  <rect x="520" y="220" width="524" height="154" rx="18" fill="#0E1318" stroke="#94ABB5" stroke-opacity="0.38"/>
+  <text x="548" y="257" fill="#94ABB5" font-size="17">generated_sql.sql</text>
+  <text x="548" y="294" fill="#F8F0E3" font-size="21">SELECT date, district, SUM(gmv) AS gmv</text>
+  <text x="548" y="325" fill="#F8F0E3" font-size="21">FROM commerce_metric_fact</text>
+  <text x="548" y="356" fill="#C6816D" font-size="21">WHERE city=Beijing AND district=Chaoyang;</text>
+
+  <path d="M169 448H1010" stroke="url(#flow)" stroke-width="7" stroke-linecap="round"/>
+  <g font-size="17" font-weight="700">
+    <circle cx="178" cy="448" r="22" fill="#C6816D"/>
+    <text x="141" y="504" fill="#5C544C">Input</text>
+    <circle cx="380" cy="448" r="22" fill="#E7C878"/>
+    <text x="339" y="504" fill="#5C544C">Intent</text>
+    <circle cx="594" cy="448" r="22" fill="#8FA58A"/>
+    <text x="569" y="504" fill="#5C544C">SQL</text>
+    <circle cx="808" cy="448" r="22" fill="#94ABB5"/>
+    <text x="765" y="504" fill="#5C544C">pandas</text>
+    <circle cx="1010" cy="448" r="22" fill="#D7A08F"/>
+    <text x="960" y="504" fill="#5C544C">Diagnosis</text>
+  </g>
+
+  <rect x="150" y="548" width="238" height="58" rx="14" fill="#F8F0E3" fill-opacity="0.92"/>
+  <text x="174" y="584" fill="#2C2926" font-size="24" font-weight="700">Metric: GMV</text>
+  <rect x="418" y="548" width="238" height="58" rx="14" fill="#F8F0E3" fill-opacity="0.92"/>
+  <text x="442" y="584" fill="#2C2926" font-size="24" font-weight="700">WoW: -10.0%</text>
+  <rect x="686" y="548" width="358" height="58" rx="14" fill="#F8F0E3" fill-opacity="0.92"/>
+  <text x="710" y="584" fill="#2C2926" font-size="24" font-weight="700">Main driver: order decline</text>
+
+  <rect x="888" y="126" width="156" height="54" rx="15" fill="#E7C878"/>
+  <text x="916" y="160" fill="#2C2926" font-size="18" font-weight="700">22 QUERY EVAL</text>
+  <path d="M156 408C258 386 330 394 410 410C505 429 573 390 668 405C756 419 818 387 902 400C958 409 994 400 1034 387" stroke="#F8F0E3" stroke-opacity="0.34" stroke-width="2" stroke-linecap="round"/>
+</svg>

@@ -38,3 +38,49 @@ http://localhost:5173
 - `public/images/drawings/`
 
 然后在对应的 `src/data/*.js` 文件里替换 `image` 或 `src` 路径。
+
+## 发布到 GitHub Pages
+
+这个仓库已经包含 GitHub Actions 配置：
+
+- `.github/workflows/deploy.yml`
+
+推荐流程：
+
+```bash
+cd /Users/apple/Documents/mywebsite/archive-of-li-li
+git add .
+git commit -m "Prepare portfolio website for publishing"
+git push origin main
+```
+
+然后在 GitHub 仓库里打开：
+
+```text
+Settings -> Pages -> Build and deployment -> Source -> GitHub Actions
+```
+
+以后更新网页时，只需要修改本地内容并再次提交、push：
+
+```bash
+cd /Users/apple/Documents/mywebsite/archive-of-li-li
+git add .
+git commit -m "Update portfolio content"
+git push
+```
+
+当前远端仓库是：
+
+```text
+https://github.com/Leeli911/archive-of-li-li.git
+```
+
+按当前仓库名，发布地址通常是：
+
+```text
+https://leeli911.github.io/archive-of-li-li/
+```
+
+## 发布前状态
+
+`生活札记` 已设置为公开发布时的待维护状态。原始照片数据仍保留在 `src/data/lifeArchive.js`，后续整理好照片后可以恢复照片墙展示。

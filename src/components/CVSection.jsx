@@ -1,8 +1,28 @@
 import SectionIntro from "./SectionIntro";
 import { cv } from "../data/cv";
 
+function RelatedLinks({ links = [], language }) {
+  if (!links.length) return null;
+
+  const isZh = language === "zh";
+
+  return (
+    <div className="cv-related-links">
+      <span>{isZh ? "相关案例" : "Related cases"}</span>
+      <div>
+        {links.map((link) => (
+          <a key={link.href} href={link.href}>
+            {isZh ? link.labelZh || link.label : link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CVSection({ language = "en" }) {
   const isZh = language === "zh";
+  const hasDownload = cv.downloadHref && cv.downloadHref !== "#";
 
   return (
     <section id="cv" className="archive-section cv-section">
@@ -23,18 +43,37 @@ function CVSection({ language = "en" }) {
             <h3>Li Li · 李莉</h3>
             <span>
               {isZh
-                ? "数据分析 · AI 产品 · 研究工作流"
-                : "Data Analytics · AI Products · Research Workflows"}
+                ? "数据分析 · AI / 数据产品 · 机器学习评估"
+                : "Data Analytics · AI / Data Products · ML Evaluation"}
             </span>
+            <div className="cv-contact-row" aria-label={isZh ? "联系方式" : "Contact links"}>
+              {cv.contact.map((contact) => (
+                <a key={contact.label} href={contact.href}>
+                  <strong>{contact.label}</strong>
+                  <span>{contact.value}</span>
+                </a>
+              ))}
+            </div>
           </div>
-          <a
-            href={cv.downloadHref}
-            onClick={(event) => event.preventDefault()}
-            aria-label="Download CV placeholder link"
-          >
-            {isZh ? "下载履历" : "Download CV"}
-            <small>{isZh ? "PDF 链接占位" : "PDF link placeholder"}</small>
-          </a>
+          {hasDownload && (
+            <a href={cv.downloadHref}>
+              {isZh ? "下载履历" : "Download CV"}
+              <small>{isZh ? "PDF 文件" : "PDF file"}</small>
+            </a>
+          )}
+        </div>
+
+        <div className="cv-summary-grid">
+          <div className="cv-block">
+            <h4>{isZh ? "个人简介" : "Profile"} <span>{isZh ? "Profile" : "个人简介"}</span></h4>
+            <p className="cv-paragraph">{isZh ? cv.profileZh : cv.profile}</p>
+          </div>
+          <div className="cv-block">
+            <h4>{isZh ? "研究兴趣" : "Research Interests"} <span>{isZh ? "Research Interests" : "研究兴趣"}</span></h4>
+            <p className="cv-paragraph">
+              {isZh ? cv.researchInterestsZh : cv.researchInterests}
+            </p>
+          </div>
         </div>
 
         <div className="cv-block">
@@ -53,6 +92,11 @@ function CVSection({ language = "en" }) {
                 <aside>
                   <span>{item.period}</span>
                   <small>{isZh ? item.locationZh || item.location : item.location}</small>
+                  {item.website && (
+                    <a href={item.website} target="_blank" rel="noreferrer">
+                      {isZh ? "官网" : "Website"}
+                    </a>
+                  )}
                 </aside>
               </article>
             ))}
@@ -75,10 +119,16 @@ function CVSection({ language = "en" }) {
                       <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
+                  <RelatedLinks links={item.relatedCases} language={language} />
                 </div>
                 <aside>
                   <span>{item.period}</span>
                   <small>{isZh ? item.locationZh || item.location : item.location}</small>
+                  {item.website && (
+                    <a href={item.website} target="_blank" rel="noreferrer">
+                      {isZh ? "官网" : "Website"}
+                    </a>
+                  )}
                 </aside>
               </article>
             ))}
@@ -103,8 +153,41 @@ function CVSection({ language = "en" }) {
             <div className="cv-project-list">
               {cv.selectedProjects.map((project) => (
                 <article key={project.title}>
-                  <h5>{isZh ? project.titleZh || project.title : project.title}</h5>
+                  {project.href ? (
+                    <a className="cv-project-link" href={project.href}>
+                      <h5>{isZh ? project.titleZh || project.title : project.title}</h5>
+                    </a>
+                  ) : (
+                    <h5>{isZh ? project.titleZh || project.title : project.title}</h5>
+                  )}
                   <p>{isZh ? project.detailZh || project.detail : project.detail}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="cv-grid">
+          <div className="cv-block">
+            <h4>{isZh ? "校园实践" : "Academic Leadership"} <span>{isZh ? "Academic Leadership" : "校园实践"}</span></h4>
+            <div className="cv-project-list">
+              {cv.leadership.map((item) => (
+                <article key={item.title}>
+                  <h5>{isZh ? item.titleZh || item.title : item.title}</h5>
+                  <small>{item.period}</small>
+                  <p>{isZh ? item.detailZh || item.detail : item.detail}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="cv-block">
+            <h4>{isZh ? "语言" : "Languages"} <span>{isZh ? "Languages" : "语言"}</span></h4>
+            <div className="cv-skill-list">
+              {cv.languages.map((item) => (
+                <article key={item.label}>
+                  <h5>{isZh ? item.labelZh || item.label : item.label}</h5>
+                  <p>{isZh ? item.levelZh || item.level : item.level}</p>
                 </article>
               ))}
             </div>

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Data-centric trustworthy machine learning audit map</title>
+  <desc id="desc">A structured research map connecting dataset profiling, subgroup reliability, shift checks, repair choices, and an auditable model report.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbf8f0"/>
+      <stop offset="0.52" stop-color="#efe7d6"/>
+      <stop offset="1" stop-color="#dfe9e8"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#236777"/>
+      <stop offset="1" stop-color="#7aa3a5"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c09055"/>
+      <stop offset="1" stop-color="#e1c38e"/>
+    </linearGradient>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a9545e"/>
+      <stop offset="1" stop-color="#d9968c"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#5d5147" flood-opacity="0.13"/>
+    </filter>
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M50 0H0v50" fill="none" stroke="#514941" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="760" fill="#fbf8f0"/>
+  <path d="M122 136c154 86 288 94 425 24 165-84 300-66 483 70" fill="none" stroke="#8aa4aa" stroke-opacity="0.18" stroke-width="2"/>
+
+  <g transform="translate(76 72)">
+    <text x="0" y="0" fill="#38342f" font-family="Georgia, 'Times New Roman', serif" font-size="48">Data-Centric Reliability Diagnostics</text>
+    <text x="2" y="38" fill="#69615a" font-family="Menlo, Consolas, monospace" font-size="18" letter-spacing="2">ONGOING DIRECTION · TRUSTWORTHY ML AUDIT</text>
+  </g>
+
+  <g transform="translate(98 184)" filter="url(#shadow)">
+    <rect width="226" height="320" rx="22" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="30" y="48" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="15" letter-spacing="1.4">DATASET PROFILE</text>
+    <g transform="translate(34 92)">
+      <rect width="158" height="26" rx="7" fill="url(#teal)" opacity="0.8"/>
+      <rect y="48" width="118" height="26" rx="7" fill="url(#sand)" opacity="0.9"/>
+      <rect y="96" width="146" height="26" rx="7" fill="url(#coral)" opacity="0.78"/>
+      <rect y="144" width="86" height="26" rx="7" fill="#8fa0a4" opacity="0.8"/>
+    </g>
+    <text x="30" y="276" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">missingness, imbalance,</text>
+    <text x="30" y="302" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">distribution shift</text>
+  </g>
+
+  <g transform="translate(388 184)" filter="url(#shadow)">
+    <rect width="226" height="320" rx="22" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="30" y="48" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="15" letter-spacing="1.4">SUBGROUP RELIABILITY</text>
+    <g transform="translate(42 98)">
+      <circle cx="70" cy="70" r="66" fill="#e6eef0" stroke="#236777" stroke-opacity="0.35"/>
+      <path d="M70 14a56 56 0 1 1-44 91" fill="none" stroke="#236777" stroke-width="17" stroke-linecap="round"/>
+      <path d="M70 14a56 56 0 0 1 54 41" fill="none" stroke="#a9545e" stroke-width="17" stroke-linecap="round"/>
+      <circle cx="70" cy="70" r="28" fill="#fffdf6"/>
+      <text x="55" y="76" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="18">Δ</text>
+    </g>
+    <text x="30" y="276" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">worst-group error,</text>
+    <text x="30" y="302" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">residual patterns</text>
+  </g>
+
+  <g transform="translate(678 184)" filter="url(#shadow)">
+    <rect width="226" height="320" rx="22" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="30" y="48" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="15" letter-spacing="1.4">REPAIR CHOICES</text>
+    <g transform="translate(42 92)">
+      <rect x="0" y="0" width="142" height="40" rx="12" fill="url(#sand)" opacity="0.86"/>
+      <rect x="0" y="64" width="118" height="40" rx="12" fill="url(#teal)" opacity="0.82"/>
+      <rect x="0" y="128" width="154" height="40" rx="12" fill="url(#coral)" opacity="0.75"/>
+      <path d="M22 20l14 13 27-31" fill="none" stroke="#fffdf6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 84l14 13 27-31" fill="none" stroke="#fffdf6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M24 148l14 13 27-31" fill="none" stroke="#fffdf6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="30" y="276" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">rebalance, constrain,</text>
+    <text x="30" y="302" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">monitor uncertainty</text>
+  </g>
+
+  <g transform="translate(968 184)" filter="url(#shadow)">
+    <rect width="150" height="320" rx="22" fill="#fffdf6" fill-opacity="0.82" stroke="#534c44" stroke-opacity="0.13"/>
+    <text x="28" y="48" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="15" letter-spacing="1.4">AUDIT</text>
+    <text x="28" y="72" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="15" letter-spacing="1.4">REPORT</text>
+    <g transform="translate(36 112)">
+      <rect width="78" height="120" rx="10" fill="#eaf0ef" stroke="#236777" stroke-opacity="0.25"/>
+      <path d="M18 28h42M18 54h42M18 80h28" stroke="#236777" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+      <circle cx="58" cy="98" r="12" fill="#a9545e" opacity="0.72"/>
+    </g>
+    <text x="28" y="278" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">risk</text>
+    <text x="28" y="304" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">before use</text>
+  </g>
+
+  <g fill="none" stroke="#71675e" stroke-opacity="0.38" stroke-width="2.4">
+    <path d="M334 344h44"/>
+    <path d="M624 344h44"/>
+    <path d="M914 344h44"/>
+  </g>
+  <g fill="#71675e" fill-opacity="0.55">
+    <path d="M378 344l-14-8v16z"/>
+    <path d="M668 344l-14-8v16z"/>
+    <path d="M958 344l-14-8v16z"/>
+  </g>
+
+  <g transform="translate(130 574)">
+    <rect width="940" height="94" rx="20" fill="#fffdf6" fill-opacity="0.58" stroke="#534c44" stroke-opacity="0.1"/>
+    <text x="32" y="38" fill="#38342f" font-family="Menlo, Consolas, monospace" font-size="15" letter-spacing="1.2">FROM COMPLETED WORK TO RESEARCH ROUTINE</text>
+    <text x="32" y="67" fill="#69615a" font-family="Inter, Arial, sans-serif" font-size="18">from subgroup MAE and residual diagnostics to repeatable reliability audits</text>
+  </g>
+</svg>

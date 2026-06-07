@@ -1,5 +1,6 @@
 import SectionIntro from "./SectionIntro";
 import { aboutArchive } from "../data/cv";
+import { publicAsset } from "../utils/assets";
 
 const archiveVisuals = [
   {
@@ -34,13 +35,13 @@ function AboutSection({ language = "en" }) {
       <div className="about-layout">
         <div className="drawing-collage" aria-label="Original lily river archive visual system">
           <figure className="drawing drawing-one">
-            <img src={archiveVisuals[0].src} alt={archiveVisuals[0].alt} />
+            <img src={publicAsset(archiveVisuals[0].src)} alt={archiveVisuals[0].alt} />
           </figure>
           <figure className="drawing drawing-two">
-            <img src={archiveVisuals[1].src} alt={archiveVisuals[1].alt} />
+            <img src={publicAsset(archiveVisuals[1].src)} alt={archiveVisuals[1].alt} />
           </figure>
           <figure className="drawing drawing-three">
-            <img src={archiveVisuals[2].src} alt={archiveVisuals[2].alt} />
+            <img src={publicAsset(archiveVisuals[2].src)} alt={archiveVisuals[2].alt} />
           </figure>
           <p>
             {isZh

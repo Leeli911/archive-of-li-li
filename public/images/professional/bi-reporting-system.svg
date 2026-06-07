@@ -1,0 +1,16 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" rx="28" fill="#fbf7ee"/>
+  <rect x="70" y="84" width="580" height="452" rx="32" fill="#fffaf1" stroke="#d7cec0" stroke-width="2"/>
+  <rect x="112" y="130" width="164" height="84" rx="18" fill="#edf0e4"/>
+  <rect x="300" y="130" width="208" height="84" rx="18" fill="#e7eef1"/>
+  <rect x="532" y="130" width="66" height="84" rx="18" fill="#f1e4dc"/>
+  <rect x="112" y="250" width="486" height="40" rx="20" fill="#35312d" fill-opacity=".08"/>
+  <rect x="112" y="316" width="236" height="142" rx="24" fill="#f5eccd"/>
+  <rect x="380" y="316" width="218" height="142" rx="24" fill="#edf0e4"/>
+  <path d="M142 414L190 372L240 394L314 346" stroke="#8fa58a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M412 414V372M460 414V350M508 414V386M556 414V334" stroke="#94abb5" stroke-width="18" stroke-linecap="round"/>
+  <text x="92" y="606" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">BI reporting system</text>
+  <text x="92" y="646" fill="#6d655d" font-family="Inter, Arial, sans-serif" font-size="17">GMV, net revenue, coupon cost, ROI, users, refunds</text>
+  <text x="116" y="181" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">119+</text>
+  <text x="304" y="181" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">6 dashboards</text>
+</svg>

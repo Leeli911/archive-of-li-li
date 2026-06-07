@@ -1,0 +1,71 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5EFE5"/>
+      <stop offset="0.5" stop-color="#FBF8F1"/>
+      <stop offset="1" stop-color="#EAF0EA"/>
+    </linearGradient>
+    <filter id="shadow" x="64" y="66" width="1072" height="648" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#4A3D30" flood-opacity="0.16"/>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#64745F" stroke-opacity="0.11" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <g filter="url(#shadow)">
+    <rect x="96" y="86" width="1008" height="588" rx="30" fill="#FCF9F2"/>
+  </g>
+  <rect x="96" y="86" width="1008" height="588" rx="30" fill="url(#grid)" stroke="#35312D" stroke-opacity="0.08"/>
+
+  <text x="142" y="150" fill="#35312D" font-family="Arial" font-size="33" font-weight="800">Data-Centric Bias Audit</text>
+  <text x="144" y="184" fill="#64745F" font-family="Arial" font-size="16" letter-spacing="2">PROFILE -> MEASURE -> CONSTRAIN -> MONITOR</text>
+
+  <g transform="translate(142 232)">
+    <rect width="208" height="282" rx="22" fill="#142027"/>
+    <text x="24" y="44" fill="#F8F0E3" font-family="Arial" font-size="20" font-weight="800">1. Data profile</text>
+    <g transform="translate(24 78)">
+      <rect width="42" height="42" rx="8" fill="#C6816D"/>
+      <rect x="52" width="42" height="42" rx="8" fill="#E7C878"/>
+      <rect x="104" width="42" height="42" rx="8" fill="#8FA58A"/>
+      <rect y="52" width="42" height="42" rx="8" fill="#94ABB5"/>
+      <rect x="52" y="52" width="42" height="42" rx="8" fill="#F8F0E3"/>
+      <rect x="104" y="52" width="42" height="42" rx="8" fill="#D7A08F"/>
+    </g>
+    <text x="24" y="210" fill="#AFC8C6" font-family="Arial" font-size="15">coverage</text>
+    <text x="24" y="236" fill="#AFC8C6" font-family="Arial" font-size="15">imbalance</text>
+    <text x="24" y="262" fill="#AFC8C6" font-family="Arial" font-size="15">metadata gaps</text>
+  </g>
+
+  <path d="M372 374H454" stroke="#C6816D" stroke-width="7" stroke-linecap="round"/>
+  <path d="M454 374L434 358M454 374L434 390" stroke="#C6816D" stroke-width="7" stroke-linecap="round"/>
+
+  <g transform="translate(478 232)">
+    <rect width="232" height="282" rx="22" fill="#F8F0E3" stroke="#35312D" stroke-opacity="0.12"/>
+    <text x="24" y="44" fill="#35312D" font-family="Arial" font-size="20" font-weight="800">2. Bias signals</text>
+    <path d="M34 222H192M34 222V82" stroke="#35312D" stroke-opacity="0.22" stroke-width="2"/>
+    <rect x="54" y="126" width="20" height="96" rx="8" fill="#8FA58A"/>
+    <rect x="92" y="98" width="20" height="124" rx="8" fill="#C6816D"/>
+    <rect x="130" y="154" width="20" height="68" rx="8" fill="#94ABB5"/>
+    <rect x="168" y="116" width="20" height="106" rx="8" fill="#E7C878"/>
+    <text x="34" y="256" fill="#6A6259" font-family="Arial" font-size="14">fairness gap + error variance</text>
+  </g>
+
+  <path d="M734 374H816" stroke="#8FA58A" stroke-width="7" stroke-linecap="round"/>
+  <path d="M816 374L796 358M816 374L796 390" stroke="#8FA58A" stroke-width="7" stroke-linecap="round"/>
+
+  <g transform="translate(840 232)">
+    <rect width="218" height="282" rx="22" fill="#142027"/>
+    <text x="24" y="44" fill="#F8F0E3" font-family="Arial" font-size="20" font-weight="800">3. Constraints</text>
+    <rect x="28" y="78" width="162" height="44" rx="12" fill="#F8F0E3"/>
+    <text x="48" y="106" fill="#2C2926" font-family="Arial" font-size="16" font-weight="700">equity loss</text>
+    <rect x="28" y="140" width="162" height="44" rx="12" fill="#94ABB5"/>
+    <text x="48" y="168" fill="#0E1318" font-family="Arial" font-size="16" font-weight="800">coverage rule</text>
+    <rect x="28" y="202" width="162" height="44" rx="12" fill="#E7C878"/>
+    <text x="48" y="230" fill="#2C2926" font-family="Arial" font-size="16" font-weight="800">audit trace</text>
+  </g>
+
+  <rect x="142" y="570" width="916" height="54" rx="16" fill="#142027"/>
+  <text x="172" y="604" fill="#F8F0E3" font-family="Arial" font-size="18" font-weight="700">Research aim: connect dataset quality with fairness, robustness, interpretability, and reproducible monitoring.</text>
+</svg>

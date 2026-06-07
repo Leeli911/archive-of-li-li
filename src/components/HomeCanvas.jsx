@@ -1,95 +1,118 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import ArchiveFlowerMap from "./ArchiveFlowerMap";
 
-const pastelPalette = [
-  "#D68C78",
-  "#90AC8E",
-  "#8FAAB8",
-  "#ECC67C",
-  "#F6F2E9",
+const digitSeedText = "1231134753463242749329571943235739352015";
+
+const digitPalette = [
+  "214, 140, 120",
+  "144, 172, 142",
+  "143, 170, 184",
+  "236, 198, 124",
+  "190, 159, 146",
+  "126, 111, 96",
 ];
 
-const traceColors = [
-  "rgba(214, 140, 120, 0.28)",
-  "rgba(144, 172, 142, 0.26)",
-  "rgba(143, 170, 184, 0.26)",
-  "rgba(236, 198, 124, 0.28)",
-];
-
-const fragmentAssets = [
-  "/images/drawings/li-li-lily-river-archive.svg",
-  "/images/projects/placeholder-ai.svg",
-  "/images/research/placeholder-research.svg",
-  "/images/professional/placeholder-professional.svg",
-  "/images/life/placeholder-life.svg",
-  "/images/drawings/li-li-lily-river-archive.svg",
-];
-
-const fragmentBias = {
-  "ai-products": [1, 0, 5, 3, 2],
-  research: [2, 0, 5, 1, 4],
-  "data-work": [3, 0, 1, 5, 2],
-  "life-notes": [4, 0, 5, 2, 3],
-  about: [0, 5, 4, 2, 1],
-  cv: [0, 3, 5, 2, 1],
+const digitFieldConfig = {
+  fontSize: 13,
+  letterSpacing: 7,
+  lineHeight: 30,
+  marginX: 40,
+  marginTop: 138,
+  marginBottom: 42,
+  explosionIntervalMin: 1650,
+  explosionIntervalMax: 3200,
+  radiusMin: 92,
+  radiusMax: 210,
+  forceMin: 5.5,
+  forceMax: 15,
+  returnForce: 0.018,
+  rotationReturn: 0.024,
+  friction: 0.895,
+  maxParticles: 2200,
 };
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function makeFragments(sectionId) {
-  const count = Math.floor(randomBetween(2, 5));
-  const preferred = fragmentBias[sectionId] || [0, 1, 2, 3, 4];
-
-  return Array.from({ length: count }, (_, index) => {
-    const useImage = Math.random() > 0.28;
-    const assetIndex = preferred[index % preferred.length];
-    const color = pastelPalette[Math.floor(Math.random() * pastelPalette.length)];
-
-    return {
-      id: `${sectionId}-${Date.now()}-${index}-${Math.random()}`,
-      type: useImage ? "image" : "paper",
-      src: fragmentAssets[assetIndex],
-      color,
-      left: randomBetween(44, 90),
-      top: randomBetween(16, 82),
-      width: randomBetween(120, 320),
-      height: randomBetween(90, 260),
-      rotate: randomBetween(-16, 16),
-      opacity: randomBetween(0.42, 0.68),
-      delay: randomBetween(0, 120),
-    };
-  });
+function randomDigitColor() {
+  return digitPalette[Math.floor(Math.random() * digitPalette.length)];
 }
 
 function HomeCanvas({ sections, onOpenSection, language }) {
   const canvasRef = useRef(null);
-  const [hoveredSection, setHoveredSection] = useState(null);
-  const [fragments, setFragments] = useState(() => makeFragments("about"));
-
-  useEffect(() => {
-    if (!hoveredSection) return undefined;
-
-    setFragments(makeFragments(hoveredSection.id));
-    const interval = window.setInterval(() => {
-      setFragments(makeFragments(hoveredSection.id));
-    }, 6500);
-
-    return () => window.clearInterval(interval);
-  }, [hoveredSection]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     let frame;
-    let fadeTimer;
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    let bursts = [];
     let drawing = false;
     let lastPoint = null;
-    let traceColor = traceColors[0];
+    let lastTime = performance.now();
+    let lastPaint = 0;
+    let nextExplosionAt = lastTime + 900;
+    let lastManualExplosion = 0;
+
+    const getDigitFont = () =>
+      `${digitFieldConfig.fontSize}px "SFMono-Regular", Menlo, Consolas, "Kaiti SC", monospace`;
+
+    const makeDigitParticles = () => {
+      const nextParticles = [];
+      const characters = Array.from(digitSeedText);
+      const maxX = Math.max(digitFieldConfig.marginX, width - digitFieldConfig.marginX);
+      const maxY = Math.max(
+        digitFieldConfig.marginTop,
+        height - digitFieldConfig.marginBottom,
+      );
+
+      context.save();
+      context.font = getDigitFont();
+      context.textBaseline = "alphabetic";
+
+      let x = digitFieldConfig.marginX;
+      let y = digitFieldConfig.marginTop;
+      let guard = 0;
+
+      while (y < maxY && nextParticles.length < digitFieldConfig.maxParticles && guard < 12000) {
+        guard += 1;
+        const character = characters[Math.floor(Math.random() * characters.length)];
+        const characterWidth = Math.max(6, context.measureText(character).width);
+
+        if (x + characterWidth > maxX) {
+          x = digitFieldConfig.marginX;
+          y += digitFieldConfig.lineHeight;
+          continue;
+        }
+
+        nextParticles.push({
+          character,
+          homeX: x,
+          homeY: y,
+          x,
+          y,
+          previousX: x,
+          previousY: y,
+          vx: 0,
+          vy: 0,
+          angle: randomBetween(-0.02, 0.02),
+          spin: 0,
+          color: randomDigitColor(),
+          alpha: 0,
+          targetAlpha: randomBetween(0.14, 0.36),
+        });
+
+        x += characterWidth + digitFieldConfig.letterSpacing + randomBetween(-0.35, 0.55);
+      }
+
+      context.restore();
+      return nextParticles;
+    };
 
     const drawBase = () => {
-      const { width, height } = canvas.getBoundingClientRect();
-      context.clearRect(0, 0, width, height);
       context.save();
       context.globalCompositeOperation = "multiply";
 
@@ -150,13 +173,151 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       context.restore();
     };
 
+    const drawBursts = (delta) => {
+      bursts = bursts.filter((burst) => burst.age < burst.duration);
+
+      bursts.forEach((burst) => {
+        burst.age += delta;
+        const progress = Math.min(1, burst.age / burst.duration);
+        const radius = burst.radius * (0.2 + progress * 0.9);
+
+        context.save();
+        context.globalCompositeOperation = "multiply";
+        context.strokeStyle = `rgba(${burst.color}, ${0.16 * (1 - progress)})`;
+        context.lineWidth = 1.2;
+        context.setLineDash([2, 6]);
+        context.beginPath();
+        context.arc(burst.x, burst.y, radius, 0, Math.PI * 2);
+        context.stroke();
+        context.restore();
+      });
+    };
+
+    const explodeAt = (x, y, options = {}) => {
+      const radius = options.radius || randomBetween(
+        digitFieldConfig.radiusMin,
+        digitFieldConfig.radiusMax,
+      );
+      const force = options.force || randomBetween(
+        digitFieldConfig.forceMin,
+        digitFieldConfig.forceMax,
+      );
+      const burstColor = randomDigitColor();
+
+      bursts.push({
+        x,
+        y,
+        radius,
+        color: burstColor,
+        age: 0,
+        duration: randomBetween(520, 820),
+      });
+
+      particles.forEach((particle) => {
+        const dx = particle.x - x;
+        const dy = particle.y - y;
+        const distance = Math.hypot(dx, dy);
+
+        if (distance > radius) return;
+
+        const falloff = Math.pow(1 - distance / radius, 2.15);
+        const randomDirection = distance < 1 ? randomBetween(0, Math.PI * 2) : Math.atan2(dy, dx);
+        const direction = randomDirection + randomBetween(-0.75, 0.75) * falloff;
+        const power = force * falloff * randomBetween(0.56, 1.38);
+
+        particle.vx += Math.cos(direction) * power;
+        particle.vy += Math.sin(direction) * power;
+        particle.spin += randomBetween(-0.28, 0.28) * falloff;
+        particle.color = randomDigitColor();
+        particle.targetAlpha = randomBetween(0.24, 0.62);
+      });
+    };
+
+    const renderParticles = (delta) => {
+      context.save();
+      context.font = getDigitFont();
+      context.textBaseline = "alphabetic";
+      context.globalCompositeOperation = "multiply";
+
+      particles.forEach((particle) => {
+        particle.previousX = particle.x;
+        particle.previousY = particle.y;
+
+        const homeDx = particle.homeX - particle.x;
+        const homeDy = particle.homeY - particle.y;
+
+        particle.vx += homeDx * digitFieldConfig.returnForce;
+        particle.vy += homeDy * digitFieldConfig.returnForce;
+        particle.vx *= digitFieldConfig.friction;
+        particle.vy *= digitFieldConfig.friction;
+        particle.x += particle.vx * (delta / 16.67);
+        particle.y += particle.vy * (delta / 16.67);
+
+        particle.spin += -particle.angle * digitFieldConfig.rotationReturn;
+        particle.spin *= 0.88;
+        particle.angle += particle.spin * (delta / 16.67);
+        particle.alpha += (particle.targetAlpha - particle.alpha) * 0.025;
+
+        const speed = Math.hypot(particle.x - particle.previousX, particle.y - particle.previousY);
+        if (speed > 0.22) {
+          context.save();
+          context.strokeStyle = `rgba(${particle.color}, ${Math.min(0.24, speed * 0.018)})`;
+          context.lineWidth = Math.min(1.4, 0.45 + speed * 0.045);
+          context.lineCap = "round";
+          context.beginPath();
+          context.moveTo(particle.previousX, particle.previousY);
+          context.lineTo(particle.x, particle.y);
+          context.stroke();
+          context.restore();
+        }
+
+        context.save();
+        context.translate(particle.x, particle.y);
+        context.rotate(particle.angle);
+        context.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
+        context.fillText(particle.character, 0, 0);
+        context.restore();
+      });
+
+      context.restore();
+    };
+
+    const animate = (time) => {
+      frame = requestAnimationFrame(animate);
+      if (document.hidden || time - lastPaint < 32) return;
+
+      const delta = Math.min(50, time - lastTime || 33.34);
+      lastTime = time;
+      lastPaint = time;
+
+      context.clearRect(0, 0, width, height);
+      drawBase();
+      drawBursts(delta);
+      renderParticles(delta);
+
+      if (time >= nextExplosionAt && particles.length) {
+        explodeAt(
+          randomBetween(digitFieldConfig.marginX, Math.max(digitFieldConfig.marginX, width - digitFieldConfig.marginX)),
+          randomBetween(digitFieldConfig.marginTop, Math.max(digitFieldConfig.marginTop, height - digitFieldConfig.marginBottom)),
+        );
+        nextExplosionAt = time + randomBetween(
+          digitFieldConfig.explosionIntervalMin,
+          digitFieldConfig.explosionIntervalMax,
+        );
+      }
+
+    };
+
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
       const ratio = window.devicePixelRatio || 1;
-      canvas.width = rect.width * ratio;
-      canvas.height = rect.height * ratio;
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      drawBase();
+      particles = makeDigitParticles();
+      bursts = [];
     };
 
     const getPoint = (event) => {
@@ -167,53 +328,14 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       };
     };
 
-    const drawPastelDust = (event, strength = 1) => {
-      const point = getPoint(event);
-      context.save();
-      context.globalCompositeOperation = "multiply";
-
-      const particleCount = Math.floor(10 * strength);
-      for (let index = 0; index < particleCount; index += 1) {
-        const radius = randomBetween(2, 8) * strength;
-        const spread = randomBetween(26, 58) * strength;
-        const x = point.x + randomBetween(-spread, spread);
-        const y = point.y + randomBetween(-spread, spread);
-        const color = traceColors[Math.floor(Math.random() * traceColors.length)];
-        const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
-        gradient.addColorStop(0, color.replace(/0\.\d+\)/, "0.32)"));
-        gradient.addColorStop(1, color.replace(/0\.\d+\)/, "0)"));
-        context.fillStyle = gradient;
-        context.filter = `blur(${randomBetween(0.5, 2)}px)`;
-        context.beginPath();
-        context.arc(x, y, radius, 0, Math.PI * 2);
-        context.fill();
-      }
-
-      context.filter = "none";
-      context.strokeStyle = traceColors[Math.floor(Math.random() * traceColors.length)].replace(
-        /0\.\d+\)/,
-        "0.34)",
-      );
-      context.lineWidth = randomBetween(0.7, 1.6);
-      context.lineCap = "round";
-      context.beginPath();
-      context.moveTo(point.x - 42 * strength, point.y + 10 * strength);
-      context.bezierCurveTo(
-        point.x - 14 * strength,
-        point.y - 28 * strength,
-        point.x + 30 * strength,
-        point.y + 30 * strength,
-        point.x + 58 * strength,
-        point.y - 6 * strength,
-      );
-      context.stroke();
-      context.restore();
-    };
-
     const startDrawing = (event) => {
       drawing = true;
       lastPoint = getPoint(event);
-      traceColor = traceColors[Math.floor(Math.random() * traceColors.length)];
+      explodeAt(lastPoint.x, lastPoint.y, {
+        radius: randomBetween(110, 190),
+        force: randomBetween(7, 16),
+      });
+      lastManualExplosion = performance.now();
       canvas.setPointerCapture(event.pointerId);
     };
 
@@ -221,40 +343,17 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       if (!drawing || !lastPoint) return;
       const point = getPoint(event);
       const distance = Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y);
-      const strength = Math.min(1.8, Math.max(0.45, distance / 70));
+      const now = performance.now();
 
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        context.save();
-        context.globalCompositeOperation = "multiply";
-        context.strokeStyle = traceColor;
-        context.lineWidth = 18 + strength * 8;
-        context.lineCap = "round";
-        context.lineJoin = "round";
-        context.shadowColor = traceColor;
-        context.shadowBlur = 1.5;
-        context.beginPath();
-        context.moveTo(lastPoint.x, lastPoint.y);
-        context.quadraticCurveTo(
-          (lastPoint.x + point.x) / 2,
-          (lastPoint.y + point.y) / 2,
-          point.x,
-          point.y,
-        );
-        context.stroke();
-        drawPastelDust(event, strength);
-        context.restore();
-        lastPoint = point;
-      });
-    };
+      if (distance > 12 && now - lastManualExplosion > 120) {
+        explodeAt(point.x, point.y, {
+          radius: randomBetween(72, 150),
+          force: randomBetween(4.5, 10.5),
+        });
+        lastManualExplosion = now;
+      }
 
-    const fadeTraces = () => {
-      const { width, height } = canvas.getBoundingClientRect();
-      context.save();
-      context.globalCompositeOperation = "source-over";
-      context.fillStyle = "rgba(246, 242, 233, 0.012)";
-      context.fillRect(0, 0, width, height);
-      context.restore();
+      lastPoint = point;
     };
 
     const stopDrawing = () => {
@@ -263,17 +362,16 @@ function HomeCanvas({ sections, onOpenSection, language }) {
     };
 
     resizeCanvas();
-    fadeTimer = window.setInterval(fadeTraces, 240);
+    frame = requestAnimationFrame(animate);
     window.addEventListener("resize", resizeCanvas);
-    canvas.addEventListener("pointerdown", startDrawing);
-    canvas.addEventListener("pointermove", drawTrace);
-    canvas.addEventListener("pointerup", stopDrawing);
-    canvas.addEventListener("pointercancel", stopDrawing);
-    canvas.addEventListener("pointerleave", stopDrawing);
+    canvas.addEventListener("pointerdown", startDrawing, { passive: true });
+    canvas.addEventListener("pointermove", drawTrace, { passive: true });
+    canvas.addEventListener("pointerup", stopDrawing, { passive: true });
+    canvas.addEventListener("pointercancel", stopDrawing, { passive: true });
+    canvas.addEventListener("pointerleave", stopDrawing, { passive: true });
 
     return () => {
       cancelAnimationFrame(frame);
-      window.clearInterval(fadeTimer);
       window.removeEventListener("resize", resizeCanvas);
       canvas.removeEventListener("pointerdown", startDrawing);
       canvas.removeEventListener("pointermove", drawTrace);
@@ -282,13 +380,6 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       canvas.removeEventListener("pointerleave", stopDrawing);
     };
   }, []);
-
-  const handleOpen = (event, section) => {
-    onOpenSection(section, {
-      x: event.clientX,
-      y: event.clientY,
-    });
-  };
 
   return (
     <section
@@ -301,27 +392,6 @@ function HomeCanvas({ sections, onOpenSection, language }) {
         aria-label="Interactive pastel paper canvas. Drag to leave soft traces."
       />
       <div className="home-vignette" aria-hidden="true" />
-
-      <div className="fragment-field" aria-hidden="true">
-        {fragments.map((fragment) => (
-          <div
-            key={fragment.id}
-            className={`visual-fragment visual-fragment-${fragment.type}`}
-            style={{
-              "--fragment-left": `${fragment.left}%`,
-              "--fragment-top": `${fragment.top}%`,
-              "--fragment-width": `${fragment.width}px`,
-              "--fragment-height": `${fragment.height}px`,
-              "--fragment-rotate": `${fragment.rotate}deg`,
-              "--fragment-opacity": fragment.opacity,
-              "--fragment-delay": `${fragment.delay}ms`,
-              "--fragment-color": fragment.color,
-            }}
-          >
-            {fragment.type === "image" && <img src={fragment.src} alt="" />}
-          </div>
-        ))}
-      </div>
 
       <div className={`home-copy ${language === "zh" ? "is-zh" : ""}`}>
         {language === "zh" ? (
@@ -342,25 +412,11 @@ function HomeCanvas({ sections, onOpenSection, language }) {
         )}
       </div>
 
-      <nav className="home-menu archive-bloom-menu" aria-label="Archive rooms">
-        {sections.map((section, index) => (
-          <button
-            key={section.id}
-            className="home-menu-item"
-            type="button"
-            onMouseEnter={() => setHoveredSection(section)}
-            onFocus={() => setHoveredSection(section)}
-            onClick={(event) => handleOpen(event, section)}
-          >
-            <span>0{index + 1}</span>
-            <strong>{language === "zh" ? section.labelZh : section.label}</strong>
-            <small>{language === "zh" ? section.label : section.labelZh}</small>
-          </button>
-        ))}
-        <div className="archive-flowerpot" aria-hidden="true">
-          <span />
-        </div>
-      </nav>
+      <ArchiveFlowerMap
+        sections={sections}
+        language={language}
+        onOpenSection={onOpenSection}
+      />
     </section>
   );
 }

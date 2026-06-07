@@ -1,0 +1,22 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" rx="28" fill="#fbf7ee"/>
+  <path d="M92 180H628" stroke="#d7cec0" stroke-width="2"/>
+  <path d="M92 322H628" stroke="#d7cec0" stroke-width="2"/>
+  <path d="M92 464H628" stroke="#d7cec0" stroke-width="2"/>
+  <path d="M130 488C187 436 219 400 256 404C314 410 322 504 378 486C435 468 452 350 516 326C557 310 587 326 614 344" stroke="#c6816d" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M130 388C185 350 240 314 296 326C362 340 386 238 448 230C498 224 548 266 614 248" stroke="#94abb5" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#35312d" font-family="Inter, Arial, sans-serif">
+    <text x="88" y="104" font-size="30" font-weight="800">Traffic and conversion diagnosis</text>
+    <text x="88" y="140" font-size="16" fill="#6d655d">MAU share, homepage modules, icon clicks, category conversion</text>
+    <text x="118" y="558" font-size="15">homepage traffic</text>
+    <text x="118" y="586" font-size="15">coupon sensitivity</text>
+    <text x="118" y="614" font-size="15">category conversion</text>
+  </g>
+  <g transform="translate(454 520)">
+    <rect width="156" height="92" rx="22" fill="#fffaf1" stroke="#d7cec0"/>
+    <text x="78" y="39" text-anchor="middle" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800">28% -> 23%</text>
+    <text x="78" y="65" text-anchor="middle" fill="#6d655d" font-family="Inter, Arial, sans-serif" font-size="13">traffic share signal</text>
+  </g>
+  <circle cx="256" cy="404" r="14" fill="#c6816d"/>
+  <circle cx="448" cy="230" r="14" fill="#94abb5"/>
+</svg>

@@ -1,0 +1,23 @@
+<svg width="720" height="720" viewBox="0 0 720 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="720" rx="28" fill="#fbf7ee"/>
+  <rect x="96" y="116" width="528" height="492" rx="34" fill="#fffaf1" stroke="#d7cec0" stroke-width="2"/>
+  <text x="128" y="172" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800">Data governance platform</text>
+  <text x="128" y="208" fill="#6d655d" font-family="Inter, Arial, sans-serif" font-size="16">Dictionaries, process rules, desensitized wide tables, permission-aware reporting</text>
+  <g transform="translate(128 266)">
+    <rect width="464" height="58" rx="18" fill="#edf0e4"/>
+    <text x="24" y="37" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">01 Metric and table dictionary</text>
+  </g>
+  <g transform="translate(128 350)">
+    <rect width="464" height="58" rx="18" fill="#e7eef1"/>
+    <text x="24" y="37" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">02 Desensitized wide tables</text>
+  </g>
+  <g transform="translate(128 434)">
+    <rect width="464" height="58" rx="18" fill="#f1e4dc"/>
+    <text x="24" y="37" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">03 BI migration and permissions</text>
+  </g>
+  <g transform="translate(128 518)">
+    <rect width="464" height="58" rx="18" fill="#f5eccd"/>
+    <text x="24" y="37" fill="#35312d" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">04 Demand intake and review flow</text>
+  </g>
+  <path d="M104 98L620 614" stroke="#35312d" stroke-opacity=".08" stroke-width="22"/>
+</svg>

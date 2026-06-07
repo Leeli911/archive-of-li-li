@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Causal uplift framework for coupon targeting</title>
+  <desc id="desc">A diagram showing e-commerce transaction data flowing through treatment and outcome definition, uplift modeling, Qini evaluation, and budget-aware coupon targeting.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbf7ee"/>
+      <stop offset="0.5" stop-color="#eef3ee"/>
+      <stop offset="1" stop-color="#edf4f6"/>
+    </linearGradient>
+    <linearGradient id="accentA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c6816d"/>
+      <stop offset="1" stop-color="#e7c878"/>
+    </linearGradient>
+    <linearGradient id="accentB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8fa58a"/>
+      <stop offset="1" stop-color="#94abb5"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#4a3d30" flood-opacity="0.14"/>
+    </filter>
+    <pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.4" fill="#35312d" opacity="0.09"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="760" rx="34" fill="url(#bg)"/>
+  <rect x="34" y="34" width="1132" height="692" rx="30" fill="url(#dots)" opacity="0.55"/>
+  <rect x="78" y="72" width="1044" height="616" rx="30" fill="#fbf8f0" opacity="0.78" filter="url(#shadow)"/>
+
+  <text x="112" y="126" fill="#35312d" font-family="Georgia, serif" font-size="38" font-weight="700">Coupon Uplift Decision Framework</text>
+  <text x="112" y="160" fill="#686159" font-family="Inter, Arial, sans-serif" font-size="17">From observed transactions to incremental-value targeting</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(112 214)">
+      <rect width="184" height="128" rx="20" fill="#ffffff" opacity="0.78" stroke="#35312d" stroke-opacity="0.12"/>
+      <circle cx="34" cy="36" r="16" fill="url(#accentA)" opacity="0.92"/>
+      <text x="58" y="42" fill="#35312d" font-size="18" font-weight="700">Data</text>
+      <text x="24" y="74" fill="#686159" font-size="14">transactions</text>
+      <text x="24" y="96" fill="#686159" font-size="14">coupon exposure</text>
+      <text x="24" y="118" fill="#686159" font-size="14">customer profile</text>
+    </g>
+
+    <g transform="translate(340 214)">
+      <rect width="204" height="128" rx="20" fill="#ffffff" opacity="0.78" stroke="#35312d" stroke-opacity="0.12"/>
+      <circle cx="36" cy="36" r="16" fill="#94abb5" opacity="0.9"/>
+      <text x="60" y="42" fill="#35312d" font-size="18" font-weight="700">Causal Setup</text>
+      <text x="24" y="74" fill="#686159" font-size="14">treatment = coupon</text>
+      <text x="24" y="96" fill="#686159" font-size="14">outcome = purchase</text>
+      <text x="24" y="118" fill="#686159" font-size="14">compare counterfactuals</text>
+    </g>
+
+    <g transform="translate(588 214)">
+      <rect width="206" height="128" rx="20" fill="#ffffff" opacity="0.78" stroke="#35312d" stroke-opacity="0.12"/>
+      <circle cx="36" cy="36" r="16" fill="#8fa58a" opacity="0.9"/>
+      <text x="60" y="42" fill="#35312d" font-size="18" font-weight="700">Uplift Model</text>
+      <text x="24" y="74" fill="#686159" font-size="14">T-Learner / CATE</text>
+      <text x="24" y="96" fill="#686159" font-size="14">rank by lift score</text>
+      <text x="24" y="118" fill="#686159" font-size="14">segment response types</text>
+    </g>
+
+    <g transform="translate(838 214)">
+      <rect width="210" height="128" rx="20" fill="#ffffff" opacity="0.78" stroke="#35312d" stroke-opacity="0.12"/>
+      <circle cx="36" cy="36" r="16" fill="#e7c878" opacity="0.95"/>
+      <text x="60" y="42" fill="#35312d" font-size="18" font-weight="700">Evaluation</text>
+      <text x="24" y="74" fill="#686159" font-size="14">Qini / AUUC</text>
+      <text x="24" y="96" fill="#686159" font-size="14">Bootstrap CI</text>
+      <text x="24" y="118" fill="#686159" font-size="14">offline policy check</text>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#35312d" stroke-opacity="0.25" stroke-width="2.4" stroke-linecap="round">
+    <path d="M302 278 C316 278 322 278 334 278"/>
+    <path d="M550 278 C564 278 570 278 582 278"/>
+    <path d="M800 278 C814 278 820 278 832 278"/>
+  </g>
+  <g fill="#35312d" opacity="0.28">
+    <path d="M334 278 l-10 -6 v12z"/>
+    <path d="M582 278 l-10 -6 v12z"/>
+    <path d="M832 278 l-10 -6 v12z"/>
+  </g>
+
+  <g transform="translate(124 410)" font-family="Inter, Arial, sans-serif">
+    <rect width="956" height="164" rx="24" fill="#f4efe4" opacity="0.74" stroke="#35312d" stroke-opacity="0.11"/>
+    <text x="30" y="44" fill="#35312d" font-size="20" font-weight="700">Budget-aware targeting policy</text>
+    <text x="30" y="74" fill="#686159" font-size="15">Do not optimize for raw post-campaign revenue. Optimize for predicted incremental gain under budget constraints.</text>
+
+    <g transform="translate(34 104)">
+      <rect width="174" height="48" rx="16" fill="#f7e1d8" stroke="#c6816d" stroke-opacity="0.3"/>
+      <text x="22" y="30" fill="#35312d" font-size="15" font-weight="700">Persuadables</text>
+    </g>
+    <g transform="translate(244 104)">
+      <rect width="154" height="48" rx="16" fill="#f5ecca" stroke="#e7c878" stroke-opacity="0.35"/>
+      <text x="24" y="30" fill="#35312d" font-size="15" font-weight="700">Sure things</text>
+    </g>
+    <g transform="translate(434 104)">
+      <rect width="154" height="48" rx="16" fill="#e4ecd9" stroke="#8fa58a" stroke-opacity="0.35"/>
+      <text x="24" y="30" fill="#35312d" font-size="15" font-weight="700">Lost causes</text>
+    </g>
+    <g transform="translate(624 104)">
+      <rect width="206" height="48" rx="16" fill="#dfecef" stroke="#94abb5" stroke-opacity="0.35"/>
+      <text x="24" y="30" fill="#35312d" font-size="15" font-weight="700">Negative responders</text>
+    </g>
+  </g>
+
+  <text x="112" y="646" fill="#686159" font-family="Inter, Arial, sans-serif" font-size="15">Decision output: target top-uplift customers, preserve experiment evidence, and report incremental value with uncertainty.</text>
+</svg>
