@@ -57,6 +57,8 @@ body {
 }
 
 @media (hover: hover) and (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor *,
   body.custom-cursor,
   body.custom-cursor * {
     cursor: none !important;
@@ -3493,7 +3495,7 @@ button {
   opacity: 0.9;
   transform:
     translate3d(-80px, -80px, 0)
-    translate(-0.55rem, -0.45rem)
+    translate(-50%, -42%)
     rotate(-10deg);
   transition:
     opacity 220ms ease,
@@ -4135,6 +4137,8 @@ button {
 }
 
 @media (hover: none), (pointer: coarse) {
+  html.custom-cursor,
+  html.custom-cursor *,
   body.custom-cursor,
   body.custom-cursor * {
     cursor: auto !important;

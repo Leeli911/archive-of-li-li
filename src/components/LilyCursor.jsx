@@ -23,6 +23,7 @@ const clickableSelector = [
 ].join(",");
 
 const maxPollen = 16;
+const cursorOffset = "translate(-50%, -42%) rotate(-10deg)";
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
@@ -44,30 +45,18 @@ function LilyCursor({ waiting = false }) {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    let frame = null;
-    let targetX = -80;
-    let targetY = -80;
-    let currentX = -80;
-    let currentY = -80;
     let pollenCount = 0;
     let lastTrailX = -80;
     let lastTrailY = -80;
     let lastTrailAt = 0;
 
     if (hoverCapable) {
+      document.documentElement.classList.add("custom-cursor");
       document.body.classList.add("custom-cursor");
     }
 
-    const updateCursor = () => {
-      currentX += (targetX - currentX) * 0.34;
-      currentY += (targetY - currentY) * 0.34;
-      cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-0.55rem, -0.45rem) rotate(-10deg)`;
-
-      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2) {
-        frame = window.requestAnimationFrame(updateCursor);
-      } else {
-        frame = null;
-      }
+    const moveCursor = (x, y) => {
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0) ${cursorOffset}`;
     };
 
     const clearTimer = (timer) => {
@@ -110,12 +99,7 @@ function LilyCursor({ waiting = false }) {
     };
 
     const handleMove = (event) => {
-      targetX = event.clientX;
-      targetY = event.clientY;
-
-      if (!frame) {
-        frame = window.requestAnimationFrame(updateCursor);
-      }
+      moveCursor(event.clientX, event.clientY);
 
       const now = performance.now();
       const distance = Math.hypot(event.clientX - lastTrailX, event.clientY - lastTrailY);
@@ -159,13 +143,13 @@ function LilyCursor({ waiting = false }) {
     window.addEventListener("pointerover", handlePointerOver, { passive: true });
 
     return () => {
+      document.documentElement.classList.remove("custom-cursor");
       document.body.classList.remove("custom-cursor");
       window.removeEventListener("pointermove", handleMove);
       window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("dblclick", handleDoubleClick);
       window.removeEventListener("pointerover", handlePointerOver);
-      if (frame) window.cancelAnimationFrame(frame);
       timeoutsRef.current.forEach((timer) => window.clearTimeout(timer));
       timeoutsRef.current = [];
       pollenLayer.replaceChildren();
