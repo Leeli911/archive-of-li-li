@@ -2,33 +2,58 @@ export const aboutArchive = [
   {
     title: "Who I Am",
     titleZh: "我是谁",
-    text:
-      "I move between data, research, and product questions. I care about analytical rigor, but also about how people actually encounter information.",
-    textZh:
-      "我在数据、研究与产品问题之间工作。我重视分析的严谨，也关心人究竟如何接触、理解和使用信息。",
+    text: [
+      "I work at the intersection of data, research, and product thinking.",
+      "My background is in mathematics, data analytics, and data science, but my interests have gradually expanded beyond technical systems. I am particularly interested in how people make sense of information, how technology shapes human experience, and how knowledge can be transformed into something useful, understandable, and meaningful.",
+      "Across different projects, I often find myself drawn to the same activity: understanding complex systems and making them easier to navigate.",
+    ],
+    textZh: [
+      "我在数据、研究与产品思维的交叉处工作。",
+      "我的背景来自数学、数据分析与数据科学，但兴趣已经逐渐超出纯技术系统本身。我尤其关注人如何理解信息，技术如何塑造人的经验，以及知识如何被转化为有用、可理解、也有意义的东西。",
+      "在不同项目中，我常常被同一件事吸引：理解复杂系统，并让它们变得更容易被看见、判断和使用。",
+    ],
   },
   {
     title: "My Path",
     titleZh: "我的路径",
-    text:
-      "I grew up in Nanning, studied Mathematics and Applied Mathematics at Shanghai Maritime University, and completed a second degree in Accounting. After around five years in data analytics and business intelligence, I went to Uppsala University in Sweden for an MSc in Data Science.",
-    textZh:
-      "我出生并成长于南宁，本科就读于上海海事大学数学与应用数学专业，并修读会计学第二学位。之后有约五年数据分析与商业智能工作经历，后来前往瑞典乌普萨拉大学攻读数据科学硕士。",
+    text: [
+      "I grew up in Nanning, China, and studied Mathematics and Applied Mathematics at Shanghai Maritime University, alongside a second degree in Accounting.",
+      "After spending around five years working in data analytics and business intelligence, I moved to Sweden to pursue an MSc in Data Science at Uppsala University.",
+      "The move exposed me to different academic cultures, ways of living, and ways of thinking. It also shifted my interests from purely technical questions toward broader questions about people, technology, knowledge, and society.",
+    ],
+    textZh: [
+      "我出生并成长于中国南宁，本科就读于上海海事大学数学与应用数学专业，并同时修读会计学第二学位。",
+      "在数据分析与商业智能领域工作约五年后，我前往瑞典乌普萨拉大学攻读数据科学硕士。",
+      "这次迁移让我接触到不同的学术文化、生活方式与思考方式，也让我的兴趣从纯技术问题逐渐转向更宽的问题：人、技术、知识与社会之间如何相互影响。",
+    ],
   },
   {
     title: "What I Am Exploring Now",
     titleZh: "我现在探索什么",
-    text:
-      "AI products, research workflows, digital humanities, and research-driven product work.",
-    textZh: "AI 产品、研究工作流、数字人文，以及研究驱动型产品工作。",
+    text: [
+      "At the moment, I am exploring topics around AI products, research workflows, digital humanities, human-centred AI, and knowledge systems.",
+      "Rather than focusing on a single discipline, I am interested in the spaces between disciplines: where technology meets culture, where data meets human behaviour, and where research becomes practical tools that help people think, learn, and create.",
+      "Many of the projects collected here are small experiments within that broader exploration.",
+    ],
+    textZh: [
+      "目前，我正在探索 AI 产品、研究工作流、数字人文、以人为中心的 AI，以及知识系统相关的问题。",
+      "相比只停留在单一学科内部，我更感兴趣的是学科之间的空间：技术与文化相遇的地方，数据与人的行为相遇的地方，以及研究如何变成帮助人思考、学习和创造的实用工具。",
+      "这个网站中收集的许多项目，都是这一更大探索中的小型实验。",
+    ],
   },
   {
-    title: "How This Archive Works",
-    titleZh: "这个档案馆如何工作",
-    text:
-      "This site separates products, research, professional practice, and life fragments so each can remain legible on its own terms. It is designed to grow slowly, with public-facing proof points.",
-    textZh:
-      "这个网站将产品、研究、专业实践与生活片段分开展示，让它们各自以合适的方式被理解。它会缓慢生长，并保留可公开表达的成果线索。",
+    title: "About This Archive",
+    titleZh: "关于这个档案馆",
+    text: [
+      "This archive is organised into research, products, professional work, and life fragments.",
+      "The goal is not to present a polished narrative, but to preserve evidence of learning, curiosity, and long-term exploration.",
+      "Some projects are complete. Others are unfinished. All of them represent genuine attempts to understand something a little better than before.",
+    ],
+    textZh: [
+      "这个档案馆被组织为研究、产品、专业工作与生活片段几个部分。",
+      "它的目标不是呈现一个过度打磨的单一叙事，而是保留学习、好奇心与长期探索的证据。",
+      "有些项目已经完成，有些仍未完成。它们共同代表的是一次次真实的尝试：比之前更好地理解某件事。",
+    ],
   },
 ];
 

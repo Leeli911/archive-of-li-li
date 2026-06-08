@@ -24,15 +24,35 @@ function AboutSection({ language = "en" }) {
     <section id="about" className="archive-section about-section">
       <SectionIntro
         index="05"
-        eyebrow="Archive note / 档案说明"
-        title="About"
-        titleZh="关于我"
-        description="Not a copied résumé timeline, but a note about the person, the path, the current questions, and the logic of this archive."
-        descriptionZh="这不是简历时间轴的复制，而是一则关于人、路径、当下问题与档案馆逻辑的说明。"
+        eyebrow="About me / 关于我"
+        title="Archive Note"
+        titleZh="档案说明"
+        description="Not a résumé rewritten as a website. This archive is a record of questions, projects, places, and ideas that have shaped how I think. It documents not only what I have done, but also what I keep returning to."
+        descriptionZh="这不是把简历改写成网站，而是一份记录：问题、项目、地点与想法如何塑造我的思考方式。它记录的不只是我做过什么，也包括我不断回到哪些问题。"
         language={language}
       />
 
       <div className="about-layout">
+        <div className="about-notes">
+          {aboutArchive.map((note, index) => {
+            const copy = isZh ? note.textZh : note.text;
+            const paragraphs = Array.isArray(copy) ? copy : [copy];
+
+            return (
+              <article key={note.title}>
+                <span>0{index + 1}</span>
+                <div>
+                  <h3>{isZh ? note.titleZh : note.title}</h3>
+                  <p className="about-title-zh">{isZh ? note.title : note.titleZh}</p>
+                  {paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
         <div className="drawing-collage" aria-label="Original lily river archive visual system">
           <figure className="drawing drawing-one">
             <img src={publicAsset(archiveVisuals[0].src)} alt={archiveVisuals[0].alt} />
@@ -48,19 +68,6 @@ function AboutSection({ language = "en" }) {
               ? "原创视觉草图 · 百合、河流与档案"
               : "Original visual notes · lily, river, archive"}
           </p>
-        </div>
-
-        <div className="about-notes">
-          {aboutArchive.map((note, index) => (
-            <article key={note.title}>
-              <span>0{index + 1}</span>
-              <div>
-                <h3>{isZh ? note.titleZh : note.title}</h3>
-                <p className="about-title-zh">{isZh ? note.title : note.titleZh}</p>
-                <p>{isZh ? note.textZh : note.text}</p>
-              </div>
-            </article>
-          ))}
         </div>
       </div>
     </section>
