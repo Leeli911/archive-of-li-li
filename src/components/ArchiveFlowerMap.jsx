@@ -73,29 +73,6 @@ const branches = [
   },
 ];
 
-const leaves = [
-  {
-    d: "M660 500 C620 482, 598 448, 600 418 C638 430, 660 462, 660 500",
-    vein: "M602 420 C626 450, 646 476, 660 500",
-    delay: 760,
-  },
-  {
-    d: "M728 492 C766 470, 794 434, 796 400 C760 414, 734 450, 728 492",
-    vein: "M794 402 C770 438, 746 466, 728 492",
-    delay: 900,
-  },
-  {
-    d: "M620 424 C584 410, 558 380, 552 350 C590 358, 614 390, 620 424",
-    vein: "M554 352 C578 382, 602 406, 620 424",
-    delay: 1040,
-  },
-  {
-    d: "M754 392 C794 376, 828 340, 840 310 C798 318, 766 354, 754 392",
-    vein: "M838 312 C808 346, 778 374, 754 392",
-    delay: 1180,
-  },
-];
-
 const outerPetals = [
   { angle: -96, rx: 8.5, ry: 25, cy: -17, dx: -1.5, tone: "rose", delay: 0 },
   { angle: -66, rx: 9, ry: 27, cy: -18, dx: 0, tone: "mauve", delay: 28 },
@@ -169,7 +146,7 @@ function WaterLilyFlower() {
   );
 }
 
-function ArchiveFlowerMap({ sections, language, onOpenSection }) {
+function ArchiveFlowerMap({ sections, language, onOpenSection, activeSectionId }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   const sectionById = sections.reduce((lookup, section) => {
@@ -228,20 +205,13 @@ function ArchiveFlowerMap({ sections, language, onOpenSection }) {
           <path d="M690 552 C686 572, 685 590, 682 610" />
         </g>
 
-        <g className="garden-leaves" aria-hidden="true">
-          {leaves.map((leaf) => (
-            <g key={leaf.d} style={{ "--leaf-delay": `${leaf.delay}ms` }}>
-              <path className="garden-leaf" d={leaf.d} />
-              <path className="garden-leaf-vein" d={leaf.vein} />
-            </g>
-          ))}
-        </g>
-
         <g className="garden-stem-highlights" aria-hidden="true">
           {branches.map((branch, branchIndex) => (
             <path
               key={`${branch.id}-highlight`}
-              className={`garden-stem-highlight ${hoveredId === branch.id ? "is-hovered" : ""}`}
+              className={`garden-stem-highlight ${
+                hoveredId === branch.id || activeSectionId === branch.id ? "is-hovered" : ""
+              }`}
               d={branch.highlightPath}
               pathLength="1"
               style={{ "--grow-delay": `${520 + branchIndex * 140}ms` }}
@@ -253,7 +223,9 @@ function ArchiveFlowerMap({ sections, language, onOpenSection }) {
           {branches.map((branch, branchIndex) => (
             <path
               key={branch.id}
-              className={`garden-stem ${hoveredId === branch.id ? "is-hovered" : ""}`}
+              className={`garden-stem ${
+                hoveredId === branch.id || activeSectionId === branch.id ? "is-hovered" : ""
+              }`}
               d={branch.path}
               pathLength="1"
               style={{ "--grow-delay": `${420 + branchIndex * 140}ms` }}
@@ -265,11 +237,14 @@ function ArchiveFlowerMap({ sections, language, onOpenSection }) {
           {branches.map((branch, branchIndex) => {
             const label = getLabel(branch);
             const altLabel = getAltLabel(branch);
+            const isActive = activeSectionId === branch.id;
 
             return (
               <g
                 key={branch.id}
-                className={`archive-branch ${hoveredId === branch.id ? "is-hovered" : ""}`}
+                className={`archive-branch branch-${branch.indexTone} ${
+                  hoveredId === branch.id ? "is-hovered" : ""
+                } ${isActive ? "is-active" : ""}`}
                 role="button"
                 tabIndex="0"
                 aria-label={label}

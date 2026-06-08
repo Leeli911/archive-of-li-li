@@ -19,16 +19,16 @@ const digitFieldConfig = {
   marginX: 40,
   marginTop: 138,
   marginBottom: 42,
-  explosionIntervalMin: 1650,
-  explosionIntervalMax: 3200,
-  radiusMin: 92,
-  radiusMax: 210,
-  forceMin: 5.5,
-  forceMax: 15,
+  explosionIntervalMin: 2600,
+  explosionIntervalMax: 4800,
+  radiusMin: 72,
+  radiusMax: 170,
+  forceMin: 4.5,
+  forceMax: 11,
   returnForce: 0.018,
   rotationReturn: 0.024,
   friction: 0.895,
-  maxParticles: 2200,
+  maxParticles: 1150,
 };
 
 function randomBetween(min, max) {
@@ -39,7 +39,7 @@ function randomDigitColor() {
   return digitPalette[Math.floor(Math.random() * digitPalette.length)];
 }
 
-function HomeCanvas({ sections, onOpenSection, language }) {
+function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -52,6 +52,7 @@ function HomeCanvas({ sections, onOpenSection, language }) {
     let bursts = [];
     let drawing = false;
     let lastPoint = null;
+    let pendingPoint = null;
     let lastTime = performance.now();
     let lastPaint = 0;
     let nextExplosionAt = lastTime + 900;
@@ -284,11 +285,27 @@ function HomeCanvas({ sections, onOpenSection, language }) {
 
     const animate = (time) => {
       frame = requestAnimationFrame(animate);
-      if (document.hidden || time - lastPaint < 32) return;
+      if (document.hidden || time - lastPaint < 16) return;
 
       const delta = Math.min(50, time - lastTime || 33.34);
       lastTime = time;
       lastPaint = time;
+
+      if (drawing && lastPoint && pendingPoint) {
+        const point = pendingPoint;
+        pendingPoint = null;
+        const distance = Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y);
+
+        if (distance > 14 && time - lastManualExplosion > 135) {
+          explodeAt(point.x, point.y, {
+            radius: randomBetween(64, 130),
+            force: randomBetween(3.8, 8.8),
+          });
+          lastManualExplosion = time;
+        }
+
+        lastPoint = point;
+      }
 
       context.clearRect(0, 0, width, height);
       drawBase();
@@ -332,33 +349,24 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       drawing = true;
       lastPoint = getPoint(event);
       explodeAt(lastPoint.x, lastPoint.y, {
-        radius: randomBetween(110, 190),
-        force: randomBetween(7, 16),
+        radius: randomBetween(96, 160),
+        force: randomBetween(5.6, 12),
       });
       lastManualExplosion = performance.now();
-      canvas.setPointerCapture(event.pointerId);
+      if (event.pointerType !== "touch") {
+        canvas.setPointerCapture?.(event.pointerId);
+      }
     };
 
     const drawTrace = (event) => {
       if (!drawing || !lastPoint) return;
-      const point = getPoint(event);
-      const distance = Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y);
-      const now = performance.now();
-
-      if (distance > 12 && now - lastManualExplosion > 120) {
-        explodeAt(point.x, point.y, {
-          radius: randomBetween(72, 150),
-          force: randomBetween(4.5, 10.5),
-        });
-        lastManualExplosion = now;
-      }
-
-      lastPoint = point;
+      pendingPoint = getPoint(event);
     };
 
     const stopDrawing = () => {
       drawing = false;
       lastPoint = null;
+      pendingPoint = null;
     };
 
     resizeCanvas();
@@ -394,28 +402,19 @@ function HomeCanvas({ sections, onOpenSection, language }) {
       <div className="home-vignette" aria-hidden="true" />
 
       <div className={`home-copy ${language === "zh" ? "is-zh" : ""}`}>
-        {language === "zh" ? (
-          <>
-            <h1 className="zh-home-title">
-              <span>李莉的</span>
-              <span>数字档案馆</span>
-            </h1>
-          </>
-        ) : (
-          <>
-            <h1>
-              The Archive
-              <br />
-              <em>of Li Li</em>
-            </h1>
-          </>
-        )}
+        <p className="home-eyebrow">{language === "zh" ? "AI 作品集" : "AI portfolio"}</p>
+        <h1>Li Li</h1>
+        <p className="home-role">Applied AI | AI Product &amp; Evaluation</p>
+        <p className="home-summary">
+          Portfolio of research, AI data products, and visual computing projects
+        </p>
       </div>
 
       <ArchiveFlowerMap
         sections={sections}
         language={language}
         onOpenSection={onOpenSection}
+        activeSectionId={activeSectionId}
       />
     </section>
   );
