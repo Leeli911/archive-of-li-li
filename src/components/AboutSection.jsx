@@ -55,13 +55,28 @@ function AboutSection({ language = "en" }) {
 
         <div className="drawing-collage" aria-label="Original lily river archive visual system">
           <figure className="drawing drawing-one">
-            <img src={publicAsset(archiveVisuals[0].src)} alt={archiveVisuals[0].alt} />
+            <img
+              src={publicAsset(archiveVisuals[0].src)}
+              alt={archiveVisuals[0].alt}
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
           <figure className="drawing drawing-two">
-            <img src={publicAsset(archiveVisuals[1].src)} alt={archiveVisuals[1].alt} />
+            <img
+              src={publicAsset(archiveVisuals[1].src)}
+              alt={archiveVisuals[1].alt}
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
           <figure className="drawing drawing-three">
-            <img src={publicAsset(archiveVisuals[2].src)} alt={archiveVisuals[2].alt} />
+            <img
+              src={publicAsset(archiveVisuals[2].src)}
+              alt={archiveVisuals[2].alt}
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
           <p>
             {isZh

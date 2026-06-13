@@ -45,7 +45,7 @@ function ResearchProjectCard({
         onClick={() => setOpen((current) => !current)}
       >
         <div className="research-figure">
-          <img src={imageSrc} alt={imageAlt} />
+          <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
           <span>{project.id}</span>
         </div>
         <div className="research-summary-copy">
@@ -122,7 +122,12 @@ function ResearchProjectCard({
               <div className="key-visuals-grid">
                 {visuals.map((visual) => (
                   <figure key={visual.src}>
-                    <img src={publicAsset(visual.src)} alt={visual.alt} loading="lazy" />
+                    <img
+                      src={publicAsset(visual.src)}
+                      alt={visual.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <figcaption>{isZh ? visual.captionZh || visual.caption : visual.caption}</figcaption>
                   </figure>
                 ))}

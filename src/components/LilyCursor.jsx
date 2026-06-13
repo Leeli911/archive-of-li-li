@@ -49,14 +49,26 @@ function LilyCursor({ waiting = false }) {
     let lastTrailX = -80;
     let lastTrailY = -80;
     let lastTrailAt = 0;
+    let pointerX = -80;
+    let pointerY = -80;
+    let moveFrame = 0;
 
-    if (hoverCapable) {
-      document.documentElement.classList.add("custom-cursor");
-      document.body.classList.add("custom-cursor");
-    }
+    if (!hoverCapable) return undefined;
+
+    document.documentElement.classList.add("custom-cursor");
+    document.body.classList.add("custom-cursor");
 
     const moveCursor = (x, y) => {
       cursor.style.transform = `translate3d(${x}px, ${y}px, 0) ${cursorOffset}`;
+    };
+
+    const requestCursorMove = () => {
+      if (moveFrame) return;
+
+      moveFrame = window.requestAnimationFrame(() => {
+        moveFrame = 0;
+        moveCursor(pointerX, pointerY);
+      });
     };
 
     const clearTimer = (timer) => {
@@ -99,7 +111,9 @@ function LilyCursor({ waiting = false }) {
     };
 
     const handleMove = (event) => {
-      moveCursor(event.clientX, event.clientY);
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      requestCursorMove();
 
       const now = performance.now();
       const distance = Math.hypot(event.clientX - lastTrailX, event.clientY - lastTrailY);
@@ -150,6 +164,7 @@ function LilyCursor({ waiting = false }) {
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("dblclick", handleDoubleClick);
       window.removeEventListener("pointerover", handlePointerOver);
+      window.cancelAnimationFrame(moveFrame);
       timeoutsRef.current.forEach((timer) => window.clearTimeout(timer));
       timeoutsRef.current = [];
       pollenLayer.replaceChildren();

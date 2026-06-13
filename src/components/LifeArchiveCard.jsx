@@ -7,7 +7,12 @@ function LifeArchiveCard({ fragment, language = "en" }) {
   return (
     <article className="life-card">
       <div className="life-photo">
-        <img src={publicAsset(fragment.image)} alt={fragment.imageAlt} />
+        <img
+          src={publicAsset(fragment.image)}
+          alt={fragment.imageAlt}
+          loading="lazy"
+          decoding="async"
+        />
         <div className="life-metadata">
           <span>{isZh ? fragment.locationZh || fragment.location : fragment.location}</span>
           <small>{isZh ? fragment.dateZh || fragment.date : fragment.date}</small>

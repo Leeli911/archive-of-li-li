@@ -120,6 +120,8 @@ function ArchiveOverlay({
                   <img
                     src={publicAsset(professionalOverview.image)}
                     alt={professionalOverview.imageAlt}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="data-work-framework">

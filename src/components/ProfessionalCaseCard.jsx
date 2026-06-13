@@ -58,7 +58,7 @@ function ProfessionalCaseCard({
             </small>
           )}
         </div>
-        <img src={imageSrc} alt={imageAlt} />
+        <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
       </div>
 
       <div className="par-structure">

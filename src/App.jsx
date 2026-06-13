@@ -227,6 +227,7 @@ function App() {
           onOpenSection={openSection}
           language={language}
           activeSectionId={isOverlayOpen ? activeSection?.id : null}
+          isPaused={isOverlayOpen}
         />
       </main>
       <ArchiveOverlay

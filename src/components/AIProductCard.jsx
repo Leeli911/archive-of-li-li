@@ -55,7 +55,7 @@ function AIProductCard({ product, language = "en", highlightedTargetId }) {
       tabIndex="-1"
     >
       <div className="card-image-wrap">
-        <img src={imageSrc} alt={imageAlt} />
+        <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
         <span>{product.id}</span>
       </div>
 
