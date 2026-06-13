@@ -497,4 +497,65 @@ export const professionalCases = [
     image: "/images/professional/sbc-data-product-automation.svg",
     imageAlt: "SBC data product diagram showing workflow mapping, data lineage, BI monitoring, reconciliation, and A/B testing support",
   },
+  {
+    id: "DW-08",
+    title: "Trusted E-commerce Metrics with dbt",
+    titleZh: "基于 dbt 的电商可信指标工程",
+    category: "Analytics engineering portfolio",
+    categoryZh: "分析工程作品集",
+    problem:
+      "E-commerce metrics can drift when marketing, product, and finance teams rebuild revenue, conversion, and attribution logic from raw event data.",
+    problemZh:
+      "当市场、产品和财务团队分别从原始事件数据里重建收入、转化和归因逻辑时，电商指标很容易出现口径漂移。",
+    action:
+      "Built a local-first dbt + DuckDB project that models raw orders and event data into staging, intermediate, fact, dimension, and daily metric models, with 30-minute sessionization and an order-to-session attribution bridge.",
+    actionZh:
+      "使用 dbt + DuckDB 构建 local-first 分析工程项目，将原始订单和事件数据建模为 staging、intermediate、fact、dimension 和每日指标模型，并实现 30 分钟 sessionization 与 order-to-session attribution bridge。",
+    result:
+      "Created a reproducible trusted-metrics foundation with dbt contracts, GitHub Actions CI, additive metric components, and 150+ dbt tests, with the latest v2 local run passing 158 tests.",
+    resultZh:
+      "沉淀可复现的可信指标层：包含 dbt contracts、GitHub Actions CI、可加性指标组件和 150+ dbt tests；最新 v2 本地验证通过 158 个 tests。",
+    framework: [
+      {
+        label: "What",
+        labelZh: "做什么",
+        text: "A portfolio-scale analytics engineering project for trusted e-commerce metrics.",
+        textZh: "面向电商可信指标的作品集级分析工程项目。",
+      },
+      {
+        label: "Why",
+        labelZh: "为什么",
+        text: "Prevent metric drift before data reaches dashboards by defining grains, contracts, attribution logic, and additive components.",
+        textZh: "在数据进入看板前，通过明确粒度、数据契约、归因逻辑和可加性组件，减少指标口径漂移。",
+      },
+      {
+        label: "How",
+        labelZh: "怎么做",
+        text: "Used dbt layers, SQL window functions, attribution bridge logic, marts contracts, reconciliation tests, and CI.",
+        textZh: "使用 dbt 分层、SQL 窗口函数、归因桥接逻辑、marts 数据契约、对账测试和 CI。",
+      },
+      {
+        label: "Outcome",
+        labelZh: "成果信号",
+        text: "13 dbt models, 5 seed tables, one-click local run, GitHub Actions CI, and 150+ passing tests.",
+        textZh: "13 个 dbt models、5 张 seed tables、一键本地运行、GitHub Actions CI 和 150+ passing tests。",
+      },
+    ],
+    examples: [
+      "Raw seeds -> staging -> intermediate -> marts -> trusted metric components",
+      "30-minute inactivity sessionization",
+      "Order-to-session attribution for revenue by channel",
+      "Additive components for conversion rate, AOV, repeat purchase rate, and revenue by channel",
+    ],
+    examplesZh: [
+      "Raw seeds -> staging -> intermediate -> marts -> trusted metric components",
+      "30 分钟 inactivity sessionization",
+      "用于按渠道收入的 order-to-session attribution",
+      "转化率、AOV、复购率和渠道收入的可加性指标组件",
+    ],
+    skills: ["dbt", "DuckDB", "SQL", "Analytics engineering", "Data contracts", "Metric governance", "CI"],
+    skillsZh: ["dbt", "DuckDB", "SQL", "分析工程", "数据契约", "指标治理", "CI"],
+    image: "/images/professional/trusted-ecommerce-metrics.svg",
+    imageAlt: "Trusted e-commerce metrics diagram showing raw data, dbt layers, attribution, contracts, tests, and portfolio evidence",
+  },
 ];

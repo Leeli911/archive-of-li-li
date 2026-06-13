@@ -1,0 +1,43 @@
+<svg width="960" height="640" viewBox="0 0 960 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Trusted E-commerce Metrics with dbt</title>
+  <desc id="desc">Architecture diagram showing raw orders and events flowing through dbt staging, intermediate, marts, metric components, tests, and CI.</desc>
+  <rect width="960" height="640" rx="32" fill="#F8F4EC"/>
+  <rect x="54" y="52" width="852" height="536" rx="28" fill="#FFFDF8" stroke="#2F3A35" stroke-width="3"/>
+  <text x="88" y="108" fill="#2F3A35" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Trusted E-commerce Metrics</text>
+  <text x="88" y="143" fill="#6B5E52" font-family="Inter, Arial, sans-serif" font-size="18">dbt + DuckDB portfolio-scale analytics engineering</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">
+    <rect x="88" y="210" width="152" height="72" rx="16" fill="#E8EFE7" stroke="#496557" stroke-width="2"/>
+    <text x="121" y="240" fill="#2F3A35">Raw seeds</text>
+    <text x="113" y="265" fill="#6B5E52" font-size="13" font-weight="500">orders + events</text>
+    <rect x="294" y="210" width="152" height="72" rx="16" fill="#E9EDF7" stroke="#4F5F89" stroke-width="2"/>
+    <text x="331" y="240" fill="#2F3A35">Staging</text>
+    <text x="324" y="265" fill="#6B5E52" font-size="13" font-weight="500">clean + type</text>
+    <rect x="500" y="210" width="174" height="72" rx="16" fill="#F6E8DE" stroke="#9A6048" stroke-width="2"/>
+    <text x="537" y="240" fill="#2F3A35">Intermediate</text>
+    <text x="529" y="265" fill="#6B5E52" font-size="13" font-weight="500">sessions + attribution</text>
+    <rect x="728" y="210" width="144" height="72" rx="16" fill="#F4EACF" stroke="#8A6B2E" stroke-width="2"/>
+    <text x="768" y="240" fill="#2F3A35">Marts</text>
+    <text x="755" y="265" fill="#6B5E52" font-size="13" font-weight="500">facts + dims</text>
+  </g>
+  <g stroke="#2F3A35" stroke-width="3" stroke-linecap="round"><path d="M246 246H286"/><path d="M452 246H492"/><path d="M680 246H720"/></g>
+  <g fill="#2F3A35"><path d="M286 246L275 239V253L286 246Z"/><path d="M492 246L481 239V253L492 246Z"/><path d="M720 246L709 239V253L720 246Z"/></g>
+  <rect x="118" y="354" width="228" height="96" rx="18" fill="#2F3A35"/>
+  <text x="146" y="390" fill="#FFFDF8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">30-min sessions</text>
+  <text x="146" y="419" fill="#D9E6D6" font-family="Inter, Arial, sans-serif" font-size="14">Window functions split events</text>
+  <rect x="366" y="354" width="228" height="96" rx="18" fill="#803F2C"/>
+  <text x="394" y="390" fill="#FFFDF8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Attribution bridge</text>
+  <text x="394" y="419" fill="#F9DCD0" font-family="Inter, Arial, sans-serif" font-size="14">Orders linked to sessions</text>
+  <rect x="614" y="354" width="228" height="96" rx="18" fill="#40537D"/>
+  <text x="642" y="390" fill="#FFFDF8" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Metric components</text>
+  <text x="642" y="419" fill="#DCE4FA" font-family="Inter, Arial, sans-serif" font-size="14">No precomputed ratios</text>
+  <g font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700">
+    <rect x="136" y="498" width="154" height="50" rx="25" fill="#E8EFE7" stroke="#496557" stroke-width="2"/>
+    <text x="170" y="529" fill="#2F3A35">150+ tests</text>
+    <rect x="326" y="498" width="154" height="50" rx="25" fill="#F6E8DE" stroke="#9A6048" stroke-width="2"/>
+    <text x="361" y="529" fill="#2F3A35">Contracts</text>
+    <rect x="516" y="498" width="154" height="50" rx="25" fill="#E9EDF7" stroke="#4F5F89" stroke-width="2"/>
+    <text x="559" y="529" fill="#2F3A35">CI gate</text>
+    <rect x="706" y="498" width="154" height="50" rx="25" fill="#F4EACF" stroke="#8A6B2E" stroke-width="2"/>
+    <text x="740" y="529" fill="#2F3A35">Lineage</text>
+  </g>
+</svg>

@@ -29,6 +29,13 @@ const digitFieldConfig = {
   rotationReturn: 0.024,
   friction: 0.895,
   maxParticles: 1150,
+  desktopParticleCap: 820,
+  mobileParticleCap: 520,
+  reducedMotionParticleCap: 180,
+  particleAreaDivisor: 1250,
+  activeFrameInterval: 16,
+  idleFrameInterval: 33,
+  pausedFrameDelay: 240,
 };
 
 function randomBetween(min, max) {
@@ -39,17 +46,47 @@ function randomDigitColor() {
   return digitPalette[Math.floor(Math.random() * digitPalette.length)];
 }
 
-function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
+function getParticleLimit(width, height, prefersReducedMotion) {
+  if (prefersReducedMotion) return digitFieldConfig.reducedMotionParticleCap;
+
+  const areaBudget = Math.round((width * height) / digitFieldConfig.particleAreaDivisor);
+  const viewportCap =
+    width < 760 ? digitFieldConfig.mobileParticleCap : digitFieldConfig.desktopParticleCap;
+
+  return Math.max(180, Math.min(viewportCap, areaBudget));
+}
+
+function getCanvasPixelRatio(width) {
+  const deviceRatio = window.devicePixelRatio || 1;
+  const ratioCap = width < 760 ? 1.2 : 1.5;
+
+  return Math.min(deviceRatio, ratioCap);
+}
+
+function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaused = false }) {
   const canvasRef = useRef(null);
+  const pausedRef = useRef(isPaused);
+
+  useEffect(() => {
+    pausedRef.current = isPaused;
+  }, [isPaused]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    let frame;
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const baseCanvas = document.createElement("canvas");
+    const baseContext = baseCanvas.getContext("2d");
+    let animationFrame = 0;
+    let idleTimer = 0;
+    let resizeTimer = 0;
     let width = 0;
     let height = 0;
     let particles = [];
     let bursts = [];
+    let particleLimit = digitFieldConfig.maxParticles;
+    let prefersReducedMotion = reducedMotionQuery.matches;
+    let canvasVisible = true;
     let drawing = false;
     let lastPoint = null;
     let pendingPoint = null;
@@ -57,6 +94,18 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
     let lastPaint = 0;
     let nextExplosionAt = lastTime + 900;
     let lastManualExplosion = 0;
+
+    const scheduleFrame = (delay = 0) => {
+      if (delay > 0) {
+        idleTimer = window.setTimeout(() => {
+          idleTimer = 0;
+          animationFrame = window.requestAnimationFrame(animate);
+        }, delay);
+        return;
+      }
+
+      animationFrame = window.requestAnimationFrame(animate);
+    };
 
     const getDigitFont = () =>
       `${digitFieldConfig.fontSize}px "SFMono-Regular", Menlo, Consolas, "Kaiti SC", monospace`;
@@ -78,7 +127,7 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
       let y = digitFieldConfig.marginTop;
       let guard = 0;
 
-      while (y < maxY && nextParticles.length < digitFieldConfig.maxParticles && guard < 12000) {
+      while (y < maxY && nextParticles.length < particleLimit && guard < 12000) {
         guard += 1;
         const character = characters[Math.floor(Math.random() * characters.length)];
         const characterWidth = Math.max(6, context.measureText(character).width);
@@ -88,6 +137,8 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
           y += digitFieldConfig.lineHeight;
           continue;
         }
+
+        const targetAlpha = randomBetween(0.14, 0.36);
 
         nextParticles.push({
           character,
@@ -102,8 +153,8 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
           angle: randomBetween(-0.02, 0.02),
           spin: 0,
           color: randomDigitColor(),
-          alpha: 0,
-          targetAlpha: randomBetween(0.14, 0.36),
+          alpha: prefersReducedMotion ? targetAlpha : 0,
+          targetAlpha,
         });
 
         x += characterWidth + digitFieldConfig.letterSpacing + randomBetween(-0.35, 0.55);
@@ -113,9 +164,9 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
       return nextParticles;
     };
 
-    const drawBase = () => {
-      context.save();
-      context.globalCompositeOperation = "multiply";
+    const drawBase = (targetContext) => {
+      targetContext.save();
+      targetContext.globalCompositeOperation = "multiply";
 
       const blooms = [
         [width * 0.2, height * 0.22, Math.min(width, height) * 0.28, "#ECC67C"],
@@ -125,14 +176,14 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
       ];
 
       blooms.forEach(([x, y, radius, color]) => {
-        const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+        const gradient = targetContext.createRadialGradient(x, y, 0, x, y, radius);
         gradient.addColorStop(0, `${color}46`);
         gradient.addColorStop(0.58, `${color}1f`);
         gradient.addColorStop(1, `${color}00`);
-        context.fillStyle = gradient;
-        context.beginPath();
-        context.arc(x, y, radius, 0, Math.PI * 2);
-        context.fill();
+        targetContext.fillStyle = gradient;
+        targetContext.beginPath();
+        targetContext.arc(x, y, radius, 0, Math.PI * 2);
+        targetContext.fill();
       });
 
       const paths = [
@@ -163,15 +214,24 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
       ];
 
       paths.forEach((path) => {
-        context.beginPath();
-        context.moveTo(...path.start);
-        context.bezierCurveTo(...path.cp1, ...path.cp2, ...path.end);
-        context.strokeStyle = path.color;
-        context.lineWidth = path.lineWidth;
-        context.lineCap = "round";
-        context.stroke();
+        targetContext.beginPath();
+        targetContext.moveTo(...path.start);
+        targetContext.bezierCurveTo(...path.cp1, ...path.cp2, ...path.end);
+        targetContext.strokeStyle = path.color;
+        targetContext.lineWidth = path.lineWidth;
+        targetContext.lineCap = "round";
+        targetContext.stroke();
       });
-      context.restore();
+      targetContext.restore();
+    };
+
+    const renderBase = () => {
+      if (baseContext && baseCanvas.width && baseCanvas.height) {
+        context.drawImage(baseCanvas, 0, 0, width, height);
+        return;
+      }
+
+      drawBase(context);
     };
 
     const drawBursts = (delta) => {
@@ -284,8 +344,30 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
     };
 
     const animate = (time) => {
-      frame = requestAnimationFrame(animate);
-      if (document.hidden || time - lastPaint < 16) return;
+      const isAnimationPaused = document.hidden || !canvasVisible || pausedRef.current;
+
+      if (isAnimationPaused) {
+        lastTime = time;
+        scheduleFrame(digitFieldConfig.pausedFrameDelay);
+        return;
+      }
+
+      if (prefersReducedMotion) {
+        lastTime = time;
+        scheduleFrame(digitFieldConfig.pausedFrameDelay * 2);
+        return;
+      }
+
+      const frameInterval =
+        drawing || pendingPoint || bursts.length
+          ? digitFieldConfig.activeFrameInterval
+          : digitFieldConfig.idleFrameInterval;
+
+      const timeSincePaint = time - lastPaint;
+      if (timeSincePaint < frameInterval) {
+        scheduleFrame(frameInterval - timeSincePaint);
+        return;
+      }
 
       const delta = Math.min(50, time - lastTime || 33.34);
       lastTime = time;
@@ -308,7 +390,7 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
       }
 
       context.clearRect(0, 0, width, height);
-      drawBase();
+      renderBase();
       drawBursts(delta);
       renderParticles(delta);
 
@@ -323,18 +405,40 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
         );
       }
 
+      scheduleFrame();
     };
 
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect();
-      const ratio = window.devicePixelRatio || 1;
       width = rect.width;
       height = rect.height;
+      const ratio = getCanvasPixelRatio(width);
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      particleLimit = getParticleLimit(width, height, prefersReducedMotion);
+
+      if (baseContext) {
+        baseCanvas.width = canvas.width;
+        baseCanvas.height = canvas.height;
+        baseContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+        baseContext.clearRect(0, 0, width, height);
+        drawBase(baseContext);
+      }
+
       particles = makeDigitParticles();
       bursts = [];
+      context.clearRect(0, 0, width, height);
+      renderBase();
+      renderParticles(16);
+    };
+
+    const queueResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        resizeTimer = 0;
+        resizeCanvas();
+      }, 90);
     };
 
     const getPoint = (event) => {
@@ -346,6 +450,8 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
     };
 
     const startDrawing = (event) => {
+      if (prefersReducedMotion) return;
+
       drawing = true;
       lastPoint = getPoint(event);
       explodeAt(lastPoint.x, lastPoint.y, {
@@ -369,9 +475,30 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
       pendingPoint = null;
     };
 
+    const handleMotionPreferenceChange = (event) => {
+      prefersReducedMotion = event.matches;
+      resizeCanvas();
+    };
+
+    let observer;
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          canvasVisible = entry.isIntersecting;
+        },
+        { threshold: 0.04 },
+      );
+      observer.observe(canvas);
+    }
+
     resizeCanvas();
-    frame = requestAnimationFrame(animate);
-    window.addEventListener("resize", resizeCanvas);
+    scheduleFrame();
+    window.addEventListener("resize", queueResize);
+    if (reducedMotionQuery.addEventListener) {
+      reducedMotionQuery.addEventListener("change", handleMotionPreferenceChange);
+    } else {
+      reducedMotionQuery.addListener?.(handleMotionPreferenceChange);
+    }
     canvas.addEventListener("pointerdown", startDrawing, { passive: true });
     canvas.addEventListener("pointermove", drawTrace, { passive: true });
     canvas.addEventListener("pointerup", stopDrawing, { passive: true });
@@ -379,8 +506,16 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId }) {
     canvas.addEventListener("pointerleave", stopDrawing, { passive: true });
 
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resizeCanvas);
+      window.cancelAnimationFrame(animationFrame);
+      window.clearTimeout(idleTimer);
+      window.clearTimeout(resizeTimer);
+      observer?.disconnect();
+      window.removeEventListener("resize", queueResize);
+      if (reducedMotionQuery.removeEventListener) {
+        reducedMotionQuery.removeEventListener("change", handleMotionPreferenceChange);
+      } else {
+        reducedMotionQuery.removeListener?.(handleMotionPreferenceChange);
+      }
       canvas.removeEventListener("pointerdown", startDrawing);
       canvas.removeEventListener("pointermove", drawTrace);
       canvas.removeEventListener("pointerup", stopDrawing);
