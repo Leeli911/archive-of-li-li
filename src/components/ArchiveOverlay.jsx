@@ -1,9 +1,11 @@
+import { useCallback, useEffect, useState } from "react";
 import SectionIntro from "./SectionIntro";
 import AIProductCard from "./AIProductCard";
 import ResearchProjectCard from "./ResearchProjectCard";
 import ProfessionalCaseCard from "./ProfessionalCaseCard";
 import AboutSection from "./AboutSection";
 import CVSection from "./CVSection";
+import ImagePreview from "./ImagePreview";
 import { publicAsset } from "../utils/assets";
 
 function ArchiveOverlay({
@@ -19,9 +21,27 @@ function ArchiveOverlay({
   targetId,
   highlightedTargetId,
 }) {
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleImagePreview = useCallback((nextImagePreview) => {
+    if (!nextImagePreview?.src) return;
+    setImagePreview(nextImagePreview);
+  }, []);
+
+  const closeImagePreview = useCallback(() => {
+    setImagePreview(null);
+  }, []);
+
+  useEffect(() => {
+    setImagePreview(null);
+  }, [section?.id, isOpen]);
+
   if (!section) return null;
 
   const isZh = language === "zh";
+  const professionalOverviewImageSrc = professionalOverview
+    ? publicAsset(professionalOverview.image)
+    : "";
 
   return (
     <div className={`archive-overlay ${isSwitching ? "is-switching" : ""} ${isOpen ? "" : "is-closing"}`}>
@@ -48,6 +68,7 @@ function ArchiveOverlay({
                   product={product}
                   language={language}
                   highlightedTargetId={highlightedTargetId}
+                  onImagePreview={handleImagePreview}
                 />
               ))}
             </div>
@@ -73,6 +94,7 @@ function ArchiveOverlay({
                   language={language}
                   targetId={targetId}
                   highlightedTargetId={highlightedTargetId}
+                  onImagePreview={handleImagePreview}
                 />
               ))}
             </div>
@@ -117,12 +139,28 @@ function ArchiveOverlay({
                   </div>
                 </div>
                 <div className="data-work-overview-visual">
-                  <img
-                    src={publicAsset(professionalOverview.image)}
-                    alt={professionalOverview.imageAlt}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <button
+                    className="image-preview-trigger data-work-overview-preview"
+                    type="button"
+                    aria-label={`${isZh ? "打开图片预览" : "Open image preview"}: ${
+                      isZh ? professionalOverview.titleZh : professionalOverview.title
+                    }`}
+                    onClick={() =>
+                      handleImagePreview({
+                        src: professionalOverviewImageSrc,
+                        alt: professionalOverview.imageAlt,
+                        title: isZh ? professionalOverview.titleZh : professionalOverview.title,
+                        caption: isZh ? professionalOverview.summaryZh : professionalOverview.summary,
+                      })
+                    }
+                  >
+                    <img
+                      src={professionalOverviewImageSrc}
+                      alt={professionalOverview.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
                 </div>
                 <div className="data-work-framework">
                   {professionalOverview.framework.map((item) => (
@@ -140,7 +178,8 @@ function ArchiveOverlay({
                   key={professionalCase.id}
                   professionalCase={professionalCase}
                   language={language}
-                  highlightedTargetId={highlightedTargetId}
+                  isHighlighted={highlightedTargetId === professionalCase.id.toLowerCase()}
+                  onImagePreview={handleImagePreview}
                 />
               ))}
             </div>
@@ -204,6 +243,13 @@ function ArchiveOverlay({
           </div>
         )}
       </div>
+      {imagePreview && (
+        <ImagePreview
+          image={imagePreview}
+          language={language}
+          onClose={closeImagePreview}
+        />
+      )}
     </div>
   );
 }

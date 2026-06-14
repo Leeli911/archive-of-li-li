@@ -1,42 +1,64 @@
+import { memo, useCallback, useMemo } from "react";
 import { publicAsset } from "../utils/assets";
 
 function ProfessionalCaseCard({
   professionalCase,
   language = "en",
-  highlightedTargetId,
+  isHighlighted = false,
+  onImagePreview,
 }) {
   const isZh = language === "zh";
   const anchorId = professionalCase.id.toLowerCase();
-  const isHighlighted = highlightedTargetId === anchorId;
-  const sections = [
-    {
-      label: isZh ? "问题" : "Problem",
-      value: isZh ? professionalCase.problemZh || professionalCase.problem : professionalCase.problem,
-    },
-    {
-      label: isZh ? "行动" : "Action",
-      value: isZh ? professionalCase.actionZh || professionalCase.action : professionalCase.action,
-    },
-    {
-      label: isZh ? "结果" : "Result",
-      value: isZh ? professionalCase.resultZh || professionalCase.result : professionalCase.result,
-    },
-  ];
-  const skills = isZh
-    ? professionalCase.skillsZh || professionalCase.skills
-    : professionalCase.skills;
-  const imageSrc = publicAsset(
-    isZh
-      ? professionalCase.imageZh || professionalCase.image
-      : professionalCase.image,
+  const title = isZh ? professionalCase.titleZh : professionalCase.title;
+  const sections = useMemo(
+    () => [
+      {
+        label: isZh ? "问题" : "Problem",
+        value: isZh ? professionalCase.problemZh || professionalCase.problem : professionalCase.problem,
+      },
+      {
+        label: isZh ? "行动" : "Action",
+        value: isZh ? professionalCase.actionZh || professionalCase.action : professionalCase.action,
+      },
+      {
+        label: isZh ? "结果" : "Result",
+        value: isZh ? professionalCase.resultZh || professionalCase.result : professionalCase.result,
+      },
+    ],
+    [isZh, professionalCase],
+  );
+  const skills = useMemo(
+    () => (isZh
+      ? professionalCase.skillsZh || professionalCase.skills
+      : professionalCase.skills),
+    [isZh, professionalCase],
+  );
+  const imageSrc = useMemo(
+    () => publicAsset(
+      isZh
+        ? professionalCase.imageZh || professionalCase.image
+        : professionalCase.image,
+    ),
+    [isZh, professionalCase],
   );
   const imageAlt = isZh
     ? professionalCase.imageAltZh || professionalCase.imageAlt
     : professionalCase.imageAlt;
+  const openImagePreview = useCallback(() => {
+    onImagePreview?.({
+      src: imageSrc,
+      alt: imageAlt || title,
+      title,
+      caption: imageAlt,
+    });
+  }, [imageAlt, imageSrc, onImagePreview, title]);
   const framework = professionalCase.framework || [];
-  const examples = isZh
-    ? professionalCase.examplesZh || professionalCase.examples || []
-    : professionalCase.examples || [];
+  const examples = useMemo(
+    () => (isZh
+      ? professionalCase.examplesZh || professionalCase.examples || []
+      : professionalCase.examples || []),
+    [isZh, professionalCase],
+  );
 
   return (
     <article
@@ -48,7 +70,7 @@ function ProfessionalCaseCard({
       <div className="professional-card-head">
         <div>
           <span>{professionalCase.id}</span>
-          <h3>{isZh ? professionalCase.titleZh : professionalCase.title}</h3>
+          <h3>{title}</h3>
           <p>{isZh ? professionalCase.title : professionalCase.titleZh}</p>
           {professionalCase.category && (
             <small>
@@ -58,7 +80,14 @@ function ProfessionalCaseCard({
             </small>
           )}
         </div>
-        <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
+        <button
+          className="image-preview-trigger professional-image-button"
+          type="button"
+          aria-label={`${isZh ? "打开图片预览" : "Open image preview"}: ${title}`}
+          onClick={openImagePreview}
+        >
+          <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
+        </button>
       </div>
 
       <div className="par-structure">
@@ -99,4 +128,4 @@ function ProfessionalCaseCard({
   );
 }
 
-export default ProfessionalCaseCard;
+export default memo(ProfessionalCaseCard);

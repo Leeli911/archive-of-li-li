@@ -1,3 +1,4 @@
+import { memo, useCallback, useMemo } from "react";
 import { publicAsset } from "../utils/assets";
 
 const accentClasses = {
@@ -15,37 +16,60 @@ function ProductLink({ link, language }) {
   );
 }
 
-function AIProductCard({ product, language = "en", highlightedTargetId }) {
+function AIProductCard({
+  product,
+  language = "en",
+  highlightedTargetId,
+  onImagePreview,
+}) {
   const isZh = language === "zh";
   const anchorId = product.id.toLowerCase();
   const isHighlighted = highlightedTargetId === anchorId;
-  const imageSrc = publicAsset(isZh ? product.imageZh || product.image : product.image);
+  const title = isZh ? product.titleZh : product.title;
+  const imageSrc = useMemo(
+    () => publicAsset(isZh ? product.imageZh || product.image : product.image),
+    [isZh, product],
+  );
   const imageAlt = isZh
     ? product.imageAltZh || product.imageAlt
     : product.imageAlt;
-  const methods = isZh
-    ? product.methodsZh || product.methods
-    : product.methods;
+  const openImagePreview = useCallback(() => {
+    onImagePreview?.({
+      src: imageSrc,
+      alt: imageAlt || title,
+      title,
+      caption: imageAlt,
+    });
+  }, [imageAlt, imageSrc, onImagePreview, title]);
+  const methods = useMemo(
+    () => (isZh
+      ? product.methodsZh || product.methods
+      : product.methods),
+    [isZh, product],
+  );
   const metrics = product.metrics || [];
   const links = product.links?.filter((link) => link.href && link.href !== "#") || [];
-  const detailRows = [
-    {
-      label: isZh ? "问题场景" : "Problem",
-      value: isZh ? product.problemZh || product.problem : product.problem,
-    },
-    {
-      label: isZh ? "系统设计" : "System",
-      value: isZh ? product.systemZh || product.system : product.system,
-    },
-    {
-      label: isZh ? "成果 / 评测" : "Outcome / Evaluation",
-      value: isZh ? product.evidenceZh || product.evidence : product.evidence,
-    },
-    {
-      label: isZh ? "我的角色" : "My Role",
-      value: isZh ? product.roleZh || product.role : product.role,
-    },
-  ].filter((row) => row.value);
+  const detailRows = useMemo(
+    () => [
+      {
+        label: isZh ? "问题场景" : "Problem",
+        value: isZh ? product.problemZh || product.problem : product.problem,
+      },
+      {
+        label: isZh ? "系统设计" : "System",
+        value: isZh ? product.systemZh || product.system : product.system,
+      },
+      {
+        label: isZh ? "成果 / 评测" : "Outcome / Evaluation",
+        value: isZh ? product.evidenceZh || product.evidence : product.evidence,
+      },
+      {
+        label: isZh ? "我的角色" : "My Role",
+        value: isZh ? product.roleZh || product.role : product.role,
+      },
+    ].filter((row) => row.value),
+    [isZh, product],
+  );
 
   return (
     <article
@@ -54,10 +78,15 @@ function AIProductCard({ product, language = "en", highlightedTargetId }) {
       className={`ai-product-card ${product.featured ? "is-featured" : ""} ${accentClasses[product.accent] || ""} ${isHighlighted ? "is-highlighted" : ""}`}
       tabIndex="-1"
     >
-      <div className="card-image-wrap">
+      <button
+        className="card-image-wrap image-preview-trigger"
+        type="button"
+        aria-label={`${isZh ? "打开图片预览" : "Open image preview"}: ${title}`}
+        onClick={openImagePreview}
+      >
         <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
         <span>{product.id}</span>
-      </div>
+      </button>
 
       <div className="ai-card-body">
         <div>
@@ -66,7 +95,7 @@ function AIProductCard({ product, language = "en", highlightedTargetId }) {
               {isZh ? product.eyebrowZh || product.eyebrow : product.eyebrow}
             </p>
           )}
-          <h3>{isZh ? product.titleZh : product.title}</h3>
+          <h3>{title}</h3>
           <p className="card-title-zh">{isZh ? product.title : product.titleZh}</p>
         </div>
         {metrics.length > 0 && (
@@ -127,4 +156,4 @@ function AIProductCard({ product, language = "en", highlightedTargetId }) {
   );
 }
 
-export default AIProductCard;
+export default memo(AIProductCard);

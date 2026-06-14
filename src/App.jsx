@@ -244,7 +244,7 @@ function App() {
         highlightedTargetId={highlightedTargetId}
       />
       <BloomTransition bloom={bloom} />
-      <LilyCursor waiting={Boolean(bloom) || isSwitching} />
+      <LilyCursor waiting={Boolean(bloom) || isSwitching} reducedEffects={isOverlayOpen} />
       <Footer />
     </div>
   );

@@ -3,14 +3,23 @@ import ArchiveFlowerMap from "./ArchiveFlowerMap";
 
 const digitSeedText = "1231134753463242749329571943235739352015";
 
-const digitPalette = [
-  "214, 140, 120",
-  "144, 172, 142",
-  "143, 170, 184",
-  "236, 198, 124",
-  "190, 159, 146",
-  "126, 111, 96",
-];
+const digitPalettes = {
+  base: [
+    "96, 82, 72",
+    "116, 94, 82",
+    "136, 108, 94",
+    "150, 121, 110",
+  ],
+  cool: [
+    "94, 126, 96",
+    "88, 116, 130",
+    "112, 135, 132",
+  ],
+  accent: [
+    "164, 92, 78",
+    "166, 129, 64",
+  ],
+};
 
 const digitFieldConfig = {
   fontSize: 13,
@@ -19,8 +28,8 @@ const digitFieldConfig = {
   marginX: 40,
   marginTop: 138,
   marginBottom: 42,
-  explosionIntervalMin: 2600,
-  explosionIntervalMax: 4800,
+  explosionIntervalMin: 8200,
+  explosionIntervalMax: 14000,
   radiusMin: 72,
   radiusMax: 170,
   forceMin: 4.5,
@@ -29,13 +38,27 @@ const digitFieldConfig = {
   rotationReturn: 0.024,
   friction: 0.895,
   maxParticles: 1150,
-  desktopParticleCap: 820,
-  mobileParticleCap: 520,
-  reducedMotionParticleCap: 180,
-  particleAreaDivisor: 1250,
-  activeFrameInterval: 16,
-  idleFrameInterval: 33,
-  pausedFrameDelay: 240,
+  largeParticleCap: 920,
+  desktopParticleCap: 760,
+  tabletParticleCap: 560,
+  mobileParticleCap: 360,
+  reducedMotionParticleCap: 140,
+  particleAreaDivisor: 1150,
+  dragFrameInterval: 16,
+  activeFrameInterval: 24,
+  idleFrameInterval: 48,
+  pausedFrameDelay: 320,
+  interactionBoostMs: 900,
+  baseAlphaMin: 0.28,
+  baseAlphaMax: 0.56,
+  burstAlphaMin: 0.3,
+  burstAlphaMax: 0.64,
+  traceMinAlpha: 0.16,
+  traceMaxAlpha: 0.32,
+  faintMinAlpha: 0.06,
+  faintMaxAlpha: 0.12,
+  accentMinAlpha: 0.34,
+  accentMaxAlpha: 0.46,
 };
 
 function randomBetween(min, max) {
@@ -43,32 +66,169 @@ function randomBetween(min, max) {
 }
 
 function randomDigitColor() {
-  return digitPalette[Math.floor(Math.random() * digitPalette.length)];
+  const roll = Math.random();
+  const palette =
+    roll < 0.7
+      ? digitPalettes.base
+      : roll < 0.9
+        ? digitPalettes.cool
+        : digitPalettes.accent;
+
+  return palette[Math.floor(Math.random() * palette.length)];
 }
 
 function getParticleLimit(width, height, prefersReducedMotion) {
   if (prefersReducedMotion) return digitFieldConfig.reducedMotionParticleCap;
 
   const areaBudget = Math.round((width * height) / digitFieldConfig.particleAreaDivisor);
-  const viewportCap =
-    width < 760 ? digitFieldConfig.mobileParticleCap : digitFieldConfig.desktopParticleCap;
+  let viewportCap = digitFieldConfig.largeParticleCap;
+
+  if (width < 640) {
+    viewportCap = digitFieldConfig.mobileParticleCap;
+  } else if (width < 1024) {
+    viewportCap = digitFieldConfig.tabletParticleCap;
+  } else if (width < 1440) {
+    viewportCap = digitFieldConfig.desktopParticleCap;
+  }
 
   return Math.max(180, Math.min(viewportCap, areaBudget));
 }
 
 function getCanvasPixelRatio(width) {
   const deviceRatio = window.devicePixelRatio || 1;
-  const ratioCap = width < 760 ? 1.2 : 1.5;
+  const ratioCap = width < 760 ? 1.35 : 1.5;
 
-  return Math.min(deviceRatio, ratioCap);
+  return Math.min(deviceRatio, ratioCap, 2);
+}
+
+function getReadabilityFactor(x, y, width) {
+  const inHeaderBand = y < digitFieldConfig.marginTop - 18;
+  const inTitleBand =
+    width < 760
+      ? y < 360
+      : x < Math.min(760, width * 0.56) && y < 430;
+
+  if (inHeaderBand) return 0.34;
+  if (inTitleBand) return 0.48;
+  return 1;
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function ellipseInfluence(x, y, zone) {
+  const dx = (x - zone.x) / zone.rx;
+  const dy = (y - zone.y) / zone.ry;
+  const distance = dx * dx + dy * dy;
+
+  if (distance >= 1) return 0;
+
+  return Math.pow(1 - distance, zone.softness || 1.35);
+}
+
+function getEdgeFactor(x, y, width, height) {
+  const edgeDistance = Math.min(x, y, width - x, height - y);
+
+  return clamp(edgeDistance / 150, 0.42, 1);
+}
+
+function getBaseDensity(x, y, width, height, zones) {
+  const readabilityFactor = getReadabilityFactor(x, y, width);
+  const archiveMapBias =
+    x > width * 0.5 && y > digitFieldConfig.marginTop ? 0.18 : 0;
+  let density = 0.58 + archiveMapBias;
+
+  density *= getEdgeFactor(x, y, width, height);
+  density *= 0.72 + readabilityFactor * 0.28;
+
+  zones.voids.forEach((zone) => {
+    density *= 1 - ellipseInfluence(x, y, zone) * zone.strength;
+  });
+
+  zones.clusters.forEach((zone) => {
+    density += ellipseInfluence(x, y, zone) * zone.strength;
+  });
+
+  return clamp(density, 0.05, 0.92);
+}
+
+function makeDensityZones(width, height) {
+  return {
+    voids: [
+      {
+        x: Math.min(width * 0.3, 430),
+        y: Math.min(height * 0.36, 320),
+        rx: Math.min(width * 0.36, 520),
+        ry: Math.min(height * 0.28, 270),
+        strength: 0.72,
+        softness: 1.15,
+      },
+      {
+        x: width * randomBetween(0.06, 0.16),
+        y: height * randomBetween(0.72, 0.88),
+        rx: width * randomBetween(0.12, 0.2),
+        ry: height * randomBetween(0.12, 0.2),
+        strength: randomBetween(0.35, 0.5),
+        softness: randomBetween(1.2, 1.8),
+      },
+      {
+        x: width * randomBetween(0.56, 0.76),
+        y: height * randomBetween(0.54, 0.78),
+        rx: width * randomBetween(0.12, 0.2),
+        ry: height * randomBetween(0.1, 0.18),
+        strength: randomBetween(0.22, 0.38),
+        softness: randomBetween(1.4, 2),
+      },
+    ],
+    clusters: [
+      {
+        x: width * randomBetween(0.58, 0.78),
+        y: height * randomBetween(0.2, 0.42),
+        rx: width * randomBetween(0.16, 0.25),
+        ry: height * randomBetween(0.16, 0.26),
+        strength: randomBetween(0.18, 0.28),
+        softness: randomBetween(1.25, 1.8),
+      },
+      {
+        x: width * randomBetween(0.66, 0.9),
+        y: height * randomBetween(0.6, 0.82),
+        rx: width * randomBetween(0.14, 0.22),
+        ry: height * randomBetween(0.1, 0.18),
+        strength: randomBetween(0.14, 0.24),
+        softness: randomBetween(1.35, 2),
+      },
+    ],
+  };
+}
+
+function randomDigitAlpha() {
+  const roll = Math.random();
+
+  if (roll < 0.16) {
+    return randomBetween(digitFieldConfig.faintMinAlpha, digitFieldConfig.faintMaxAlpha);
+  }
+
+  if (roll > 0.86) {
+    return randomBetween(digitFieldConfig.accentMinAlpha, digitFieldConfig.accentMaxAlpha);
+  }
+
+  return randomBetween(digitFieldConfig.traceMinAlpha, digitFieldConfig.traceMaxAlpha);
 }
 
 function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaused = false }) {
   const canvasRef = useRef(null);
   const pausedRef = useRef(isPaused);
+  const pauseAnimationRef = useRef(null);
+  const resumeAnimationRef = useRef(null);
 
   useEffect(() => {
     pausedRef.current = isPaused;
+    if (isPaused) {
+      pauseAnimationRef.current?.();
+    } else {
+      resumeAnimationRef.current?.();
+    }
   }, [isPaused]);
 
   useEffect(() => {
@@ -80,12 +240,14 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
     let animationFrame = 0;
     let idleTimer = 0;
     let resizeTimer = 0;
+    let pixelRatio = 1;
     let width = 0;
     let height = 0;
     let particles = [];
     let bursts = [];
     let particleLimit = digitFieldConfig.maxParticles;
     let prefersReducedMotion = reducedMotionQuery.matches;
+    let isPageVisible = !document.hidden;
     let canvasVisible = true;
     let drawing = false;
     let lastPoint = null;
@@ -94,8 +256,29 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
     let lastPaint = 0;
     let nextExplosionAt = lastTime + 900;
     let lastManualExplosion = 0;
+    let activeUntil = 0;
+
+    const resetCanvasTransform = () => {
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+
+    const clearScheduledFrame = () => {
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+
+      if (idleTimer) {
+        window.clearTimeout(idleTimer);
+        idleTimer = 0;
+      }
+    };
 
     const scheduleFrame = (delay = 0) => {
+      if (!isPageVisible) return;
+
+      clearScheduledFrame();
+
       if (delay > 0) {
         idleTimer = window.setTimeout(() => {
           idleTimer = 0;
@@ -107,12 +290,17 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       animationFrame = window.requestAnimationFrame(animate);
     };
 
+    const markInteraction = (time = performance.now()) => {
+      activeUntil = Math.max(activeUntil, time + digitFieldConfig.interactionBoostMs);
+    };
+
     const getDigitFont = () =>
       `${digitFieldConfig.fontSize}px "SFMono-Regular", Menlo, Consolas, "Kaiti SC", monospace`;
 
     const makeDigitParticles = () => {
-      const nextParticles = [];
+      const candidates = [];
       const characters = Array.from(digitSeedText);
+      const zones = makeDensityZones(width, height);
       const maxX = Math.max(digitFieldConfig.marginX, width - digitFieldConfig.marginX);
       const maxY = Math.max(
         digitFieldConfig.marginTop,
@@ -123,45 +311,95 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       context.font = getDigitFont();
       context.textBaseline = "alphabetic";
 
-      let x = digitFieldConfig.marginX;
-      let y = digitFieldConfig.marginTop;
+      let y = digitFieldConfig.marginTop + randomBetween(-12, 16);
+      let rowIndex = 0;
       let guard = 0;
 
-      while (y < maxY && nextParticles.length < particleLimit && guard < 12000) {
-        guard += 1;
-        const character = characters[Math.floor(Math.random() * characters.length)];
-        const characterWidth = Math.max(6, context.measureText(character).width);
+      while (y < maxY && guard < 16000) {
+        const rowDrift = randomBetween(-18, 22);
+        const rowWave = randomBetween(-4.5, 4.5);
+        const rowDensitySwing = randomBetween(0.86, 1.12);
+        let x =
+          digitFieldConfig.marginX +
+          rowDrift +
+          randomBetween(-16, 28) +
+          (rowIndex % 3) * randomBetween(-7, 9);
 
-        if (x + characterWidth > maxX) {
-          x = digitFieldConfig.marginX;
-          y += digitFieldConfig.lineHeight;
-          continue;
+        while (x < maxX && guard < 16000) {
+          guard += 1;
+          const character = characters[Math.floor(Math.random() * characters.length)];
+          const characterWidth = Math.max(6, context.measureText(character).width);
+
+          if (x + characterWidth > maxX) break;
+
+          const jitterX = randomBetween(-7.5, 8.5);
+          const jitterY =
+            randomBetween(-7.5, 7.5) +
+            Math.sin(rowIndex * 0.9 + x * 0.006) * rowWave;
+          const particleX = clamp(
+            x + jitterX,
+            digitFieldConfig.marginX * 0.58,
+            maxX,
+          );
+          const particleY = clamp(
+            y + jitterY,
+            digitFieldConfig.marginTop * 0.72,
+            maxY,
+          );
+          const density = getBaseDensity(particleX, particleY, width, height, zones);
+
+          if (Math.random() <= density * rowDensitySwing) {
+            const readabilityFactor = getReadabilityFactor(particleX, particleY, width);
+            const densityAlphaFactor = clamp(0.84 + density * 0.24, 0.78, 1.06);
+            const targetAlpha =
+              randomDigitAlpha() * readabilityFactor * densityAlphaFactor;
+
+            candidates.push({
+              character,
+              homeX: particleX,
+              homeY: particleY,
+              x: particleX,
+              y: particleY,
+              previousX: particleX,
+              previousY: particleY,
+              vx: 0,
+              vy: 0,
+              angle: randomBetween(-0.026, 0.026),
+              spin: 0,
+              color: randomDigitColor(),
+              alpha: prefersReducedMotion ? targetAlpha : 0,
+              targetAlpha,
+              readabilityFactor,
+            });
+          }
+
+          x +=
+            characterWidth +
+            digitFieldConfig.letterSpacing +
+            randomBetween(-4.5, 6.5);
         }
 
-        const targetAlpha = randomBetween(0.14, 0.36);
-
-        nextParticles.push({
-          character,
-          homeX: x,
-          homeY: y,
-          x,
-          y,
-          previousX: x,
-          previousY: y,
-          vx: 0,
-          vy: 0,
-          angle: randomBetween(-0.02, 0.02),
-          spin: 0,
-          color: randomDigitColor(),
-          alpha: prefersReducedMotion ? targetAlpha : 0,
-          targetAlpha,
-        });
-
-        x += characterWidth + digitFieldConfig.letterSpacing + randomBetween(-0.35, 0.55);
+        y += digitFieldConfig.lineHeight + randomBetween(-6, 8);
+        rowIndex += 1;
       }
 
       context.restore();
-      return nextParticles;
+
+      if (candidates.length <= particleLimit) return candidates;
+
+      const sampledParticles = [];
+      const samplePool = [...candidates];
+
+      for (let index = 0; index < particleLimit; index += 1) {
+        const swapIndex = index + Math.floor(Math.random() * (samplePool.length - index));
+        const selectedParticle = samplePool[swapIndex];
+
+        samplePool[swapIndex] = samplePool[index];
+        samplePool[index] = selectedParticle;
+        sampledParticles.push(selectedParticle);
+      }
+
+      return sampledParticles;
     };
 
     const drawBase = (targetContext) => {
@@ -264,6 +502,8 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
         digitFieldConfig.forceMax,
       );
       const burstColor = randomDigitColor();
+      const radiusSq = radius * radius;
+      const inverseRadius = 1 / radius;
 
       bursts.push({
         x,
@@ -277,11 +517,12 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       particles.forEach((particle) => {
         const dx = particle.x - x;
         const dy = particle.y - y;
-        const distance = Math.hypot(dx, dy);
+        const distanceSq = dx * dx + dy * dy;
 
-        if (distance > radius) return;
+        if (distanceSq > radiusSq) return;
 
-        const falloff = Math.pow(1 - distance / radius, 2.15);
+        const distance = Math.sqrt(distanceSq);
+        const falloff = Math.pow(1 - distance * inverseRadius, 2.15);
         const randomDirection = distance < 1 ? randomBetween(0, Math.PI * 2) : Math.atan2(dy, dx);
         const direction = randomDirection + randomBetween(-0.75, 0.75) * falloff;
         const power = force * falloff * randomBetween(0.56, 1.38);
@@ -290,15 +531,17 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
         particle.vy += Math.sin(direction) * power;
         particle.spin += randomBetween(-0.28, 0.28) * falloff;
         particle.color = randomDigitColor();
-        particle.targetAlpha = randomBetween(0.24, 0.62);
+        particle.targetAlpha =
+          randomBetween(digitFieldConfig.burstAlphaMin, digitFieldConfig.burstAlphaMax) *
+          particle.readabilityFactor;
       });
     };
 
     const renderParticles = (delta) => {
-      context.save();
+      resetCanvasTransform();
       context.font = getDigitFont();
       context.textBaseline = "alphabetic";
-      context.globalCompositeOperation = "multiply";
+      context.globalCompositeOperation = "source-over";
 
       particles.forEach((particle) => {
         particle.previousX = particle.x;
@@ -319,9 +562,12 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
         particle.angle += particle.spin * (delta / 16.67);
         particle.alpha += (particle.targetAlpha - particle.alpha) * 0.025;
 
-        const speed = Math.hypot(particle.x - particle.previousX, particle.y - particle.previousY);
-        if (speed > 0.22) {
-          context.save();
+        const speedX = particle.x - particle.previousX;
+        const speedY = particle.y - particle.previousY;
+        const speedSq = speedX * speedX + speedY * speedY;
+
+        if (speedSq > 0.0484) {
+          const speed = Math.sqrt(speedSq);
           context.strokeStyle = `rgba(${particle.color}, ${Math.min(0.24, speed * 0.018)})`;
           context.lineWidth = Math.min(1.4, 0.45 + speed * 0.045);
           context.lineCap = "round";
@@ -329,26 +575,31 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
           context.moveTo(particle.previousX, particle.previousY);
           context.lineTo(particle.x, particle.y);
           context.stroke();
-          context.restore();
         }
 
-        context.save();
         context.translate(particle.x, particle.y);
         context.rotate(particle.angle);
         context.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
         context.fillText(particle.character, 0, 0);
-        context.restore();
+        resetCanvasTransform();
       });
 
-      context.restore();
+      context.globalCompositeOperation = "source-over";
     };
 
     const animate = (time) => {
-      const isAnimationPaused = document.hidden || !canvasVisible || pausedRef.current;
+      animationFrame = 0;
+
+      if (!isPageVisible) {
+        lastTime = time;
+        return;
+      }
+
+      const isAnimationPaused = !canvasVisible || pausedRef.current;
 
       if (isAnimationPaused) {
         lastTime = time;
-        scheduleFrame(digitFieldConfig.pausedFrameDelay);
+        clearScheduledFrame();
         return;
       }
 
@@ -358,9 +609,12 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
         return;
       }
 
+      const isActivelyInteracting = drawing || pendingPoint || bursts.length || time < activeUntil;
       const frameInterval =
-        drawing || pendingPoint || bursts.length
-          ? digitFieldConfig.activeFrameInterval
+        drawing || pendingPoint
+          ? digitFieldConfig.dragFrameInterval
+          : isActivelyInteracting
+            ? digitFieldConfig.activeFrameInterval
           : digitFieldConfig.idleFrameInterval;
 
       const timeSincePaint = time - lastPaint;
@@ -376,14 +630,17 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       if (drawing && lastPoint && pendingPoint) {
         const point = pendingPoint;
         pendingPoint = null;
-        const distance = Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y);
+        const dx = point.x - lastPoint.x;
+        const dy = point.y - lastPoint.y;
+        const distanceSq = dx * dx + dy * dy;
 
-        if (distance > 14 && time - lastManualExplosion > 135) {
+        if (distanceSq > 196 && time - lastManualExplosion > 170) {
           explodeAt(point.x, point.y, {
             radius: randomBetween(64, 130),
             force: randomBetween(3.8, 8.8),
           });
           lastManualExplosion = time;
+          markInteraction(time);
         }
 
         lastPoint = point;
@@ -394,11 +651,12 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       drawBursts(delta);
       renderParticles(delta);
 
-      if (time >= nextExplosionAt && particles.length) {
+      if (time >= nextExplosionAt && particles.length && !drawing && time > activeUntil) {
         explodeAt(
           randomBetween(digitFieldConfig.marginX, Math.max(digitFieldConfig.marginX, width - digitFieldConfig.marginX)),
           randomBetween(digitFieldConfig.marginTop, Math.max(digitFieldConfig.marginTop, height - digitFieldConfig.marginBottom)),
         );
+        markInteraction(time);
         nextExplosionAt = time + randomBetween(
           digitFieldConfig.explosionIntervalMin,
           digitFieldConfig.explosionIntervalMax,
@@ -412,16 +670,16 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       const rect = canvas.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
-      const ratio = getCanvasPixelRatio(width);
-      canvas.width = Math.round(width * ratio);
-      canvas.height = Math.round(height * ratio);
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      pixelRatio = getCanvasPixelRatio(width);
+      canvas.width = Math.round(width * pixelRatio);
+      canvas.height = Math.round(height * pixelRatio);
+      resetCanvasTransform();
       particleLimit = getParticleLimit(width, height, prefersReducedMotion);
 
       if (baseContext) {
         baseCanvas.width = canvas.width;
         baseCanvas.height = canvas.height;
-        baseContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+        baseContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         baseContext.clearRect(0, 0, width, height);
         drawBase(baseContext);
       }
@@ -431,6 +689,10 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       context.clearRect(0, 0, width, height);
       renderBase();
       renderParticles(16);
+      nextExplosionAt = performance.now() + randomBetween(
+        digitFieldConfig.explosionIntervalMin,
+        digitFieldConfig.explosionIntervalMax,
+      );
     };
 
     const queueResize = () => {
@@ -459,6 +721,7 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
         force: randomBetween(5.6, 12),
       });
       lastManualExplosion = performance.now();
+      markInteraction(lastManualExplosion);
       if (event.pointerType !== "touch") {
         canvas.setPointerCapture?.(event.pointerId);
       }
@@ -480,20 +743,53 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       resizeCanvas();
     };
 
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+      lastTime = performance.now();
+
+      if (isPageVisible && canvasVisible && !pausedRef.current) {
+        scheduleFrame();
+      } else {
+        clearScheduledFrame();
+      }
+    };
+
     let observer;
     if ("IntersectionObserver" in window) {
       observer = new IntersectionObserver(
         ([entry]) => {
           canvasVisible = entry.isIntersecting;
+          if (canvasVisible && !pausedRef.current) {
+            scheduleFrame();
+          } else {
+            clearScheduledFrame();
+          }
         },
         { threshold: 0.04 },
       );
       observer.observe(canvas);
     }
 
+    pauseAnimationRef.current = () => {
+      drawing = false;
+      lastPoint = null;
+      pendingPoint = null;
+      bursts = [];
+      clearScheduledFrame();
+    };
+
+    resumeAnimationRef.current = () => {
+      if (!isPageVisible || !canvasVisible) return;
+      lastTime = performance.now();
+      scheduleFrame();
+    };
+
     resizeCanvas();
-    scheduleFrame();
+    if (!pausedRef.current) {
+      scheduleFrame();
+    }
     window.addEventListener("resize", queueResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     if (reducedMotionQuery.addEventListener) {
       reducedMotionQuery.addEventListener("change", handleMotionPreferenceChange);
     } else {
@@ -506,11 +802,13 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
     canvas.addEventListener("pointerleave", stopDrawing, { passive: true });
 
     return () => {
-      window.cancelAnimationFrame(animationFrame);
-      window.clearTimeout(idleTimer);
+      clearScheduledFrame();
+      pauseAnimationRef.current = null;
+      resumeAnimationRef.current = null;
       window.clearTimeout(resizeTimer);
       observer?.disconnect();
       window.removeEventListener("resize", queueResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (reducedMotionQuery.removeEventListener) {
         reducedMotionQuery.removeEventListener("change", handleMotionPreferenceChange);
       } else {

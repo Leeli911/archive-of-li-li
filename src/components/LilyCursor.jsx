@@ -22,21 +22,32 @@ const clickableSelector = [
   ".clickable",
 ].join(",");
 
-const maxPollen = 16;
+const maxPollen = 12;
+const reducedPollenLimit = 5;
 const cursorOffset = "translate(-50%, -42%) rotate(-10deg)";
+const trailDistanceSq = 32 * 32;
+const reducedTrailDistanceSq = 56 * 56;
+const trailIntervalMs = 160;
+const reducedTrailIntervalMs = 420;
+const scrollPollenPauseMs = 220;
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function LilyCursor({ waiting = false }) {
+function LilyCursor({ waiting = false, reducedEffects = false }) {
   const cursorRef = useRef(null);
   const pollenLayerRef = useRef(null);
   const timeoutsRef = useRef([]);
+  const reducedEffectsRef = useRef(reducedEffects);
 
   useEffect(() => {
     cursorRef.current?.classList.toggle("waiting", waiting);
   }, [waiting]);
+
+  useEffect(() => {
+    reducedEffectsRef.current = reducedEffects;
+  }, [reducedEffects]);
 
   useEffect(() => {
     const cursor = cursorRef.current;
@@ -52,6 +63,9 @@ function LilyCursor({ waiting = false }) {
     let pointerX = -80;
     let pointerY = -80;
     let moveFrame = 0;
+    let isPageVisible = !document.hidden;
+    let isScrolling = false;
+    let scrollTimer = 0;
 
     if (!hoverCapable) return undefined;
 
@@ -76,9 +90,12 @@ function LilyCursor({ waiting = false }) {
     };
 
     const addPollen = (x, y, burst = false) => {
-      if (reducedMotion || !hoverCapable || pollenCount >= maxPollen) return;
+      const isReducedEffects = reducedEffectsRef.current;
+      const pollenLimit = isReducedEffects ? reducedPollenLimit : maxPollen;
+      if (reducedMotion || !isPageVisible || isScrolling || pollenCount >= pollenLimit) return;
 
-      const count = Math.min(burst ? 6 : 1, maxPollen - pollenCount);
+      const burstCount = isReducedEffects ? 2 : 4;
+      const count = Math.min(burst ? burstCount : 1, pollenLimit - pollenCount);
       for (let index = 0; index < count; index += 1) {
         const particle = document.createElement("span");
         const size = burst ? randomBetween(4, 9) : randomBetween(2.5, 5.5);
@@ -94,7 +111,7 @@ function LilyCursor({ waiting = false }) {
         particle.style.setProperty("--pollen-drift-x", `${randomBetween(-18, 18)}px`);
         particle.style.setProperty("--pollen-drift-y", `${randomBetween(-26, 10)}px`);
         particle.style.setProperty("--pollen-rotate", `${randomBetween(-34, 34)}deg`);
-        particle.style.setProperty("--pollen-duration", `${burst ? randomBetween(520, 760) : randomBetween(900, 1500)}ms`);
+        particle.style.setProperty("--pollen-duration", `${burst ? randomBetween(500, 700) : randomBetween(760, 1160)}ms`);
 
         pollenCount += 1;
         pollenLayer.appendChild(particle);
@@ -116,8 +133,13 @@ function LilyCursor({ waiting = false }) {
       requestCursorMove();
 
       const now = performance.now();
-      const distance = Math.hypot(event.clientX - lastTrailX, event.clientY - lastTrailY);
-      if (distance > 18 && now - lastTrailAt > 90) {
+      const dx = event.clientX - lastTrailX;
+      const dy = event.clientY - lastTrailY;
+      const distanceSq = dx * dx + dy * dy;
+      const activeTrailDistanceSq = reducedEffectsRef.current ? reducedTrailDistanceSq : trailDistanceSq;
+      const activeTrailIntervalMs = reducedEffectsRef.current ? reducedTrailIntervalMs : trailIntervalMs;
+
+      if (distanceSq > activeTrailDistanceSq && now - lastTrailAt > activeTrailIntervalMs) {
         addPollen(event.clientX, event.clientY);
         lastTrailX = event.clientX;
         lastTrailY = event.clientY;
@@ -150,11 +172,32 @@ function LilyCursor({ waiting = false }) {
       cursor.classList.toggle("hover-link", Boolean(isClickable));
     };
 
+    const handleScroll = () => {
+      isScrolling = true;
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        isScrolling = false;
+        scrollTimer = 0;
+      }, scrollPollenPauseMs);
+    };
+
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+
+      if (!isPageVisible) {
+        isScrolling = false;
+        pollenCount = 0;
+        pollenLayer.replaceChildren();
+      }
+    };
+
     window.addEventListener("pointermove", handleMove, { passive: true });
     window.addEventListener("pointerdown", handlePointerDown, { passive: true });
     window.addEventListener("pointerup", handlePointerUp, { passive: true });
     window.addEventListener("dblclick", handleDoubleClick, { passive: true });
     window.addEventListener("pointerover", handlePointerOver, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       document.documentElement.classList.remove("custom-cursor");
@@ -164,7 +207,10 @@ function LilyCursor({ waiting = false }) {
       window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("dblclick", handleDoubleClick);
       window.removeEventListener("pointerover", handlePointerOver);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.cancelAnimationFrame(moveFrame);
+      window.clearTimeout(scrollTimer);
       timeoutsRef.current.forEach((timer) => window.clearTimeout(timer));
       timeoutsRef.current = [];
       pollenLayer.replaceChildren();
