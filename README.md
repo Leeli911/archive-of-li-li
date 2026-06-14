@@ -17,6 +17,21 @@ npm run dev
 http://localhost:5173
 ```
 
+## 直接打开本地静态页面
+
+如果不启动开发服务器，先构建静态文件：
+
+```bash
+cd /Users/apple/Documents/mywebsite/archive-of-li-li
+npm run build
+```
+
+然后打开：
+
+```text
+/Users/apple/Documents/mywebsite/archive-of-li-li/dist/index.html
+```
+
 ## 修改内容
 
 所有主要文字与图片路径集中在：
