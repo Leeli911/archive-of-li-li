@@ -33,13 +33,6 @@ const archiveSections = [
     detailZh: "数据分析实践",
   },
   {
-    id: "life-notes",
-    label: "Life Notes",
-    labelZh: "生活札记",
-    detail: "Places and observations",
-    detailZh: "城市与观察",
-  },
-  {
     id: "about",
     label: "About",
     labelZh: "关于我",
