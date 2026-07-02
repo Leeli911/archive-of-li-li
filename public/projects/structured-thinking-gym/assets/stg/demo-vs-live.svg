@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Demo versus Live Architecture</title>
+  <desc id="desc">Demo and Live modes share the same UI, Controller, and DTO while using different data sources.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1b2b46" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#28549a"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="680" rx="34" fill="#f7f8fa"/>
+  <text x="74" y="80" fill="#172033" font-family="Georgia, 'Times New Roman', serif" font-size="42" letter-spacing="-1.4">Demo vs Live</text>
+  <text x="74" y="118" fill="#687385" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18">Not two pages. One product experience with interchangeable data adapters.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="172" width="300" height="350" rx="26" fill="#f2f8f5" stroke="#9fd9bd"/>
+    <rect x="450" y="172" width="300" height="350" rx="26" fill="#edf3fc" stroke="#9cb8e6"/>
+    <rect x="830" y="172" width="300" height="350" rx="26" fill="#fff7ed" stroke="#f0c58f"/>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="220" y="226" text-anchor="middle" fill="#172033" font-size="26" font-weight="700">Demo Mode</text>
+    <text x="600" y="226" text-anchor="middle" fill="#172033" font-size="26" font-weight="700">Shared Layer</text>
+    <text x="980" y="226" text-anchor="middle" fill="#172033" font-size="26" font-weight="700">Live Mode</text>
+
+    <text x="220" y="296" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">Deterministic memory</text>
+    <text x="220" y="326" text-anchor="middle" fill="#687385" font-size="15">no login, no API call</text>
+    <text x="220" y="382" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">DemoAdapter</text>
+    <text x="220" y="412" text-anchor="middle" fill="#687385" font-size="15">same contract</text>
+
+    <text x="600" y="292" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">Same UI</text>
+    <text x="600" y="326" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">Same Controller</text>
+    <text x="600" y="360" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">Same DTO</text>
+    <text x="600" y="408" text-anchor="middle" fill="#687385" font-size="15">TrainingSession contract</text>
+
+    <text x="980" y="296" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">Authenticated workflow</text>
+    <text x="980" y="326" text-anchor="middle" fill="#687385" font-size="15">API, service, persistence</text>
+    <text x="980" y="382" text-anchor="middle" fill="#172033" font-size="19" font-weight="700">LiveAdapter</text>
+    <text x="980" y="412" text-anchor="middle" fill="#687385" font-size="15">same contract</text>
+  </g>
+
+  <g stroke="#28549a" stroke-width="3" marker-end="url(#arrow)">
+    <line x1="370" y1="348" x2="442" y2="348"/>
+    <line x1="830" y1="348" x2="758" y2="348"/>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" fill="#28549a">
+    <rect x="376" y="556" width="448" height="46" rx="23" fill="#ffffff" stroke="#c8d0db"/>
+    <text x="600" y="585" text-anchor="middle">Different data source, identical user-facing loop</text>
+  </g>
+</svg>

@@ -132,4 +132,66 @@ export const aiProducts = [
       { label: "Weekly Synthesis", labelZh: "周总结", href: "#" },
     ],
   },
+  {
+    id: "AI-04",
+    title: "Structured Thinking Gym",
+    titleZh: "Structured Thinking Gym 结构化表达训练系统",
+    eyebrow: "AI communication training system",
+    eyebrowZh: "AI 沟通训练系统",
+    subtitle:
+      "AI communication training system with explainable feedback, Human-AI revision, and deterministic demo architecture.",
+    subtitleZh:
+      "一个结合可解释反馈、人机协作修改与确定性 Demo 架构的 AI 沟通训练系统。",
+    purpose:
+      "An AI-powered communication training system that turns interview answers into a loop of scoring, diagnosis, revision, and re-score.",
+    purposeZh:
+      "一个 AI 驱动的沟通训练系统，把面试回答转成评分、诊断、修改和重新评分的闭环。",
+    problem:
+      "Generic AI writing tools can produce fluent rewrites, but they rarely explain why feedback was given or keep the learner responsible for the final revision.",
+    problemZh:
+      "普通 AI 写作工具可以生成流畅改写，但通常不会解释反馈依据，也容易让用户被动接受 AI 输出。",
+    system:
+      "Draft -> explainable feedback -> AI suggestion -> accept, reject, or edit -> final answer -> re-score, with Demo and Live modes sharing the same UI contract.",
+    systemZh:
+      "Draft -> 可解释反馈 -> AI 建议 -> 接受、拒绝或编辑 -> Final Answer -> 重新评分；Demo 与 Live 共用同一套 UI 契约。",
+    evidence:
+      "Completed STG v2.0 with explainable rubric, Human-AI revision loop, deterministic demo route, layered controller/gateway architecture, tests, and portfolio documentation.",
+    evidenceZh:
+      "已完成 STG v2.0：包含可解释评分、人机协作修改闭环、确定性 demo route、Controller/Gateway 分层架构、测试和作品集文档。",
+    role: "Product design, AI workflow, frontend architecture, demo strategy",
+    roleZh: "产品设计、AI 工作流、前端架构、Demo 策略",
+    methods: [
+      "AI Product",
+      "Human-AI Collaboration",
+      "Explainable Feedback",
+      "System Architecture",
+      "Deterministic Demo",
+    ],
+    methodsZh: [
+      "AI 产品",
+      "人机协作",
+      "可解释反馈",
+      "系统架构",
+      "确定性 Demo",
+    ],
+    metrics: [
+      { value: "v2.0", label: "portfolio-ready", labelZh: "作品集版本" },
+      { value: "3-way", label: "revision decision", labelZh: "修改决策" },
+      { value: "0-cost", label: "public demo", labelZh: "公开 Demo" },
+    ],
+    status:
+      "Best shown as a complete AI product case: it demonstrates explainability, Human-AI collaboration, and engineering boundaries without becoming a research platform.",
+    statusZh:
+      "适合作为完整 AI 产品案例展示：它体现可解释性、人机协作和工程边界，但不把产品包装成研究平台。",
+    image: "/images/projects/stg-training-demo-route.png",
+    imageAlt: "Structured Thinking Gym demo route showing explainable feedback and Human-AI revision UI",
+    accent: "powder",
+    links: [
+      {
+        label: "Case Study",
+        labelZh: "项目详情",
+        href: "projects/structured-thinking-gym/",
+      },
+    ],
+  },
 ];

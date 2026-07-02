@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+  <title id="title">AI and Human Boundary</title>
+  <desc id="desc">AI handles scoring, diagnosis, suggestions, and re-score; the human writes drafts, makes revision decisions, and owns the final answer.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#1b2b46" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#28549a"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="660" rx="34" fill="#f7f8fa"/>
+  <text x="74" y="82" fill="#172033" font-family="Georgia, 'Times New Roman', serif" font-size="42" letter-spacing="-1.4">AI Boundary</text>
+  <text x="74" y="120" fill="#687385" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18">STG treats AI as an evaluator and coach, not the owner of the final answer.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="176" width="450" height="370" rx="28" fill="#f2f8f5" stroke="#9fd9bd"/>
+    <rect x="670" y="176" width="450" height="370" rx="28" fill="#edf3fc" stroke="#9cb8e6"/>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="305" y="232" text-anchor="middle" fill="#172033" font-size="28" font-weight="700">Human</text>
+    <text x="895" y="232" text-anchor="middle" fill="#172033" font-size="28" font-weight="700">AI</text>
+
+    <g fill="#ffffff" stroke="#c8d0db">
+      <rect x="150" y="286" width="310" height="52" rx="15"/>
+      <rect x="150" y="366" width="310" height="52" rx="15"/>
+      <rect x="150" y="446" width="310" height="52" rx="15"/>
+      <rect x="740" y="286" width="310" height="52" rx="15"/>
+      <rect x="740" y="366" width="310" height="52" rx="15"/>
+      <rect x="740" y="446" width="310" height="52" rx="15"/>
+    </g>
+
+    <g fill="#172033" font-size="20" font-weight="700">
+      <text x="305" y="320" text-anchor="middle">Draft</text>
+      <text x="305" y="400" text-anchor="middle">Revision decision</text>
+      <text x="305" y="480" text-anchor="middle">Final answer</text>
+      <text x="895" y="320" text-anchor="middle">Score</text>
+      <text x="895" y="400" text-anchor="middle">Diagnosis + Suggestion</text>
+      <text x="895" y="480" text-anchor="middle">Re-score</text>
+    </g>
+  </g>
+
+  <g stroke="#28549a" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M 460 312 C 545 312 586 312 732 312"/>
+    <path d="M 740 394 C 638 394 584 394 468 394"/>
+    <path d="M 460 472 C 545 472 586 472 732 472"/>
+  </g>
+
+  <text x="600" y="590" text-anchor="middle" fill="#687385" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16">The system records revision behavior without turning the user into a passive rewrite consumer.</text>
+</svg>
