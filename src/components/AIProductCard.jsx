@@ -97,6 +97,11 @@ function AIProductCard({
           )}
           <h3>{title}</h3>
           <p className="card-title-zh">{isZh ? product.title : product.titleZh}</p>
+          {product.featured && product.subtitle && (
+            <p className="ai-card-subtitle">
+              {isZh ? product.subtitleZh || product.subtitle : product.subtitle}
+            </p>
+          )}
         </div>
         {metrics.length > 0 && (
           <div className="ai-metric-strip" aria-label={isZh ? "产品指标" : "Product metrics"}>

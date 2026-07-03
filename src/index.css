@@ -2354,6 +2354,19 @@ button.card-image-wrap {
   letter-spacing: 0.09em;
 }
 
+.ai-card-subtitle {
+  max-width: 100%;
+  margin: 0.8rem 0 0;
+  color: rgba(53, 49, 45, 0.72);
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: clamp(0.82rem, 1vw, 0.94rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+
 .professional-card-head small {
   display: inline-flex;
   width: fit-content;

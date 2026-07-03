@@ -1,0 +1,82 @@
+<svg width="1200" height="860" viewBox="0 0 1200 860" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Text2Analytics V2 Evidence Traceability</title>
+  <desc id="desc">A traceability diagram showing interpretation bound to fact, fact derived from evidence, evidence built from execution result, execution result produced by generated SQL, and SQL grounded in local life transactions.</desc>
+  <rect width="1200" height="860" fill="#FFFFFF"/>
+
+  <style>
+    .title { font: 600 34px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
+    .subtitle { font: 400 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #687385; }
+    .node-title { font: 600 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
+    .node-subtitle { font: 400 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #687385; }
+    .label { font: 600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0.08em; fill: #28549A; }
+    .badge { font: 600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #28549A; }
+  </style>
+
+  <text x="96" y="72" class="title">Evidence Traceability</text>
+  <text x="96" y="104" class="subtitle">Every interpretive statement is bound to observed facts and traceable to executed SQL.</text>
+
+  <g transform="translate(96 152)">
+    <rect width="190" height="42" rx="21" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="95" y="27" text-anchor="middle" class="badge">Evidence-backed</text>
+  </g>
+  <g transform="translate(306 152)">
+    <rect width="156" height="42" rx="21" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="78" y="27" text-anchor="middle" class="badge">Fact-bound</text>
+  </g>
+  <g transform="translate(482 152)">
+    <rect width="158" height="42" rx="21" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="79" y="27" text-anchor="middle" class="badge">Deterministic</text>
+  </g>
+  <g transform="translate(660 152)">
+    <rect width="112" height="42" rx="21" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="56" y="27" text-anchor="middle" class="badge">No LLM</text>
+  </g>
+
+  <line x1="600" y1="236" x2="600" y2="720" stroke="#C8D0DB" stroke-width="2"/>
+
+  <g transform="translate(330 212)">
+    <rect width="540" height="70" rx="14" fill="#F8FAFC" stroke="#DDE4EE"/>
+    <text x="270" y="30" text-anchor="middle" class="node-title">Interpretation</text>
+    <text x="270" y="53" text-anchor="middle" class="node-subtitle">Trend interpretation shell bound to observed facts</text>
+  </g>
+  <text x="630" y="307" class="label">SUPPORTING_FACT_IDS</text>
+  <path d="M600 292L590 310H610L600 292Z" fill="#28549A"/>
+
+  <g transform="translate(330 318)">
+    <rect width="540" height="70" rx="14" fill="#F8FAFC" stroke="#DDE4EE"/>
+    <text x="270" y="30" text-anchor="middle" class="node-title">Fact</text>
+    <text x="270" y="53" text-anchor="middle" class="node-subtitle">Observed metric row derived only from evidence</text>
+  </g>
+  <text x="630" y="413" class="label">EVIDENCE_ID</text>
+  <path d="M600 398L590 416H610L600 398Z" fill="#28549A"/>
+
+  <g transform="translate(330 424)">
+    <rect width="540" height="70" rx="14" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="270" y="30" text-anchor="middle" class="node-title">Evidence</text>
+    <text x="270" y="53" text-anchor="middle" class="node-subtitle">evidence_query_change_explanation_v1</text>
+  </g>
+  <text x="630" y="519" class="label">QUERY_ID</text>
+  <path d="M600 504L590 522H610L600 504Z" fill="#28549A"/>
+
+  <g transform="translate(330 530)">
+    <rect width="540" height="70" rx="14" fill="#F8FAFC" stroke="#DDE4EE"/>
+    <text x="270" y="30" text-anchor="middle" class="node-title">Execution Result</text>
+    <text x="270" y="53" text-anchor="middle" class="node-subtitle">DuckDB result with period, GMV, orders, and AOV</text>
+  </g>
+  <text x="630" y="625" class="label">PRODUCED_BY</text>
+  <path d="M600 610L590 628H610L600 610Z" fill="#28549A"/>
+
+  <g transform="translate(330 636)">
+    <rect width="540" height="70" rx="14" fill="#F8FAFC" stroke="#DDE4EE"/>
+    <text x="270" y="30" text-anchor="middle" class="node-title">Generated SQL</text>
+    <text x="270" y="53" text-anchor="middle" class="node-subtitle">query_change_explanation_v1</text>
+  </g>
+  <text x="630" y="731" class="label">SOURCE_TABLE</text>
+  <path d="M600 716L590 734H610L600 716Z" fill="#28549A"/>
+
+  <g transform="translate(330 742)">
+    <rect width="540" height="70" rx="14" fill="#172033"/>
+    <text x="270" y="31" text-anchor="middle" fill="#FFFFFF" style="font: 600 20px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">local_life_transactions</text>
+    <text x="270" y="54" text-anchor="middle" fill="#CBD6E7" style="font: 400 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">controlled local analytics table</text>
+  </g>
+</svg>

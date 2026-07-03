@@ -2,46 +2,52 @@ export const aiProducts = [
   {
     id: "AI-01",
     featured: true,
-    title: "InsightFlow",
-    titleZh: "InsightFlow 智能问数 Copilot",
-    eyebrow: "AI data product demo",
-    eyebrowZh: "AI 数据产品 Demo",
+    title: "Text2Analytics V2",
+    titleZh: "Text2Analytics V2 证据分析引擎",
+    eyebrow: "Flagship research prototype",
+    eyebrowZh: "主打研究原型",
+    subtitle: "Deterministic Evidence-backed Analytics Engine",
+    subtitleZh: "确定性、证据支撑的分析引擎",
     purpose:
-      "A runnable analytics copilot that turns Chinese business questions into structured intent, SQL, deterministic pandas analysis, and an explainable diagnosis.",
+      "A research prototype that transforms supported business questions into an inspectable analytics pipeline with explicit evidence boundaries.",
     purposeZh:
-      "一个可运行的智能问数原型：把中文业务问题转成结构化意图、SQL、确定性 pandas 计算和可解释诊断。",
+      "一个研究原型：把受支持的业务问题转成可检查的分析链路，并明确展示证据边界。",
     problem:
-      "Operations teams ask natural-language questions, but data systems need verified metrics, regions, time ranges, and SQL logic.",
+      "Text2SQL can produce a query, but analytical decision support also needs intent, planning, execution evidence, observed facts, interpretations, limitations, and structural checks.",
     problemZh:
-      "业务团队用自然语言提问，但数据系统需要可核验的指标、地区、时间范围和 SQL 逻辑。",
+      "Text2SQL 可以生成查询，但面向决策的分析还需要意图、规划、执行证据、事实、解释、限制和结构完整性检查。",
     system:
-      "Intent parser -> SQL generator -> pandas calculation -> diagnosis -> benchmark evaluation. AI handles understanding; deterministic modules handle calculation and checks.",
+      "AnalyticsRequest -> Intent -> Planning -> SQL -> Execution -> Evidence -> Facts -> Interpretation -> Limitation -> Insight -> Structural Completeness.",
     systemZh:
-      "意图解析 -> SQL 生成 -> pandas 计算 -> 诊断输出 -> benchmark 评测。AI 负责理解与组织，确定性模块负责计算和校验。",
+      "AnalyticsRequest -> Intent -> Planning -> SQL -> Execution -> Evidence -> Facts -> Interpretation -> Limitation -> Insight -> Structural Completeness。",
     evidence:
-      "Completed v1 with Streamlit demo, pytest coverage, PRD/evaluation/rollout/guardrail docs, and a controlled 22-query prompt benchmark.",
+      "The public case study is a static replay of one verified V2 engine run. It does not connect to Python Engine, DuckDB, API, or LLM in the browser.",
     evidenceZh:
-      "已完成 v1：包含 Streamlit demo、pytest 覆盖、PRD/评测/灰度/guardrail 文档，以及 22 条受控 query 的 prompt benchmark。",
+      "公开详情页回放一次已验证的 V2 Engine 结果。浏览器页面不连接 Python Engine、DuckDB、API 或 LLM。",
     role: "Product design, AI workflow, NL2SQL prototype, evaluation plan",
     roleZh: "产品设计、AI 工作流、NL2SQL 原型、评测方案",
-    methods: ["Python", "pandas", "Streamlit", "pytest", "NL2SQL", "Guardrails"],
-    methodsZh: ["Python", "pandas", "Streamlit", "pytest", "NL2SQL", "Guardrails"],
+    methods: ["Python", "DuckDB", "Pydantic", "React", "pytest", "Research Prototype"],
+    methodsZh: ["Python", "DuckDB", "Pydantic", "React", "pytest", "研究原型"],
     metrics: [
-      { value: "4-step", label: "analytics chain", labelZh: "分析链路" },
-      { value: "22", label: "benchmark queries", labelZh: "评测 query" },
-      { value: "0.000", label: "V3 hallucination", labelZh: "V3 幻觉率" },
+      { value: "V2", label: "verified replay", labelZh: "已验证回放" },
+      { value: "11", label: "pipeline stages", labelZh: "链路阶段" },
+      { value: "1.0", label: "structural completeness", labelZh: "结构完整性" },
     ],
     status:
-      "Best shown as the anchor product: it proves workflow design, data-product judgment, evaluation thinking, and risk boundaries in one case.",
+      "Positioned as a research prototype, not a production system. Best shown as the flagship AI Products case for evidence-backed analytics and capability boundaries.",
     statusZh:
-      "适合作为主打产品：一个案例同时证明工作流设计、数据产品判断、评测思维和风险边界。",
-    image: "/images/projects/insightflow-system.svg",
-    imageAlt: "InsightFlow system diagram showing natural language question, intent parsing, SQL, analysis, diagnosis, and evaluation",
+      "定位为研究原型，而不是生产系统。适合作为 AI Products 的主打案例，展示证据支撑的分析链路和能力边界。",
+    image: "/images/projects/text2analytics-v2/github_banner_v2.svg",
+    imageAlt: "Text2Analytics V2 banner showing a deterministic evidence-backed analytics engine",
     accent: "terracotta",
     links: [
-      { label: "Demo Flow", labelZh: "演示链路", href: "#" },
-      { label: "Evaluation", labelZh: "评测方案", href: "#" },
-      { label: "Guardrails", labelZh: "风险边界", href: "#" },
+      { label: "Case Study", labelZh: "项目详情", href: "projects/text2analytics-v2/" },
+      { label: "GitHub", labelZh: "GitHub 仓库", href: "https://github.com/Leeli911/ai-data-product-portfolio" },
+      {
+        label: "Source Path",
+        labelZh: "项目路径",
+        href: "https://github.com/Leeli911/ai-data-product-portfolio/tree/main/projects/01_insightflow_nl2sql",
+      },
     ],
   },
   {
@@ -76,9 +82,9 @@ export const aiProducts = [
       { value: "1.000", label: "V3 controlled set", labelZh: "V3 受控集" },
     ],
     status:
-      "Best shown as the technical proof layer behind InsightFlow: it demonstrates how AI product quality can be evaluated, not guessed.",
+      "Best shown as the technical proof layer for controlled analytics prompts: it demonstrates how AI product quality can be evaluated, not guessed.",
     statusZh:
-      "适合作为 InsightFlow 背后的技术证明层：展示 AI 产品质量如何被评测，而不是凭感觉判断。",
+      "适合作为受控分析 Prompt 的技术证明层：展示 AI 产品质量如何被评测，而不是凭感觉判断。",
     image: "/images/projects/prompt-eval-benchmark.svg",
     imageAlt: "Prompt evaluation benchmark diagram comparing V1, V2, and V3 accuracy and hallucination rate",
     accent: "powder",

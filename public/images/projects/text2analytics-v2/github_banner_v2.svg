@@ -1,0 +1,89 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Text2Analytics V2 GitHub Banner</title>
+  <desc id="desc">A white and blue-gray GitHub banner for Text2Analytics V2 with title, subtitle, and short project description.</desc>
+  <rect width="1280" height="640" fill="#FFFFFF"/>
+
+  <style>
+    .title { font: 700 62px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; letter-spacing: -0.04em; }
+    .subtitle { font: 600 25px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #28549A; }
+    .body { font: 400 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4F5D70; }
+    .chip { font: 600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0.08em; fill: #28549A; }
+    .step { font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
+    .small { font: 500 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #687385; }
+  </style>
+
+  <line x1="96" y1="522" x2="1184" y2="522" stroke="#DFE4EB"/>
+
+  <g transform="translate(96 120)">
+    <text x="0" y="0" class="title">Text2Analytics V2</text>
+    <text x="2" y="52" class="subtitle">Deterministic, Evidence-backed Analytics Engine</text>
+    <text x="2" y="104" class="body">Converts supported business questions into</text>
+    <text x="2" y="136" class="body">inspectable intent, plan, SQL, execution,</text>
+    <text x="2" y="168" class="body">evidence, facts, insight, and structural</text>
+    <text x="2" y="200" class="body">completeness.</text>
+  </g>
+
+  <g transform="translate(98 396)">
+    <rect width="134" height="38" rx="19" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="67" y="24" text-anchor="middle" class="chip">NO LLM</text>
+  </g>
+  <g transform="translate(250 396)">
+    <rect width="172" height="38" rx="19" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="86" y="24" text-anchor="middle" class="chip">DETERMINISTIC</text>
+  </g>
+  <g transform="translate(440 396)">
+    <rect width="190" height="38" rx="19" fill="#EDF3FC" stroke="#B8C9E4"/>
+    <text x="95" y="24" text-anchor="middle" class="chip">EVIDENCE-BACKED</text>
+  </g>
+
+  <g transform="translate(710 118)">
+    <rect width="410" height="360" rx="22" fill="#F8FAFC" stroke="#DDE4EE"/>
+    <text x="34" y="50" class="small">V2 ENGINE PIPELINE</text>
+
+    <g transform="translate(34 82)">
+      <rect width="146" height="46" rx="12" fill="#FFFFFF" stroke="#DDE4EE"/>
+      <text x="73" y="29" text-anchor="middle" class="step">Intent</text>
+    </g>
+    <g transform="translate(230 82)">
+      <rect width="146" height="46" rx="12" fill="#FFFFFF" stroke="#DDE4EE"/>
+      <text x="73" y="29" text-anchor="middle" class="step">Plan</text>
+    </g>
+    <path d="M192 105H218" stroke="#28549A" stroke-width="2"/>
+    <path d="M218 105L210 100V110L218 105Z" fill="#28549A"/>
+
+    <g transform="translate(34 154)">
+      <rect width="146" height="46" rx="12" fill="#FFFFFF" stroke="#DDE4EE"/>
+      <text x="73" y="29" text-anchor="middle" class="step">SQL</text>
+    </g>
+    <g transform="translate(230 154)">
+      <rect width="146" height="46" rx="12" fill="#FFFFFF" stroke="#DDE4EE"/>
+      <text x="73" y="29" text-anchor="middle" class="step">Execution</text>
+    </g>
+    <path d="M192 177H218" stroke="#28549A" stroke-width="2"/>
+    <path d="M218 177L210 172V182L218 177Z" fill="#28549A"/>
+
+    <g transform="translate(34 226)">
+      <rect width="146" height="46" rx="12" fill="#EDF3FC" stroke="#B8C9E4"/>
+      <text x="73" y="29" text-anchor="middle" class="step">Evidence</text>
+    </g>
+    <g transform="translate(230 226)">
+      <rect width="146" height="46" rx="12" fill="#FFFFFF" stroke="#DDE4EE"/>
+      <text x="73" y="29" text-anchor="middle" class="step">Facts</text>
+    </g>
+    <path d="M192 249H218" stroke="#28549A" stroke-width="2"/>
+    <path d="M218 249L210 244V254L218 249Z" fill="#28549A"/>
+
+    <g transform="translate(34 298)">
+      <rect width="146" height="46" rx="12" fill="#FFFFFF" stroke="#DDE4EE"/>
+      <text x="73" y="29" text-anchor="middle" class="step">Insight</text>
+    </g>
+    <g transform="translate(230 298)">
+      <rect width="146" height="46" rx="12" fill="#172033"/>
+      <text x="73" y="29" text-anchor="middle" fill="#FFFFFF" style="font: 600 15px -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">Completeness</text>
+    </g>
+    <path d="M192 321H218" stroke="#28549A" stroke-width="2"/>
+    <path d="M218 321L210 316V326L218 321Z" fill="#28549A"/>
+  </g>
+
+  <text x="96" y="566" class="small">Research prototype for inspectable, schema-grounded analytics workflows.</text>
+</svg>
