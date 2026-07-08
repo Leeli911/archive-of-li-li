@@ -69,9 +69,28 @@ test("section entries preserve archive order and bilingual labels", () => {
     englishEntries.map((entry) => entry.index),
     ["01", "02", "03", "04", "05"],
   );
-  assert.equal(englishEntries[0].label, "AI Products");
-  assert.equal(chineseEntries[0].label, "AI 产品");
-  assert.equal(chineseEntries[2].detail, "数据分析实践");
+  assert.deepEqual(
+    englishEntries.map((entry) => entry.label),
+    ["AI Products", "Research", "Data Work", "About", "CV"],
+  );
+  assert.deepEqual(
+    chineseEntries.map((entry) => entry.label),
+    ["AI 产品", "研究项目", "数据工作", "关于我", "履历"],
+  );
+  assert.deepEqual(
+    englishEntries.map((entry) => entry.detail),
+    [
+      "AI products and workflows",
+      "Research projects",
+      "Analytics practice",
+      "Archive note",
+      "Formal dossier",
+    ],
+  );
+  assert.deepEqual(
+    chineseEntries.map((entry) => entry.detail),
+    ["AI 产品与工作流", "研究项目", "数据分析实践", "档案说明", "正式履历"],
+  );
 });
 
 test("desktop windows are stable, non-random, and match sections", () => {
