@@ -44,17 +44,25 @@ const sections = [
   },
 ];
 
-test("identity copy uses separate English and Chinese line metrics", () => {
+test("identity copy returns stable bilingual content", () => {
   const english = getHomeIdentityCopy("en");
   const chinese = getHomeIdentityCopy("zh");
 
-  assert.deepEqual(english.titleLines, ["The Archive", "of Li Li"]);
-  assert.deepEqual(chinese.titleLines, ["李莉的", "数字档案馆"]);
-  assert.equal(english.variant, "en");
-  assert.equal(chinese.variant, "zh");
-  assert.notEqual(english.role, chinese.role);
-  assert.ok(english.summary.length > 40);
-  assert.ok(chinese.summary.length > 12);
+  assert.deepEqual(english, {
+    variant: "en",
+    eyebrow: "AI portfolio",
+    titleLines: ["The Archive", "of Li Li"],
+    role: "Applied AI | AI Product & Evaluation",
+    summary:
+      "A living desktop archive of research, AI data products, evaluation systems, and visual computing projects.",
+  });
+  assert.deepEqual(chinese, {
+    variant: "zh",
+    eyebrow: "AI 作品集",
+    titleLines: ["李莉的", "数字档案馆"],
+    role: "应用 AI | AI 产品与评估",
+    summary: "一个收集 AI 产品、数据工作、评估方法与研究项目的桌面档案。",
+  });
 });
 
 test("section entries preserve archive order and bilingual labels", () => {
@@ -94,16 +102,56 @@ test("section entries preserve archive order and bilingual labels", () => {
 });
 
 test("desktop windows are stable, non-random, and match sections", () => {
-  const windowIds = homeDesktopWindows.map((windowConfig) => windowConfig.sectionId);
-
-  assert.deepEqual(windowIds, sections.map((section) => section.id));
-
-  homeDesktopWindows.forEach((windowConfig) => {
-    assert.match(windowConfig.id, /^[a-z0-9-]+$/);
-    assert.match(windowConfig.chromeTitle, /^[a-z0-9 /.-]+$/);
-    assert.ok(["pink", "gray", "blue", "paper"].includes(windowConfig.tone));
-    assert.equal(windowConfig.draggable, false);
-    assert.equal(windowConfig.randomized, false);
-    assert.ok(windowConfig.layoutClass.startsWith("desktop-window--"));
-  });
+  assert.deepEqual(homeDesktopWindows, [
+    {
+      id: "ai-product-window",
+      sectionId: "ai-products",
+      chromeTitle: "ai product",
+      headline: "BUILD",
+      tone: "pink",
+      layoutClass: "desktop-window--ai-products",
+      draggable: false,
+      randomized: false,
+    },
+    {
+      id: "research-window",
+      sectionId: "research",
+      chromeTitle: "research note",
+      headline: "LOOKING",
+      tone: "gray",
+      layoutClass: "desktop-window--research",
+      draggable: false,
+      randomized: false,
+    },
+    {
+      id: "data-work-window",
+      sectionId: "data-work",
+      chromeTitle: "metrics",
+      headline: "ANSWER",
+      tone: "blue",
+      layoutClass: "desktop-window--data-work",
+      draggable: false,
+      randomized: false,
+    },
+    {
+      id: "about-window",
+      sectionId: "about",
+      chromeTitle: "archive note",
+      headline: "ME",
+      tone: "paper",
+      layoutClass: "desktop-window--about",
+      draggable: false,
+      randomized: false,
+    },
+    {
+      id: "cv-window",
+      sectionId: "cv",
+      chromeTitle: "formal dossier",
+      headline: "CV",
+      tone: "pink",
+      layoutClass: "desktop-window--cv",
+      draggable: false,
+      randomized: false,
+    },
+  ]);
 });
