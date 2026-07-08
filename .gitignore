@@ -6,3 +6,4 @@ dist
 npm-debug.log*
 public/images/drawings/IMG_977*.jpg
 .superpowers/
+.worktrees/
