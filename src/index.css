@@ -379,7 +379,7 @@ button {
 .home-canvas-section {
   position: relative;
   min-height: 100svh;
-  padding: calc(var(--header-height) + 1.45rem) clamp(1.1rem, 3.8vw, 4rem) 1.45rem;
+  padding: calc(var(--header-height) + 0.55rem) clamp(0.45rem, 1.3vw, 1.5rem) 0.7rem;
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(246, 243, 236, 0.98)),
@@ -389,15 +389,20 @@ button {
 .home-canvas-section::before {
   content: "";
   position: absolute;
-  inset: calc(var(--header-height) + 0.75rem) clamp(0.85rem, 2.4vw, 2.6rem) 1rem;
+  inset: calc(var(--header-height) + 0.45rem) clamp(0.32rem, 0.9vw, 0.9rem) 0.42rem;
   z-index: 0;
   border: 1px solid rgba(35, 32, 30, 0.13);
   border-radius: clamp(0.9rem, 1.8vw, 1.35rem);
   background:
     repeating-radial-gradient(circle, rgba(35, 32, 30, 0.18) 0 0.7px, transparent 0.85px 4px),
     linear-gradient(118deg, rgba(255, 255, 255, 0.82), rgba(255, 142, 202, 0.12) 46%, rgba(235, 241, 255, 0.2));
+  background-size: 18px 18px, 140% 140%;
   opacity: 0.72;
   pointer-events: none;
+  transform-origin: center;
+  animation:
+    homeBreath 8.8s ease-in-out infinite,
+    waterDrift 24s linear infinite;
 }
 
 .home-canvas {
@@ -412,7 +417,7 @@ button {
 
 .home-vignette {
   position: absolute;
-  inset: clamp(1rem, 2.4vw, 2.3rem);
+  inset: clamp(0.55rem, 1.2vw, 1.35rem);
   z-index: 2;
   border: 1px solid rgba(35, 32, 30, 0.11);
   border-radius: clamp(0.9rem, 1.8vw, 1.35rem);
@@ -433,11 +438,13 @@ button {
 .home-desktop {
   position: relative;
   z-index: 7;
-  width: min(100%, var(--content-max));
-  height: min(760px, calc(100svh - var(--header-height) - 2.9rem));
-  min-height: 620px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  height: calc(100svh - var(--header-height) - 1.25rem);
+  min-height: 670px;
+  margin: 0;
   isolation: isolate;
+  animation: homeReveal 980ms cubic-bezier(0.2, 0.82, 0.22, 1) both;
 }
 
 .home-window-layer {
@@ -448,11 +455,11 @@ button {
 
 .home-identity {
   position: absolute;
-  top: clamp(2.1rem, 5vh, 4.2rem);
-  left: clamp(1rem, 3vw, 3rem);
+  top: clamp(2.4rem, 7vh, 5.3rem);
+  left: clamp(3rem, 11vw, 13.5rem);
   z-index: 7;
   display: grid;
-  width: min(47rem, 52vw);
+  width: min(50rem, 44vw);
   gap: 1rem;
 }
 
@@ -520,7 +527,7 @@ button {
 }
 
 .home-identity--zh {
-  width: min(36rem, 48vw);
+  width: min(37rem, 42vw);
   gap: 1.05rem;
 }
 
@@ -549,6 +556,12 @@ button {
 }
 
 .desktop-window {
+  --window-rotate: 0deg;
+  --float-x: 0.35rem;
+  --float-y: -0.58rem;
+  --reveal-delay: 120ms;
+  --drift-delay: 0ms;
+  --drift-duration: 10s;
   position: absolute;
   z-index: 3;
   display: grid;
@@ -560,12 +573,17 @@ button {
   background: rgba(252, 251, 248, 0.9);
   box-shadow: 0 18px 42px rgba(32, 28, 25, 0.14);
   cursor: pointer;
+  rotate: var(--window-rotate);
+  scale: 1;
   text-align: left;
   transition:
     border-color 240ms ease,
     box-shadow 240ms ease,
     filter 240ms ease,
-    transform 240ms ease;
+    scale 240ms ease;
+  animation:
+    windowReveal 780ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--reveal-delay) both,
+    windowDrift var(--drift-duration) ease-in-out var(--drift-delay) infinite;
 }
 
 .desktop-window__chrome {
@@ -676,7 +694,8 @@ button {
   border-color: rgba(255, 90, 164, 0.42);
   box-shadow: 0 22px 52px rgba(32, 28, 25, 0.18);
   filter: saturate(1.08) contrast(1.02);
-  transform: translateY(-0.22rem);
+  scale: 1.012;
+  animation-play-state: paused, paused;
 }
 
 .desktop-window:focus-visible,
@@ -686,80 +705,75 @@ button {
 }
 
 .desktop-window--ai-products {
-  top: 4.2rem;
-  right: 22%;
-  width: min(26rem, 32vw);
-  height: 10.6rem;
-  transform: rotate(-1.5deg);
-}
-
-.desktop-window--ai-products:hover,
-.desktop-window--ai-products:focus-visible,
-.desktop-window--ai-products.is-active {
-  transform: translateY(-0.22rem) rotate(-1.5deg);
+  --window-rotate: -1.5deg;
+  --float-x: 0.5rem;
+  --float-y: -0.65rem;
+  --reveal-delay: 220ms;
+  --drift-delay: -1.2s;
+  --drift-duration: 10.5s;
+  top: clamp(2.7rem, 6.2vh, 4.8rem);
+  right: clamp(17rem, 25vw, 30rem);
+  width: min(29rem, 26vw);
+  height: clamp(9.6rem, 16vh, 11.6rem);
 }
 
 .desktop-window--research {
-  top: 11.8rem;
-  right: 3.2rem;
-  width: min(31rem, 36vw);
-  height: 15rem;
-  transform: rotate(1.5deg);
-}
-
-.desktop-window--research:hover,
-.desktop-window--research:focus-visible,
-.desktop-window--research.is-active {
-  transform: translateY(-0.22rem) rotate(1.5deg);
+  --window-rotate: 1.4deg;
+  --float-x: -0.45rem;
+  --float-y: 0.72rem;
+  --reveal-delay: 340ms;
+  --drift-delay: -3s;
+  --drift-duration: 12s;
+  top: clamp(8.2rem, 17vh, 13.4rem);
+  right: clamp(7rem, 14vw, 18rem);
+  width: min(34rem, 31vw);
+  height: clamp(13rem, 24vh, 16.5rem);
 }
 
 .desktop-window--data-work {
-  right: 15%;
-  bottom: 7.3rem;
-  width: min(23rem, 28vw);
-  height: 10.2rem;
-  transform: rotate(-2deg);
-}
-
-.desktop-window--data-work:hover,
-.desktop-window--data-work:focus-visible,
-.desktop-window--data-work.is-active {
-  transform: translateY(-0.22rem) rotate(-2deg);
+  --window-rotate: -2deg;
+  --float-x: 0.3rem;
+  --float-y: -0.5rem;
+  --reveal-delay: 460ms;
+  --drift-delay: -5.4s;
+  --drift-duration: 11s;
+  right: clamp(14rem, 20vw, 26rem);
+  bottom: clamp(8rem, 17vh, 12rem);
+  width: min(25rem, 24vw);
+  height: clamp(9.2rem, 15vh, 10.8rem);
 }
 
 .desktop-window--about {
-  left: 3rem;
-  bottom: 8rem;
-  width: min(24rem, 30vw);
-  height: 9.3rem;
-  transform: rotate(1.2deg);
-}
-
-.desktop-window--about:hover,
-.desktop-window--about:focus-visible,
-.desktop-window--about.is-active {
-  transform: translateY(-0.22rem) rotate(1.2deg);
+  --window-rotate: 1.2deg;
+  --float-x: -0.42rem;
+  --float-y: 0.52rem;
+  --reveal-delay: 560ms;
+  --drift-delay: -2.1s;
+  --drift-duration: 12.5s;
+  left: clamp(36rem, 36vw, 46rem);
+  bottom: clamp(7.5rem, 15vh, 10rem);
+  width: min(22rem, 20vw);
+  height: clamp(8.4rem, 14vh, 10rem);
 }
 
 .desktop-window--cv {
-  right: 2rem;
-  bottom: 4.7rem;
-  width: min(16rem, 20vw);
-  height: 8.2rem;
-  transform: rotate(2deg);
-}
-
-.desktop-window--cv:hover,
-.desktop-window--cv:focus-visible,
-.desktop-window--cv.is-active {
-  transform: translateY(-0.22rem) rotate(2deg);
+  --window-rotate: 2deg;
+  --float-x: 0.28rem;
+  --float-y: -0.42rem;
+  --reveal-delay: 650ms;
+  --drift-delay: -4.4s;
+  --drift-duration: 10s;
+  right: clamp(2.5rem, 5vw, 6rem);
+  bottom: clamp(6.1rem, 13vh, 9rem);
+  width: min(17.5rem, 18vw);
+  height: clamp(7.6rem, 12vh, 8.8rem);
 }
 
 .home-archive-entrances {
   position: absolute;
-  right: clamp(1rem, 2.8vw, 2.6rem);
-  bottom: 0;
-  left: clamp(1rem, 2.8vw, 2.6rem);
+  right: clamp(4rem, 8vw, 10rem);
+  bottom: clamp(0.9rem, 2.2vh, 1.8rem);
+  left: clamp(4rem, 8vw, 10rem);
   z-index: 9;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -767,6 +781,8 @@ button {
 }
 
 .home-archive-chip {
+  --chip-float-y: -0.22rem;
+  --chip-delay: 0ms;
   display: grid;
   min-width: 0;
   min-height: 4.8rem;
@@ -784,7 +800,30 @@ button {
     background 220ms ease,
     border-color 220ms ease,
     box-shadow 220ms ease,
-    transform 220ms ease;
+    scale 220ms ease;
+  animation:
+    chipReveal 720ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--chip-delay) both,
+    chipFloat 9s ease-in-out calc(var(--chip-delay) + 520ms) infinite;
+}
+
+.home-archive-chip:nth-child(1) {
+  --chip-delay: 560ms;
+}
+
+.home-archive-chip:nth-child(2) {
+  --chip-delay: 640ms;
+}
+
+.home-archive-chip:nth-child(3) {
+  --chip-delay: 720ms;
+}
+
+.home-archive-chip:nth-child(4) {
+  --chip-delay: 800ms;
+}
+
+.home-archive-chip:nth-child(5) {
+  --chip-delay: 880ms;
 }
 
 .home-archive-chip span {
@@ -817,7 +856,8 @@ button {
   border-color: rgba(46, 118, 81, 0.34);
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 16px 34px rgba(32, 28, 25, 0.12);
-  transform: translateY(-0.16rem);
+  scale: 1.01;
+  animation-play-state: paused, paused;
 }
 
 .home-canvas-section.is-zh .home-archive-chip {
@@ -832,6 +872,97 @@ button {
 .home-canvas-section.is-zh .home-archive-chip small {
   font-size: 0.75rem;
   line-height: 1.36;
+}
+
+@keyframes homeReveal {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes homeBreath {
+  0%,
+  100% {
+    opacity: 0.64;
+    scale: 1;
+  }
+
+  50% {
+    opacity: 0.82;
+    scale: 1.018;
+  }
+}
+
+@keyframes waterDrift {
+  0% {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  50% {
+    background-position:
+      42px -28px,
+      68% 44%;
+  }
+
+  100% {
+    background-position:
+      84px -56px,
+      0 0;
+  }
+}
+
+@keyframes windowReveal {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes windowDrift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: var(--float-x) var(--float-y);
+  }
+}
+
+@keyframes chipReveal {
+  from {
+    opacity: 0;
+    translate: 0 0.72rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes chipFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 var(--chip-float-y);
+  }
 }
 
 @media (max-width: 1180px) {
@@ -884,13 +1015,14 @@ button {
     inset: auto;
     width: auto;
     height: 9.8rem;
-    transform: none;
+    rotate: 0deg;
+    scale: 1;
   }
 
   .desktop-window:hover,
   .desktop-window:focus-visible,
   .desktop-window.is-active {
-    transform: translateY(-0.16rem);
+    scale: 1.01;
   }
 
   .home-archive-entrances {
@@ -961,8 +1093,11 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home-canvas-section::before,
+  .home-desktop,
   .desktop-window,
   .home-archive-chip {
+    animation: none;
     transition: none;
   }
 
@@ -972,7 +1107,7 @@ button {
   .home-archive-chip:hover,
   .home-archive-chip:focus-visible,
   .home-archive-chip.is-active {
-    transform: none;
+    scale: 1;
   }
 }
 

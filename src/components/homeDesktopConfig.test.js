@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   getHomeIdentityCopy,
   getHomeSectionEntries,
   homeDesktopWindows,
 } from "./homeDesktopConfig.js";
+
+const homepageCss = readFileSync(new URL("../index.css", import.meta.url), "utf8");
 
 const sections = [
   {
@@ -154,4 +157,19 @@ test("desktop windows are stable, non-random, and match sections", () => {
       randomized: false,
     },
   ]);
+});
+
+test("homepage CSS keeps a full-bleed flowing desktop stage", () => {
+  const homeDesktopBlock = homepageCss.match(/\.home-desktop\s*\{[^}]+\}/)?.[0] || "";
+  const reducedMotionBlock =
+    homepageCss.match(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]+\n\}/)?.[0] || "";
+
+  assert.match(homeDesktopBlock, /width:\s*100%/);
+  assert.doesNotMatch(homeDesktopBlock, /content-max/);
+  assert.match(homepageCss, /@keyframes\s+homeBreath/);
+  assert.match(homepageCss, /@keyframes\s+windowDrift/);
+  assert.match(homepageCss, /@keyframes\s+homeReveal/);
+  assert.match(homepageCss, /\.desktop-window[^{]+\{[^}]*animation:/);
+  assert.match(homepageCss, /\.home-archive-chip[^{]+\{[^}]*animation:/);
+  assert.match(reducedMotionBlock, /animation:\s*none/);
 });
