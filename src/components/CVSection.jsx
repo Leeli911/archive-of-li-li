@@ -20,6 +20,33 @@ function RelatedLinks({ links = [], language }) {
   );
 }
 
+function CareerTimeline({ language }) {
+  const isZh = language === "zh";
+
+  return (
+    <section className="cv-timeline" aria-label={isZh ? "经历时间线" : "Career timeline"}>
+      <div className="cv-timeline-head">
+        <span>{isZh ? "轨迹速览" : "Path at a glance"}</span>
+        <p>
+          {isZh
+            ? "从数学本科、互联网与金融电商数据分析，到瑞典数据科学硕士。"
+            : "From mathematics, internet and financial e-commerce analytics, to graduate study in data science."}
+        </p>
+      </div>
+      <div className="cv-timeline-track">
+        {cv.timeline.map((item) => (
+          <article key={`${item.period}-${item.title}`} className="cv-timeline-item">
+            <span>{item.period}</span>
+            <small>{isZh ? item.typeZh || item.type : item.type}</small>
+            <h3>{isZh ? item.titleZh || item.title : item.title}</h3>
+            <p>{isZh ? item.detailZh || item.detail : item.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function CVSection({ language = "en" }) {
   const isZh = language === "zh";
   const hasDownload = cv.downloadHref && cv.downloadHref !== "#";
@@ -35,6 +62,8 @@ function CVSection({ language = "en" }) {
         descriptionZh="正式记录放在这里。公司名称与时间顺序只在本节出现，让档案馆的其他部分仍然按作品本身组织。"
         language={language}
       />
+
+      <CareerTimeline language={language} />
 
       <div className="cv-paper">
         <div className="cv-paper-head">
