@@ -924,7 +924,7 @@ button {
   }
 
   .home-identity__title {
-    max-width: 8.5ch;
+    max-width: min(100%, 11ch);
     font-size: clamp(3.4rem, 18vw, 5.1rem);
     line-height: 0.96;
   }
