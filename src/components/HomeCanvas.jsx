@@ -1,5 +1,8 @@
 import { useEffect, useRef } from "react";
-import ArchiveFlowerMap from "./ArchiveFlowerMap";
+import DesktopWindow from "./DesktopWindow";
+import HomeArchiveEntrances from "./HomeArchiveEntrances";
+import HomeIdentity from "./HomeIdentity";
+import { homeDesktopWindows } from "./homeDesktopConfig";
 
 const digitSeedText = "1231134753463242749329571943235739352015";
 
@@ -221,6 +224,10 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
   const pausedRef = useRef(isPaused);
   const pauseAnimationRef = useRef(null);
   const resumeAnimationRef = useRef(null);
+  const sectionById = sections.reduce((lookup, section) => {
+    lookup[section.id] = section;
+    return lookup;
+  }, {});
 
   useEffect(() => {
     pausedRef.current = isPaused;
@@ -830,25 +837,39 @@ function HomeCanvas({ sections, onOpenSection, language, activeSectionId, isPaus
       <canvas
         ref={canvasRef}
         className="home-canvas"
-        aria-label="Interactive pastel paper canvas. Drag to leave soft traces."
+        aria-label="Interactive archive paper canvas with soft numeric traces."
       />
       <div className="home-vignette" aria-hidden="true" />
 
-      <div className={`home-copy ${language === "zh" ? "is-zh" : ""}`}>
-        <p className="home-eyebrow">{language === "zh" ? "AI 作品集" : "AI portfolio"}</p>
-        <h1>Li Li</h1>
-        <p className="home-role">Applied AI | AI Product &amp; Evaluation</p>
-        <p className="home-summary">
-          Portfolio of research, AI data products, and visual computing projects
-        </p>
-      </div>
+      <div
+        className="home-desktop"
+        aria-label={language === "zh" ? "诗性桌面档案" : "Poetic desktop archive"}
+      >
+        <div
+          className="home-window-layer"
+          aria-label={language === "zh" ? "档案窗口入口" : "Archive window entrances"}
+        >
+          {homeDesktopWindows.map((windowConfig) => (
+            <DesktopWindow
+              key={windowConfig.id}
+              activeSectionId={activeSectionId}
+              language={language}
+              onOpenSection={onOpenSection}
+              section={sectionById[windowConfig.sectionId]}
+              windowConfig={windowConfig}
+            />
+          ))}
+        </div>
 
-      <ArchiveFlowerMap
-        sections={sections}
-        language={language}
-        onOpenSection={onOpenSection}
-        activeSectionId={activeSectionId}
-      />
+        <HomeIdentity language={language} />
+
+        <HomeArchiveEntrances
+          activeSectionId={activeSectionId}
+          language={language}
+          onOpenSection={onOpenSection}
+          sections={sections}
+        />
+      </div>
     </section>
   );
 }
