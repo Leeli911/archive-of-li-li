@@ -383,8 +383,9 @@ button {
   padding: calc(var(--header-height) + 0.55rem) clamp(0.45rem, 1.3vw, 1.5rem) 0.7rem;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(246, 243, 236, 0.98)),
-    #fffdfa;
+    radial-gradient(circle at 16% 8%, rgba(230, 200, 120, 0.18), transparent 28rem),
+    radial-gradient(circle at 82% 18%, rgba(198, 129, 109, 0.1), transparent 25rem),
+    linear-gradient(115deg, var(--paper) 0%, #f5efe3 52%, #efe7d8 100%);
 }
 
 .home-canvas-section::before {
@@ -392,38 +393,25 @@ button {
   position: absolute;
   inset: calc(var(--header-height) + 0.45rem) clamp(0.32rem, 0.9vw, 0.9rem) 0.42rem;
   z-index: 0;
-  border: 1px solid rgba(35, 32, 30, 0.13);
-  border-radius: clamp(0.9rem, 1.8vw, 1.35rem);
+  border-radius: clamp(3.6rem, 7.2vw, 5.4rem);
   background:
     var(--home-haitang-pattern),
-    linear-gradient(118deg, rgba(255, 255, 255, 0.82), rgba(255, 142, 202, 0.1) 46%, rgba(235, 241, 255, 0.16));
+    rgba(244, 239, 228, 0.78);
   background-size:
-    clamp(58px, 5vw, 92px) clamp(58px, 5vw, 92px),
+    18px 18px,
     100% 100%;
-  opacity: 0.56;
+  opacity: 0.64;
   pointer-events: none;
   transform-origin: center;
-  animation: homeBreath 8.8s ease-in-out infinite;
 }
 
 .home-vignette {
   position: absolute;
   inset: clamp(0.55rem, 1.2vw, 1.35rem);
   z-index: 2;
-  border: 1px solid rgba(35, 32, 30, 0.11);
-  border-radius: clamp(0.9rem, 1.8vw, 1.35rem);
+  border-radius: clamp(3.6rem, 7.2vw, 5.4rem);
   pointer-events: none;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
-    inset 0 0 52px rgba(38, 32, 28, 0.045);
-}
-
-.home-vignette::before {
-  content: "";
-  position: absolute;
-  inset: 1rem;
-  border: 1px dashed rgba(35, 32, 30, 0.08);
-  border-radius: inherit;
+  box-shadow: inset 0 0 52px rgba(38, 32, 28, 0.035);
 }
 
 .home-desktop {
@@ -441,14 +429,14 @@ button {
 .home-window-layer {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 8;
 }
 
 .home-identity {
   position: absolute;
   top: clamp(2.4rem, 7vh, 5.3rem);
   left: clamp(3rem, 11vw, 13.5rem);
-  z-index: 7;
+  z-index: 3;
   display: grid;
   width: min(50rem, 44vw);
   gap: 1rem;
@@ -490,15 +478,14 @@ button {
   gap: 0.42rem;
   margin-top: 0.45rem;
   padding: 0.85rem 1rem 0.95rem;
-  border: 1px solid rgba(35, 32, 30, 0.1);
-  border-left: 0.26rem solid rgba(255, 90, 164, 0.42);
-  border-radius: 0.18rem;
-  background: rgba(255, 255, 255, 0.28);
+  border-radius: 0.72rem;
+  background:
+    linear-gradient(90deg, rgba(255, 90, 164, 0.3) 0 0.24rem, transparent 0.24rem),
+    rgba(244, 239, 228, 0.16);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 14px 34px rgba(34, 29, 25, 0.06);
-  -webkit-backdrop-filter: blur(8px) saturate(1.04);
-  backdrop-filter: blur(8px) saturate(1.04);
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 8px 20px rgba(34, 29, 25, 0.035);
+  pointer-events: none;
 }
 
 .home-identity__role,
@@ -563,32 +550,53 @@ button {
   grid-template-rows: 2rem minmax(0, 1fr);
   overflow: hidden;
   padding: 0;
-  border: 1px solid rgba(35, 32, 30, 0.22);
-  border-radius: 0.62rem 0.62rem 0.34rem 0.34rem;
-  background: rgba(252, 251, 248, 0.9);
-  box-shadow: 0 18px 42px rgba(32, 28, 25, 0.14);
+  border-radius: 999px;
+  background: rgba(252, 251, 248, 0.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -14px 30px rgba(35, 32, 30, 0.045),
+    0 20px 46px rgba(32, 28, 25, 0.12);
   cursor: pointer;
+  isolation: isolate;
   rotate: var(--window-rotate);
   scale: 1;
   text-align: left;
   transition:
-    border-color 240ms ease,
-    box-shadow 240ms ease,
-    filter 240ms ease,
-    scale 240ms ease;
-  animation:
-    windowReveal 780ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--reveal-delay) both,
-    windowDrift var(--drift-duration) ease-in-out var(--drift-delay) infinite;
+    background 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease,
+    scale 160ms ease;
+  animation: windowReveal 520ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--reveal-delay) both;
+}
+
+.desktop-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.76), transparent 19%),
+    radial-gradient(circle at 78% 80%, rgba(255, 255, 255, 0.24), transparent 24%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.32), transparent 48%);
+  mix-blend-mode: screen;
+  opacity: 0.76;
+  pointer-events: none;
 }
 
 .desktop-window__chrome {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 0.36rem;
   min-width: 0;
   padding: 0 0.72rem;
-  border-bottom: 1px solid rgba(35, 32, 30, 0.14);
-  background: linear-gradient(#fbfbfb, #e8e8e8);
+  border-bottom: 0;
+  border-radius: inherit;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.3));
 }
 
 .desktop-window__dot {
@@ -616,6 +624,7 @@ button {
 
 .desktop-window__surface {
   position: relative;
+  z-index: 2;
   display: grid;
   align-content: center;
   gap: 0.78rem;
@@ -673,10 +682,10 @@ button {
 .desktop-window__section {
   width: fit-content;
   max-width: 100%;
-  border: 1px solid rgba(35, 32, 30, 0.18);
   border-radius: 999px;
   padding: 0.34rem 0.62rem;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
   color: rgba(35, 32, 30, 0.66);
   font-size: 0.76rem;
   font-weight: 800;
@@ -687,11 +696,14 @@ button {
 .desktop-window:focus-visible,
 .desktop-window.is-active {
   z-index: 30;
-  border-color: rgba(255, 90, 164, 0.42);
-  box-shadow: 0 22px 52px rgba(32, 28, 25, 0.18);
+  background: rgba(252, 251, 248, 0.58);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -16px 34px rgba(35, 32, 30, 0.055),
+    0 24px 54px rgba(32, 28, 25, 0.15);
   filter: saturate(1.08) contrast(1.02);
   scale: 1.012;
-  animation-play-state: paused, paused;
+  animation-play-state: paused;
 }
 
 .desktop-window:focus-visible,
@@ -787,21 +799,39 @@ button {
   gap: 0.24rem;
   align-content: center;
   padding: 0.78rem 0.82rem;
-  border: 1px solid rgba(35, 32, 30, 0.16);
-  border-radius: 0.48rem;
-  background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 12px 26px rgba(32, 28, 25, 0.08);
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -10px 18px rgba(35, 32, 30, 0.035),
+    0 12px 26px rgba(32, 28, 25, 0.08);
   color: rgba(35, 32, 30, 0.72);
   cursor: pointer;
+  isolation: isolate;
   text-align: left;
   transition:
-    background 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease,
-    scale 220ms ease;
-  animation:
-    chipReveal 720ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--chip-delay) both,
-    chipFloat 9s ease-in-out calc(var(--chip-delay) + 520ms) infinite;
+    background 160ms ease,
+    box-shadow 160ms ease,
+    scale 160ms ease;
+  animation: chipReveal 480ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--chip-delay) both;
+}
+
+.home-archive-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.62), transparent 32%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 52%);
+  pointer-events: none;
+}
+
+.home-archive-chip > * {
+  position: relative;
+  z-index: 1;
 }
 
 .home-archive-chip:nth-child(1) {
@@ -852,11 +882,13 @@ button {
 .home-archive-chip:focus-visible,
 .home-archive-chip.is-active {
   z-index: 30;
-  border-color: rgba(46, 118, 81, 0.34);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 16px 34px rgba(32, 28, 25, 0.12);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    inset 0 -12px 22px rgba(35, 32, 30, 0.045),
+    0 16px 34px rgba(32, 28, 25, 0.12);
   scale: 1.01;
-  animation-play-state: paused, paused;
+  animation-play-state: paused;
 }
 
 .home-canvas-section.is-zh .home-archive-chip {
@@ -876,48 +908,22 @@ button {
 @keyframes homeReveal {
   from {
     opacity: 0;
-    filter: blur(10px);
   }
 
   to {
     opacity: 1;
-    filter: blur(0);
-  }
-}
-
-@keyframes homeBreath {
-  0%,
-  100% {
-    opacity: 0.64;
-    scale: 1;
-  }
-
-  50% {
-    opacity: 0.82;
-    scale: 1.018;
   }
 }
 
 @keyframes windowReveal {
   from {
     opacity: 0;
-    filter: blur(8px);
+    translate: 0 0.42rem;
   }
 
   to {
     opacity: 1;
-    filter: blur(0);
-  }
-}
-
-@keyframes windowDrift {
-  0%,
-  100% {
     translate: 0 0;
-  }
-
-  50% {
-    translate: var(--float-x) var(--float-y);
   }
 }
 
@@ -930,17 +936,6 @@ button {
   to {
     opacity: 1;
     translate: 0 0;
-  }
-}
-
-@keyframes chipFloat {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-
-  50% {
-    translate: 0 var(--chip-float-y);
   }
 }
 

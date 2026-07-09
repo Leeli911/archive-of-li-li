@@ -172,9 +172,8 @@ test("homepage CSS keeps a full-bleed flowing desktop stage", () => {
 
   assert.match(homeDesktopBlock, /width:\s*100%/);
   assert.doesNotMatch(homeDesktopBlock, /content-max/);
-  assert.match(homepageCss, /@keyframes\s+homeBreath/);
-  assert.match(homepageCss, /@keyframes\s+windowDrift/);
   assert.match(homepageCss, /@keyframes\s+homeReveal/);
+  assert.match(homepageCss, /@keyframes\s+windowReveal/);
   assert.match(homepageCss, /\.desktop-window[^{]+\{[^}]*animation:/);
   assert.match(homepageCss, /\.home-archive-chip[^{]+\{[^}]*animation:/);
   assert.match(reducedMotionBlock, /animation:\s*none/);
@@ -203,6 +202,65 @@ test("homepage modules surface on hover and expose stable section targets", () =
   assert.match(desktopWindowSource, /data-section-id=\{section\.id\}/);
   assert.match(archiveEntrancesSource, /data-section-id=\{entry\.id\}/);
   assert.match(hoverBlock, /z-index:\s*30/);
-  assert.match(noteBlock, /background:\s*rgba\(255,\s*255,\s*255,\s*0\.2[0-9]\)/);
-  assert.match(noteBlock, /backdrop-filter:\s*blur/);
+  assert.match(noteBlock, /rgba\(244,\s*239,\s*228,\s*0\.1[0-9]\)/);
+  assert.doesNotMatch(noteBlock, /backdrop-filter/);
+});
+
+test("homepage visual layer stays light, small-scaled, rounded, and bubble-like", () => {
+  const homeSectionBlock =
+    homepageCss.match(/\.home-canvas-section\s*\{[^}]+\}/)?.[0] || "";
+  const homePatternBlock =
+    homepageCss.match(/\.home-canvas-section::before\s*\{[^}]+\}/)?.[0] || "";
+  const homeVignetteBlock =
+    homepageCss.match(/\.home-vignette\s*\{[^}]+\}/)?.[0] || "";
+  const homeVignetteInsetBlock =
+    homepageCss.match(/\.home-vignette::before\s*\{[^}]+\}/)?.[0] || "";
+  const identityBlock = homepageCss.match(/\.home-identity\s*\{[^}]+\}/)?.[0] || "";
+  const noteBlock =
+    homepageCss.match(/\.home-identity__note\s*\{[^}]+\}/)?.[0] || "";
+  const homeDesktopBlock = homepageCss.match(/\.home-desktop\s*\{[^}]+\}/)?.[0] || "";
+  const windowBlock = homepageCss.match(/\.desktop-window\s*\{[^}]+\}/)?.[0] || "";
+  const windowAfterBlock =
+    homepageCss.match(/\.desktop-window::after\s*\{[^}]+\}/)?.[0] || "";
+  const windowChromeBlock =
+    homepageCss.match(/\.desktop-window__chrome\s*\{[^}]+\}/)?.[0] || "";
+  const windowSectionBlock =
+    homepageCss.match(/\.desktop-window__section\s*\{[^}]+\}/)?.[0] || "";
+  const windowHoverBlock =
+    homepageCss.match(
+      /\.desktop-window:hover,\s*\.desktop-window:focus-visible,\s*\.desktop-window\.is-active\s*\{[^}]+\}/,
+    )?.[0] || "";
+  const chipBlock = homepageCss.match(/\.home-archive-chip\s*\{[^}]+\}/)?.[0] || "";
+  const homepageAnimationBlocks = [
+    homePatternBlock,
+    homeDesktopBlock,
+    windowBlock,
+    chipBlock,
+  ].join("\n");
+
+  assert.match(homeSectionBlock, /background:[\s\S]*var\(--paper\)/);
+  assert.doesNotMatch(homeSectionBlock, /#fffdfa|255,\s*253,\s*248/);
+  assert.match(homePatternBlock, /background-size:\s*18px\s+18px,\s*100%\s+100%/);
+  assert.match(homePatternBlock, /border-radius:\s*clamp\(3\.6rem/);
+  assert.doesNotMatch(homePatternBlock, /border:/);
+  assert.doesNotMatch(homeVignetteBlock, /border:|inset\s+0\s+0\s+0\s+1px/);
+  assert.equal(homeVignetteInsetBlock, "");
+  assert.match(identityBlock, /z-index:\s*3/);
+  assert.match(noteBlock, /border-radius:\s*0\.72rem/);
+  assert.match(noteBlock, /pointer-events:\s*none/);
+  assert.doesNotMatch(noteBlock, /border:|border-left:/);
+  assert.doesNotMatch(windowBlock, /border:/);
+  assert.match(windowBlock, /border-radius:\s*999px/);
+  assert.match(windowBlock, /rgba\(252,\s*251,\s*248,\s*0\.4[0-9]\)/);
+  assert.match(windowBlock, /inset\s+0\s+1px\s+0\s+rgba\(255,\s*255,\s*255/);
+  assert.match(windowAfterBlock, /radial-gradient\(circle at 22%\s+18%/);
+  assert.match(windowChromeBlock, /border-bottom:\s*0/);
+  assert.match(windowChromeBlock, /rgba\(255,\s*255,\s*255,\s*0\.6[0-9]\)/);
+  assert.doesNotMatch(windowSectionBlock, /border:/);
+  assert.doesNotMatch(windowHoverBlock, /border-color/);
+  assert.doesNotMatch(chipBlock, /border:/);
+  assert.match(chipBlock, /border-radius:\s*999px/);
+  assert.match(chipBlock, /rgba\(255,\s*255,\s*255,\s*0\.4[0-9]\)/);
+  assert.doesNotMatch(homepageCss, /homeBreath|windowDrift|chipFloat/);
+  assert.doesNotMatch(homepageAnimationBlocks, /infinite/);
 });
