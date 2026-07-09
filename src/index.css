@@ -538,6 +538,8 @@ button {
 }
 
 .desktop-window {
+  --bubble-fill:
+    linear-gradient(135deg, rgba(255, 253, 250, 0.82), rgba(236, 233, 226, 0.74));
   --window-rotate: 0deg;
   --float-x: 0.35rem;
   --float-y: -0.58rem;
@@ -547,10 +549,11 @@ button {
   position: absolute;
   z-index: 3;
   display: grid;
-  grid-template-rows: 2rem minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   overflow: hidden;
   padding: 0;
-  border-radius: 999px;
+  border-radius: 50%;
+  clip-path: ellipse(50% 50% at 50% 50%);
   background: rgba(252, 251, 248, 0.46);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.7),
@@ -567,6 +570,17 @@ button {
     filter 160ms ease,
     scale 160ms ease;
   animation: windowReveal 520ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--reveal-delay) both;
+}
+
+.desktop-window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--bubble-fill);
+  opacity: 0.82;
+  pointer-events: none;
 }
 
 .desktop-window::after {
@@ -591,12 +605,9 @@ button {
   align-items: center;
   gap: 0.36rem;
   min-width: 0;
-  padding: 0 0.72rem;
+  padding: clamp(0.92rem, 1.35vw, 1.25rem) clamp(1.15rem, 1.8vw, 1.72rem) 0;
   border-bottom: 0;
-  border-radius: inherit;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.3));
+  background: transparent;
 }
 
 .desktop-window__dot {
@@ -629,42 +640,38 @@ button {
   align-content: center;
   gap: 0.78rem;
   min-height: 0;
-  padding: 1.2rem;
+  padding: 0.28rem clamp(1.3rem, 1.9vw, 1.85rem) clamp(1.22rem, 2vw, 1.9rem);
   isolation: isolate;
 }
 
 .desktop-window__surface::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.78;
+  display: none;
 }
 
-.desktop-window--pink .desktop-window__surface::before {
-  background:
+.desktop-window--pink {
+  --bubble-fill:
     radial-gradient(circle at 46% 38%, rgba(255, 255, 255, 0.68), transparent 18%),
     radial-gradient(circle at 66% 58%, rgba(255, 75, 125, 0.64), transparent 32%),
     repeating-radial-gradient(circle, rgba(34, 24, 30, 0.25) 0 0.85px, transparent 1px 3.1px),
     #ff93ce;
 }
 
-.desktop-window--gray .desktop-window__surface::before {
-  background:
+.desktop-window--gray {
+  --bubble-fill:
     linear-gradient(118deg, rgba(255, 255, 255, 0.78), transparent 46%),
     repeating-radial-gradient(circle, rgba(24, 24, 24, 0.3) 0 0.8px, transparent 0.9px 3.6px),
     #d9d9d4;
 }
 
-.desktop-window--blue .desktop-window__surface::before {
-  background:
+.desktop-window--blue {
+  --bubble-fill:
     radial-gradient(circle at 45% 38%, rgba(255, 255, 255, 0.72), transparent 18%),
     repeating-linear-gradient(0deg, rgba(44, 118, 210, 0.36) 0 1px, transparent 1px 3px),
     #bdd8ff;
 }
 
-.desktop-window--paper .desktop-window__surface::before {
-  background:
+.desktop-window--paper {
+  --bubble-fill:
     repeating-radial-gradient(circle, rgba(35, 32, 30, 0.18) 0 0.65px, transparent 0.8px 3.8px),
     linear-gradient(135deg, #fffdfa, #ece9e3);
 }
@@ -719,10 +726,10 @@ button {
   --reveal-delay: 220ms;
   --drift-delay: -1.2s;
   --drift-duration: 10.5s;
-  top: clamp(2.7rem, 6.2vh, 4.8rem);
-  right: clamp(17rem, 25vw, 30rem);
-  width: min(29rem, 26vw);
-  height: clamp(9.6rem, 16vh, 11.6rem);
+  top: clamp(2rem, 5vh, 4rem);
+  right: clamp(23rem, 28vw, 35rem);
+  width: clamp(14rem, 17vw, 18.5rem);
+  height: clamp(14rem, 17vw, 18.5rem);
 }
 
 .desktop-window--research {
@@ -732,10 +739,10 @@ button {
   --reveal-delay: 340ms;
   --drift-delay: -3s;
   --drift-duration: 12s;
-  top: clamp(8.2rem, 17vh, 13.4rem);
-  right: clamp(7rem, 14vw, 18rem);
-  width: min(34rem, 31vw);
-  height: clamp(13rem, 24vh, 16.5rem);
+  top: clamp(7rem, 14vh, 11.2rem);
+  right: clamp(7rem, 13vw, 18rem);
+  width: clamp(18rem, 23vw, 25rem);
+  height: clamp(18rem, 23vw, 25rem);
 }
 
 .desktop-window--data-work {
@@ -745,10 +752,10 @@ button {
   --reveal-delay: 460ms;
   --drift-delay: -5.4s;
   --drift-duration: 11s;
-  right: clamp(14rem, 20vw, 26rem);
-  bottom: clamp(8rem, 17vh, 12rem);
-  width: min(25rem, 24vw);
-  height: clamp(9.2rem, 15vh, 10.8rem);
+  right: clamp(14rem, 22vw, 28rem);
+  bottom: clamp(7rem, 15vh, 11rem);
+  width: clamp(14rem, 19vw, 20rem);
+  height: clamp(14rem, 19vw, 20rem);
 }
 
 .desktop-window--about {
@@ -758,10 +765,10 @@ button {
   --reveal-delay: 560ms;
   --drift-delay: -2.1s;
   --drift-duration: 12.5s;
-  left: clamp(36rem, 36vw, 46rem);
-  bottom: clamp(7.5rem, 15vh, 10rem);
-  width: min(22rem, 20vw);
-  height: clamp(8.4rem, 14vh, 10rem);
+  left: clamp(33rem, 36vw, 45rem);
+  bottom: clamp(6.3rem, 13vh, 9.2rem);
+  width: clamp(12rem, 15.5vw, 16rem);
+  height: clamp(12rem, 15.5vw, 16rem);
 }
 
 .desktop-window--cv {
@@ -771,10 +778,10 @@ button {
   --reveal-delay: 650ms;
   --drift-delay: -4.4s;
   --drift-duration: 10s;
-  right: clamp(2.5rem, 5vw, 6rem);
-  bottom: clamp(6.1rem, 13vh, 9rem);
-  width: min(17.5rem, 18vw);
-  height: clamp(7.6rem, 12vh, 8.8rem);
+  right: clamp(2.8rem, 5vw, 6rem);
+  bottom: clamp(6.1rem, 12vh, 8.5rem);
+  width: clamp(11rem, 14vw, 14.5rem);
+  height: clamp(11rem, 14vw, 14.5rem);
 }
 
 .home-archive-entrances {
@@ -799,39 +806,19 @@ button {
   gap: 0.24rem;
   align-content: center;
   padding: 0.78rem 0.82rem;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.46);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -10px 18px rgba(35, 32, 30, 0.035),
-    0 12px 26px rgba(32, 28, 25, 0.08);
+  border: 1px solid rgba(35, 32, 30, 0.16);
+  border-radius: 0.48rem;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 12px 26px rgba(32, 28, 25, 0.08);
   color: rgba(35, 32, 30, 0.72);
   cursor: pointer;
-  isolation: isolate;
   text-align: left;
   transition:
-    background 160ms ease,
-    box-shadow 160ms ease,
-    scale 160ms ease;
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    scale 220ms ease;
   animation: chipReveal 480ms cubic-bezier(0.2, 0.82, 0.22, 1) var(--chip-delay) both;
-}
-
-.home-archive-chip::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background:
-    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.62), transparent 32%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 52%);
-  pointer-events: none;
-}
-
-.home-archive-chip > * {
-  position: relative;
-  z-index: 1;
 }
 
 .home-archive-chip:nth-child(1) {
@@ -882,11 +869,9 @@ button {
 .home-archive-chip:focus-visible,
 .home-archive-chip.is-active {
   z-index: 30;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.78),
-    inset 0 -12px 22px rgba(35, 32, 30, 0.045),
-    0 16px 34px rgba(32, 28, 25, 0.12);
+  border-color: rgba(46, 118, 81, 0.34);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 34px rgba(32, 28, 25, 0.12);
   scale: 1.01;
   animation-play-state: paused;
 }

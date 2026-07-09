@@ -222,6 +222,8 @@ test("homepage visual layer stays light, small-scaled, rounded, and bubble-like"
   const windowBlock = homepageCss.match(/\.desktop-window\s*\{[^}]+\}/)?.[0] || "";
   const windowAfterBlock =
     homepageCss.match(/\.desktop-window::after\s*\{[^}]+\}/)?.[0] || "";
+  const windowBeforeBlock =
+    homepageCss.match(/\.desktop-window::before\s*\{[^}]+\}/)?.[0] || "";
   const windowChromeBlock =
     homepageCss.match(/\.desktop-window__chrome\s*\{[^}]+\}/)?.[0] || "";
   const windowSectionBlock =
@@ -250,17 +252,19 @@ test("homepage visual layer stays light, small-scaled, rounded, and bubble-like"
   assert.match(noteBlock, /pointer-events:\s*none/);
   assert.doesNotMatch(noteBlock, /border:|border-left:/);
   assert.doesNotMatch(windowBlock, /border:/);
-  assert.match(windowBlock, /border-radius:\s*999px/);
+  assert.match(windowBlock, /border-radius:\s*50%/);
+  assert.match(windowBlock, /clip-path:\s*ellipse\(50%\s+50%\s+at\s+50%\s+50%\)/);
   assert.match(windowBlock, /rgba\(252,\s*251,\s*248,\s*0\.4[0-9]\)/);
   assert.match(windowBlock, /inset\s+0\s+1px\s+0\s+rgba\(255,\s*255,\s*255/);
+  assert.match(windowBeforeBlock, /background:\s*var\(--bubble-fill\)/);
   assert.match(windowAfterBlock, /radial-gradient\(circle at 22%\s+18%/);
   assert.match(windowChromeBlock, /border-bottom:\s*0/);
-  assert.match(windowChromeBlock, /rgba\(255,\s*255,\s*255,\s*0\.6[0-9]\)/);
+  assert.match(windowChromeBlock, /background:\s*transparent/);
   assert.doesNotMatch(windowSectionBlock, /border:/);
   assert.doesNotMatch(windowHoverBlock, /border-color/);
-  assert.doesNotMatch(chipBlock, /border:/);
-  assert.match(chipBlock, /border-radius:\s*999px/);
-  assert.match(chipBlock, /rgba\(255,\s*255,\s*255,\s*0\.4[0-9]\)/);
+  assert.match(chipBlock, /border:\s*1px\s+solid\s+rgba\(35,\s*32,\s*30,\s*0\.16\)/);
+  assert.match(chipBlock, /border-radius:\s*0\.48rem/);
+  assert.match(chipBlock, /rgba\(255,\s*255,\s*255,\s*0\.76\)/);
   assert.doesNotMatch(homepageCss, /homeBreath|windowDrift|chipFloat/);
   assert.doesNotMatch(homepageAnimationBlocks, /infinite/);
 });
