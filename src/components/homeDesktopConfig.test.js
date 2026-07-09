@@ -8,6 +8,12 @@ import {
 } from "./homeDesktopConfig.js";
 
 const homepageCss = readFileSync(new URL("../index.css", import.meta.url), "utf8");
+const homeCanvasSource = readFileSync(new URL("./HomeCanvas.jsx", import.meta.url), "utf8");
+const desktopWindowSource = readFileSync(new URL("./DesktopWindow.jsx", import.meta.url), "utf8");
+const archiveEntrancesSource = readFileSync(
+  new URL("./HomeArchiveEntrances.jsx", import.meta.url),
+  "utf8",
+);
 
 const sections = [
   {
@@ -172,4 +178,31 @@ test("homepage CSS keeps a full-bleed flowing desktop stage", () => {
   assert.match(homepageCss, /\.desktop-window[^{]+\{[^}]*animation:/);
   assert.match(homepageCss, /\.home-archive-chip[^{]+\{[^}]*animation:/);
   assert.match(reducedMotionBlock, /animation:\s*none/);
+});
+
+test("homepage removes the random digit canvas and keeps a single Chinese-inspired texture", () => {
+  const homePatternBlock =
+    homepageCss.match(/\.home-canvas-section::before\s*\{[^}]+\}/)?.[0] || "";
+
+  assert.doesNotMatch(homeCanvasSource, /<canvas/);
+  assert.doesNotMatch(homeCanvasSource, /Math\.random|requestAnimationFrame|digitSeedText/);
+  assert.doesNotMatch(homepageCss, /\.home-canvas\s*\{/);
+  assert.match(homepageCss, /--home-haitang-pattern:/);
+  assert.match(homePatternBlock, /var\(--home-haitang-pattern\)/);
+  assert.doesNotMatch(homePatternBlock, /repeating-radial-gradient/);
+});
+
+test("homepage modules surface on hover and expose stable section targets", () => {
+  const hoverBlock =
+    homepageCss.match(
+      /\.desktop-window:hover,\s*\.desktop-window:focus-visible,\s*\.desktop-window\.is-active\s*\{[^}]+\}/,
+    )?.[0] || "";
+  const noteBlock =
+    homepageCss.match(/\.home-identity__note\s*\{[^}]+\}/)?.[0] || "";
+
+  assert.match(desktopWindowSource, /data-section-id=\{section\.id\}/);
+  assert.match(archiveEntrancesSource, /data-section-id=\{entry\.id\}/);
+  assert.match(hoverBlock, /z-index:\s*30/);
+  assert.match(noteBlock, /background:\s*rgba\(255,\s*255,\s*255,\s*0\.2[0-9]\)/);
+  assert.match(noteBlock, /backdrop-filter:\s*blur/);
 });

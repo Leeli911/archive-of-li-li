@@ -25,6 +25,7 @@ function DesktopWindow({
       }`}
       type="button"
       aria-label={`${sectionLabel}: ${sectionDetail}`}
+      data-section-id={section.id}
       onClick={handleOpen}
     >
       <span className="desktop-window__chrome" aria-hidden="true">

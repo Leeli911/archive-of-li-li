@@ -17,6 +17,7 @@ function HomeArchiveEntrances({ activeSectionId, language, onOpenSection, sectio
             key={entry.id}
             className={`home-archive-chip ${isActive ? "is-active" : ""}`}
             type="button"
+            data-section-id={entry.id}
             onClick={(event) =>
               onOpenSection(section, {
                 x: event.clientX || window.innerWidth / 2,
