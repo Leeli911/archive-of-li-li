@@ -29,9 +29,6 @@ function DesktopWindow({
       onClick={handleOpen}
     >
       <span className="desktop-window__chrome" aria-hidden="true">
-        <span className="desktop-window__dot" />
-        <span className="desktop-window__dot" />
-        <span className="desktop-window__dot" />
         <span className="desktop-window__title">{windowConfig.chromeTitle}</span>
       </span>
       <span className="desktop-window__surface" aria-hidden="true">

@@ -603,32 +603,24 @@ button {
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 0.36rem;
+  justify-content: center;
   min-width: 0;
   padding: clamp(0.92rem, 1.35vw, 1.25rem) clamp(1.15rem, 1.8vw, 1.72rem) 0;
   border-bottom: 0;
   background: transparent;
 }
 
-.desktop-window__dot {
-  flex: 0 0 auto;
-  width: 0.68rem;
-  height: 0.68rem;
-  border-radius: 999px;
-  background: #d4d4d4;
-}
-
 .desktop-window__title {
   min-width: 0;
-  margin-left: 0.3rem;
-  overflow: hidden;
-  color: rgba(35, 32, 30, 0.42);
+  width: 100%;
+  color: rgba(35, 32, 30, 0.56);
   font-family: "SFMono-Regular", Menlo, Consolas, monospace;
-  font-size: 0.66rem;
-  font-weight: 800;
+  font-size: clamp(0.66rem, 0.72vw, 0.78rem);
+  font-weight: 900;
   letter-spacing: 0.08em;
-  line-height: 1;
-  text-overflow: ellipsis;
+  line-height: 1.08;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.58);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -765,10 +757,10 @@ button {
   --reveal-delay: 560ms;
   --drift-delay: -2.1s;
   --drift-duration: 12.5s;
-  left: clamp(33rem, 36vw, 45rem);
-  bottom: clamp(6.3rem, 13vh, 9.2rem);
-  width: clamp(12rem, 15.5vw, 16rem);
-  height: clamp(12rem, 15.5vw, 16rem);
+  left: clamp(41rem, 44vw, 53rem);
+  bottom: clamp(3.2rem, 6vh, 5.2rem);
+  width: clamp(11.4rem, 13.8vw, 14.5rem);
+  height: clamp(11.4rem, 13.8vw, 14.5rem);
 }
 
 .desktop-window--cv {

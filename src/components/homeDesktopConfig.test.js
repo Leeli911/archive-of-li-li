@@ -226,12 +226,16 @@ test("homepage visual layer stays light, small-scaled, rounded, and bubble-like"
     homepageCss.match(/\.desktop-window::before\s*\{[^}]+\}/)?.[0] || "";
   const windowChromeBlock =
     homepageCss.match(/\.desktop-window__chrome\s*\{[^}]+\}/)?.[0] || "";
+  const windowTitleBlock =
+    homepageCss.match(/\.desktop-window__title\s*\{[^}]+\}/)?.[0] || "";
   const windowSectionBlock =
     homepageCss.match(/\.desktop-window__section\s*\{[^}]+\}/)?.[0] || "";
   const windowHoverBlock =
     homepageCss.match(
       /\.desktop-window:hover,\s*\.desktop-window:focus-visible,\s*\.desktop-window\.is-active\s*\{[^}]+\}/,
     )?.[0] || "";
+  const aboutBubbleBlock =
+    homepageCss.match(/\.desktop-window--about\s*\{[^}]+\}/)?.[0] || "";
   const chipBlock = homepageCss.match(/\.home-archive-chip\s*\{[^}]+\}/)?.[0] || "";
   const homepageAnimationBlocks = [
     homePatternBlock,
@@ -260,8 +264,16 @@ test("homepage visual layer stays light, small-scaled, rounded, and bubble-like"
   assert.match(windowAfterBlock, /radial-gradient\(circle at 22%\s+18%/);
   assert.match(windowChromeBlock, /border-bottom:\s*0/);
   assert.match(windowChromeBlock, /background:\s*transparent/);
+  assert.match(windowChromeBlock, /justify-content:\s*center/);
+  assert.doesNotMatch(desktopWindowSource, /desktop-window__dot/);
+  assert.doesNotMatch(homepageCss, /\.desktop-window__dot/);
+  assert.match(windowTitleBlock, /font-weight:\s*900/);
+  assert.match(windowTitleBlock, /text-align:\s*center/);
+  assert.doesNotMatch(windowTitleBlock, /margin-left|overflow:\s*hidden|text-overflow/);
   assert.doesNotMatch(windowSectionBlock, /border:/);
   assert.doesNotMatch(windowHoverBlock, /border-color/);
+  assert.match(aboutBubbleBlock, /left:\s*clamp\(41rem,\s*44vw,\s*53rem\)/);
+  assert.match(aboutBubbleBlock, /bottom:\s*clamp\(3\.2rem,\s*6vh,\s*5\.2rem\)/);
   assert.match(chipBlock, /border:\s*1px\s+solid\s+rgba\(35,\s*32,\s*30,\s*0\.16\)/);
   assert.match(chipBlock, /border-radius:\s*0\.48rem/);
   assert.match(chipBlock, /rgba\(255,\s*255,\s*255,\s*0\.76\)/);
