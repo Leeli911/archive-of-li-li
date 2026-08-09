@@ -1,24 +1,36 @@
+import { useEffect, useState } from "react";
 import SectionIntro from "./SectionIntro";
 import { aboutArchive } from "../data/cv";
 import { publicAsset } from "../utils/assets";
 
-const archiveVisuals = [
-  {
-    src: "/images/drawings/li-li-lily-river-archive.svg",
-    alt: "Original lily, river, and archive map drawing",
-  },
-  {
-    src: "/images/life/placeholder-life.svg",
-    alt: "Life archive placeholder paper",
-  },
-  {
-    src: "/images/research/placeholder-research.svg",
-    alt: "Research archive placeholder paper",
-  },
-];
+const archiveVisual = {
+  src: "/images/drawings/li-li-lily-river-archive.svg",
+  alt: "Original path map connecting Nanning, Shanghai, and Uppsala",
+};
 
 function AboutSection({ language = "en" }) {
   const isZh = language === "zh";
+  const [visualSrc, setVisualSrc] = useState("");
+
+  useEffect(() => {
+    let isActive = true;
+    const source = publicAsset(archiveVisual.src);
+    const image = new Image();
+
+    image.onload = () => {
+      if (isActive) setVisualSrc(source);
+    };
+    image.onerror = () => {
+      if (isActive) setVisualSrc("");
+    };
+    image.src = source;
+
+    return () => {
+      isActive = false;
+      image.onload = null;
+      image.onerror = null;
+    };
+  }, []);
 
   return (
     <section id="about" className="archive-section about-section">
@@ -32,7 +44,7 @@ function AboutSection({ language = "en" }) {
         language={language}
       />
 
-      <div className="about-layout">
+      <div className={`about-layout ${visualSrc ? "has-visual" : "is-text-only"}`}>
         <div className="about-notes">
           {aboutArchive.map((note, index) => {
             const copy = isZh ? note.textZh : note.text;
@@ -53,37 +65,23 @@ function AboutSection({ language = "en" }) {
           })}
         </div>
 
-        <div className="drawing-collage" aria-label="Original lily river archive visual system">
-          <figure className="drawing drawing-one">
-            <img
-              src={publicAsset(archiveVisuals[0].src)}
-              alt={archiveVisuals[0].alt}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <figure className="drawing drawing-two">
-            <img
-              src={publicAsset(archiveVisuals[1].src)}
-              alt={archiveVisuals[1].alt}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <figure className="drawing drawing-three">
-            <img
-              src={publicAsset(archiveVisuals[2].src)}
-              alt={archiveVisuals[2].alt}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <p>
-            {isZh
-              ? "原创视觉草图 · 百合、河流与档案"
-              : "Original visual notes · lily, river, archive"}
-          </p>
-        </div>
+        {visualSrc && (
+          <div className="drawing-collage drawing-collage--single" aria-label="Personal path map">
+            <figure className="drawing drawing-one">
+              <img
+                src={visualSrc}
+                alt={archiveVisual.alt}
+                decoding="async"
+                onError={() => setVisualSrc("")}
+              />
+            </figure>
+            <p>
+              {isZh
+                ? "个人路径地图 · 南宁、上海、乌普萨拉"
+                : "Personal path map · Nanning, Shanghai, Uppsala"}
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

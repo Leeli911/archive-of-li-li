@@ -14,6 +14,7 @@ const archiveEntrancesSource = readFileSync(
   new URL("./HomeArchiveEntrances.jsx", import.meta.url),
   "utf8",
 );
+const aboutSectionSource = readFileSync(new URL("./AboutSection.jsx", import.meta.url), "utf8");
 
 const sections = [
   {
@@ -189,6 +190,14 @@ test("homepage removes the random digit canvas and keeps a single Chinese-inspir
   assert.match(homepageCss, /--home-haitang-pattern:/);
   assert.match(homePatternBlock, /var\(--home-haitang-pattern\)/);
   assert.doesNotMatch(homePatternBlock, /repeating-radial-gradient/);
+});
+
+test("about imagery excludes placeholders and falls back to a complete text layout", () => {
+  assert.doesNotMatch(aboutSectionSource, /placeholder-(?:life|research)/);
+  assert.match(aboutSectionSource, /const image = new Image\(\)/);
+  assert.match(aboutSectionSource, /onError=\{\(\) => setVisualSrc\(""\)\}/);
+  assert.match(aboutSectionSource, /is-text-only/);
+  assert.match(homepageCss, /\.about-layout\.is-text-only/);
 });
 
 test("homepage modules surface on hover and expose stable section targets", () => {

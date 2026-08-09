@@ -3293,6 +3293,14 @@ button.card-image-wrap {
   align-items: start;
 }
 
+.about-layout.is-text-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.about-layout.is-text-only .about-notes {
+  max-width: 76rem;
+}
+
 .drawing-collage {
   position: relative;
   min-height: 35rem;
@@ -3358,6 +3366,28 @@ button.card-image-wrap {
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   line-height: 1.6;
+}
+
+.drawing-collage--single {
+  min-height: 35rem;
+}
+
+.drawing-collage--single::before {
+  inset: 2.2rem -0.8rem 1.2rem 1.4rem;
+}
+
+.drawing-collage--single .drawing-one {
+  top: 1rem;
+  left: 0;
+  width: 100%;
+  height: 30rem;
+  transform: rotate(-1.5deg);
+}
+
+.drawing-collage--single > p {
+  right: 0.8rem;
+  bottom: 0.6rem;
+  max-width: 18rem;
 }
 
 .about-notes {
@@ -4502,6 +4532,14 @@ button.card-image-wrap {
     height: 11rem;
     border-width: 0.4rem;
     transform: none;
+  }
+
+  .drawing-collage--single {
+    display: block;
+  }
+
+  .drawing-collage--single .drawing {
+    height: clamp(17rem, 62vw, 24rem);
   }
 
   .about-notes article {
