@@ -72,9 +72,9 @@ export const cv = {
     },
   ],
   profile:
-    "Senior Data Analyst with 5+ years of experience across internet platforms, e-commerce, and fintech. At Meitu, I analyze image-editing features in the Meitu Xiuxiu app, evaluate product experiments, and help develop an internal product analytics website with AI-assisted coding. My MSc research in model evaluation informs my interest in reliable, evidence-based product decisions.",
+    "Senior Data Analyst with 5+ years of experience across internet platforms, e-commerce, and fintech. At Meitu, I evaluate image-editing features and product experiments for the Meitu Xiuxiu app, while contributing to an internal product analytics website through AI-assisted development. My MSc research in model evaluation informs an evidence-based approach to product decisions.",
   profileZh:
-    "高级数据分析师，具备 5 年以上互联网、电商与金融科技数据分析经验。现于美图负责美图秀秀 App 图片线图像功能的数据分析与实验评估，并运用 AI 辅助开发参与产品数据分析网站建设。数据科学硕士阶段聚焦模型评估，关注如何以可靠的证据支持产品决策。",
+    "高级数据分析师，具备 5 年以上互联网、电商与金融科技数据分析经验。现于美图负责美图秀秀 App 图片线的功能效果与产品实验评估，并运用 AI 辅助开发参与内部产品数据分析网站建设。数据科学硕士阶段聚焦模型评估，持续探索以可靠证据支持产品决策的方法。",
   researchInterests:
     "Trustworthy machine learning, model evaluation under data imbalance, subgroup reliability diagnostics, data-centric bias audit, AI-enabled analytics products, and data-driven decision systems.",
   researchInterestsZh:
@@ -179,13 +179,15 @@ export const cv = {
       roleZh: "高级数据分析师 · 图片线",
       period: "2026.08 — Present",
       periodZh: "2026.08 — 至今",
+      location: "Xiamen, China",
+      locationZh: "中国厦门",
       bullets: [
-        "Analyze user behavior and evaluate feature releases and experiments for image-editing tools, informing product decisions with reliable evidence.",
-        "Develop and maintain an internal product analytics website with AI-assisted coding, bringing analysis and business information into team workflows.",
+        "Evaluate user behavior, feature releases, and product experiments across Meitu Xiuxiu's image-editing features to inform product iteration.",
+        "Contribute to the development of an internal product analytics website with AI-assisted coding, making analysis and business information easier for teams to use.",
       ],
       bulletsZh: [
-        "负责美图秀秀 App 图片线图像功能的用户行为分析、版本及实验效果评估，以可靠的数据证据支持产品迭代。",
-        "运用 AI 辅助开发参与产品数据分析网站的功能建设与维护，推动分析内容和业务信息融入团队工作流。",
+        "负责美图秀秀 App 图片线图像功能的用户行为分析、版本及实验效果评估，支持产品迭代决策。",
+        "运用 AI 辅助开发参与内部产品数据分析网站建设，提升分析内容与业务信息在团队中的可用性。",
       ],
     },
     {
