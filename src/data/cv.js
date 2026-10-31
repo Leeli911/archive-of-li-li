@@ -72,9 +72,9 @@ export const cv = {
     },
   ],
   profile:
-    "AI data product and analytics practitioner with 5+ years of experience across e-commerce, internet platforms, and financial technology. My work connects intelligent analytics products, metric systems, BI-to-AI workflow design, user segmentation, A/B test evaluation, data governance, and automated reporting with graduate training in machine learning evaluation and trustworthy data-driven systems. Concrete experimentation experience includes marketing ROI evaluation, growth strategy testing, and SMS reactivation A/B tests.",
+    "Senior Data Analyst with 5+ years of experience across internet platforms, e-commerce, and fintech. At Meitu, I analyze image-editing features in the Meitu Xiuxiu app, evaluate product experiments, and help develop an internal product analytics website with AI-assisted coding. My MSc research in model evaluation informs my interest in reliable, evidence-based product decisions.",
   profileZh:
-    "具备 5 年以上电商、互联网平台与金融科技数据分析经验，定位为 AI 数据产品与数据分析复合背景。工作连接智能分析产品、指标体系、BI 到 AI 的数据工作流、用户分群、A/B Test 评估、数据治理与自动化报表流程。具体实验经验包括营销 ROI 评估、用户增长策略测试与短信唤醒 A/B 测试；硕士阶段接受数据科学训练，关注机器学习模型评测与可信数据驱动系统。",
+    "高级数据分析师，具备 5 年以上互联网、电商与金融科技数据分析经验。现于美图负责美图秀秀 App 图片线图像功能的数据分析与实验评估，并运用 AI 辅助开发参与产品数据分析网站建设。数据科学硕士阶段聚焦模型评估，关注如何以可靠的证据支持产品决策。",
   researchInterests:
     "Trustworthy machine learning, model evaluation under data imbalance, subgroup reliability diagnostics, data-centric bias audit, AI-enabled analytics products, and data-driven decision systems.",
   researchInterestsZh:
@@ -134,6 +134,16 @@ export const cv = {
       detail: "Machine learning evaluation, data science research, and thesis completed in 2025.09.",
       detailZh: "学习机器学习评估与数据科学研究，硕士于 2025.09 完成。",
     },
+    {
+      period: "2026.08 — Present",
+      periodZh: "2026.08 — 至今",
+      type: "Work",
+      typeZh: "工作",
+      title: "Senior Data Analyst · Meitu",
+      titleZh: "高级数据分析师 · 美图",
+      detail: "Image-editing feature analytics for Meitu Xiuxiu and internal product analytics website development.",
+      detailZh: "负责美图秀秀 App 图片线图像功能分析，参与产品数据分析网站开发。",
+    },
   ],
   education: [
     {
@@ -162,6 +172,22 @@ export const cv = {
     },
   ],
   experience: [
+    {
+      company: "Meitu · Meitu Xiuxiu",
+      companyZh: "美图 · 美图秀秀",
+      role: "Senior Data Analyst · Image Editing",
+      roleZh: "高级数据分析师 · 图片线",
+      period: "2026.08 — Present",
+      periodZh: "2026.08 — 至今",
+      bullets: [
+        "Analyze user behavior and evaluate feature releases and experiments for image-editing tools, informing product decisions with reliable evidence.",
+        "Develop and maintain an internal product analytics website with AI-assisted coding, bringing analysis and business information into team workflows.",
+      ],
+      bulletsZh: [
+        "负责美图秀秀 App 图片线图像功能的用户行为分析、版本及实验效果评估，以可靠的数据证据支持产品迭代。",
+        "运用 AI 辅助开发参与产品数据分析网站的功能建设与维护，推动分析内容和业务信息融入团队工作流。",
+      ],
+    },
     {
       company: "China Merchants Bank E-commerce",
       companyZh: "招商银行电商",

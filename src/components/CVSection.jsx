@@ -29,14 +29,14 @@ function CareerTimeline({ language }) {
         <span>{isZh ? "轨迹速览" : "Path at a glance"}</span>
         <p>
           {isZh
-            ? "从数学本科、互联网与金融电商数据分析，到瑞典数据科学硕士。"
-            : "From mathematics, internet and financial e-commerce analytics, to graduate study in data science."}
+            ? "从数学、互联网与金融电商数据分析，到数据科学研究与美图秀秀产品分析。"
+            : "From mathematics and business analytics to data science research and product analytics at Meitu Xiuxiu."}
         </p>
       </div>
       <div className="cv-timeline-track">
         {cv.timeline.map((item) => (
           <article key={`${item.period}-${item.title}`} className="cv-timeline-item">
-            <span>{item.period}</span>
+            <span>{isZh ? item.periodZh || item.period : item.period}</span>
             <small>{isZh ? item.typeZh || item.type : item.type}</small>
             <h3>{isZh ? item.titleZh || item.title : item.title}</h3>
             <p>{isZh ? item.detailZh || item.detail : item.detail}</p>
@@ -151,7 +151,7 @@ function CVSection({ language = "en" }) {
                   <RelatedLinks links={item.relatedCases} language={language} />
                 </div>
                 <aside>
-                  <span>{item.period}</span>
+                  <span>{isZh ? item.periodZh || item.period : item.period}</span>
                   <small>{isZh ? item.locationZh || item.location : item.location}</small>
                   {item.website && (
                     <a href={item.website} target="_blank" rel="noreferrer">
